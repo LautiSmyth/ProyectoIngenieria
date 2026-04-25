@@ -1,4 +1,5 @@
 using BE;
+using BE.Enums;
 using BLL;
 using Seguridad;
 using System;
@@ -10,9 +11,36 @@ namespace Servicios
         private readonly UsuarioBLL _bll = new UsuarioBLL();
         private readonly BitacoraServicios _bitacora = new BitacoraServicios();
 
+        public void Alta(string username, string password)
+        {
+            try
+            {
+                BE.Usuario usuario = new BE.Usuario
+                {
+                    Username = username,
+                    PasswordHash = Encriptador.Hash(password),
+                    Estado = EstadoUsuario.Activo,
+                    FechaAlta = DateTime.Now,
+                    IntentosFallidos = 0
+                };
+
+                _bll.Alta(usuario);
+                _bitacora.Registrar("Usuarios", "Alta", "Alta de usuario '" + username + "'.", true);
+            }
+            catch (ArgumentException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                _bitacora.Registrar("Usuarios", "Alta", "Error al dar de alta usuario '" + username + "'.", false, ex.Message);
+                throw;
+            }
+        }
+
         public void Login(string username, string passwordIngresada)
         {
-            Usuario usuario = null;
+            BE.Usuario usuario = null;
 
             try
             {

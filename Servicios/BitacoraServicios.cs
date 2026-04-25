@@ -15,7 +15,6 @@ namespace Servicios
         {
             BE.Usuario usuario = SessionManager.GetInstance().Usuario;
 
-            // Si no hay sesion activa, usar la sobrecarga sin sesion
             if (usuario == null)
             {
                 Registrar("sin sesion", modulo, actividad, detalle, exitoso, error);
@@ -30,7 +29,7 @@ namespace Servicios
 
             NivelCriticidad criticidad = CriticidadMapper.Obtener(actividad);
 
-            Bitacora registro = new Bitacora
+            BE.Bitacora registro = new BE.Bitacora
             {
                 Fecha = DateTime.Now,
                 UsuarioId = usuario.Id,
@@ -51,7 +50,7 @@ namespace Servicios
         {
             NivelCriticidad criticidad = CriticidadMapper.Obtener(actividad);
 
-            Bitacora registro = new Bitacora
+            BE.Bitacora registro = new BE.Bitacora
             {
                 Fecha = DateTime.Now,
                 UsuarioId = null,
