@@ -23,9 +23,7 @@ namespace Servicios
                 if (!passwordCorrecta)
                 {
                     _bll.RegistrarIntentoFallido(usuario);
-
                     _bitacora.Registrar(username, "Seguridad", "IntentoFallido", "Contraseña incorrecta.", false, "Credenciales invalidas.");
-
                     throw new UnauthorizedAccessException("Contraseña incorrecta.");
                 }
 
@@ -49,6 +47,16 @@ namespace Servicios
         {
             _bitacora.Registrar("Seguridad", "Logout", "Cierre de sesion.", true);
             SessionManager.GetInstance().Logout();
+        }
+
+        public string ObtenerUsernameEnSesion()
+        {
+            BE.Usuario usuario = SessionManager.GetInstance().Usuario;
+
+            if (usuario == null)
+                return string.Empty;
+
+            return usuario.Username;
         }
     }
 }

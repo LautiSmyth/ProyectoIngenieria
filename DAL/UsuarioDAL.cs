@@ -29,7 +29,6 @@ namespace DAL
             Usuario _usuario = new Usuario
             {
                 Id = Convert.ToInt32(fila["Id"]),
-                NombreUsuario = fila["NombreUsuario"].ToString(),
                 Username = fila["Username"].ToString(),
                 PasswordHash = fila["PasswordHash"].ToString(),
                 Estado = (EstadoUsuario)Convert.ToInt32(fila["Estado"]),
@@ -48,12 +47,11 @@ namespace DAL
 
         public void Insertar(Usuario _usuario)
         {
-            const string consulta = @"INSERT INTO Usuario (NombreUsuario, Username, PasswordHash, Estado, FechaAlta, IntentosFallidos)
-                                VALUES (@NombreUsuario, @Username, @PasswordHash, @Estado, @FechaAlta, @IntentosFallidos)";
+            const string consulta = @"INSERT INTO Usuario (Username, PasswordHash, Estado, FechaAlta, IntentosFallidos)
+                                VALUES (@Username, @PasswordHash, @Estado, @FechaAlta, @IntentosFallidos)";
 
             SqlParameter[] parametros = new SqlParameter[]
             {
-                new SqlParameter("@NombreUsuario", _usuario.NombreUsuario),
                 new SqlParameter("@Username", _usuario.Username),
                 new SqlParameter("@PasswordHash", _usuario.PasswordHash),
                 new SqlParameter("@Estado", (int)_usuario.Estado),

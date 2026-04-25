@@ -10,5 +10,10 @@ namespace Servicios
         {
             return _acceso.VerificarConexion();
         }
+
+        public string ObtenerNombreBaseDatos()
+        {
+            return _acceso.ObtenerNombreBaseDatos();
+        }
     }
 }

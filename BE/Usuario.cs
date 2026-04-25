@@ -5,7 +5,6 @@ namespace BE
     public class Usuario
     {
         public int Id { get; set; }
-        public string NombreUsuario { get; set; }
         public string Username { get; set; }
         public string PasswordHash { get; set; }
         public Enums.EstadoUsuario Estado { get; set; }

@@ -16,7 +16,7 @@ namespace DAL
         {
             try
             {
-                var entrada = ConfigurationManager.ConnectionStrings["ConexionSQL"];
+                ConnectionStringSettings entrada = ConfigurationManager.ConnectionStrings["MiConexionSQL"];
                 if (entrada != null)
                     _cadenaConexion = entrada.ConnectionString;
             }
@@ -37,6 +37,20 @@ namespace DAL
                 }
             }
             return _instance;
+        }
+
+        public void ActualizarCadena(string nuevaCadena)
+        {
+            _cadenaConexion = nuevaCadena;
+        }
+
+        public string ObtenerNombreBaseDatos()
+        {
+            if (string.IsNullOrEmpty(_cadenaConexion))
+                return "desconocida";
+
+            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(_cadenaConexion);
+            return builder.InitialCatalog;
         }
 
         public bool VerificarConexion()
