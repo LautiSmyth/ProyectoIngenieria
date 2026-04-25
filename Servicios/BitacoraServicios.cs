@@ -10,10 +10,12 @@ namespace Servicios
     {
         private readonly BitacoraDAL _dal = new BitacoraDAL();
 
+        // Registrar CON sesion activa — toma el usuario del SessionManager
         public void Registrar(string modulo, string actividad, string detalle, bool exitoso, string error = "")
         {
             BE.Usuario usuario = SessionManager.GetInstance().Usuario;
 
+            // Si no hay sesion activa, usar la sobrecarga sin sesion
             if (usuario == null)
             {
                 Registrar("sin sesion", modulo, actividad, detalle, exitoso, error);
@@ -28,7 +30,8 @@ namespace Servicios
 
             NivelCriticidad criticidad = CriticidadMapper.Obtener(actividad);
 
-            Bitacora registro = new Bitacora() {
+            Bitacora registro = new Bitacora
+            {
                 Fecha = DateTime.Now,
                 UsuarioId = usuario.Id,
                 Username = usuario.Username,
@@ -43,11 +46,13 @@ namespace Servicios
             _dal.Insertar(registro);
         }
 
+        // Registrar SIN sesion activa (ej: intento de login fallido)
         public void Registrar(string usernameIngresado, string modulo, string actividad, string detalle, bool exitoso, string error = "")
         {
             NivelCriticidad criticidad = CriticidadMapper.Obtener(actividad);
 
-            BE.Bitacora registro = new BE.Bitacora() {
+            Bitacora registro = new Bitacora
+            {
                 Fecha = DateTime.Now,
                 UsuarioId = null,
                 Username = usernameIngresado,
