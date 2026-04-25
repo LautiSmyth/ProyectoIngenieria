@@ -1,7 +1,6 @@
 using BE;
 using BE.Enums;
 using DAL;
-using Seguridad;
 using System;
 
 namespace BLL
@@ -10,12 +9,12 @@ namespace BLL
     {
         private readonly UsuarioDAL _dal = new UsuarioDAL();
 
-        public BE.Usuario ObtenerYValidar(string username)
+        public Usuario ObtenerYValidar(string username)
         {
             if (string.IsNullOrEmpty(username))
                 throw new ArgumentException("El nombre de usuario no puede estar vacio.");
 
-            BE.Usuario usuario = _dal.ObtenerPorUsername(username);
+            Usuario usuario = _dal.ObtenerPorUsername(username);
 
             if (usuario == null)
                 throw new UnauthorizedAccessException("Usuario no encontrado.");
@@ -45,7 +44,7 @@ namespace BLL
             return usuario;
         }
 
-        public void Alta(BE.Usuario usuario)
+        public void Alta(Usuario usuario)
         {
             if (string.IsNullOrEmpty(usuario.Username))
                 throw new ArgumentException("El nombre de usuario no puede estar vacio.");
@@ -53,14 +52,14 @@ namespace BLL
             if (string.IsNullOrEmpty(usuario.PasswordHash))
                 throw new ArgumentException("La contraseña no puede estar vacia.");
 
-            BE.Usuario existente = _dal.ObtenerPorUsername(usuario.Username);
+            Usuario existente = _dal.ObtenerPorUsername(usuario.Username);
             if (existente != null)
                 throw new ArgumentException("El nombre de usuario ya existe.");
 
             _dal.Insertar(usuario);
         }
 
-        public void RegistrarIntentoFallido(BE.Usuario usuario)
+        public void RegistrarIntentoFallido(Usuario usuario)
         {
             usuario.IntentosFallidos++;
 
@@ -73,7 +72,7 @@ namespace BLL
             _dal.Actualizar(usuario);
         }
 
-        public void RegistrarLoginExitoso(BE.Usuario usuario)
+        public void RegistrarLoginExitoso(Usuario usuario)
         {
             usuario.IntentosFallidos = 0;
             usuario.UltimoLogin = DateTime.Now;

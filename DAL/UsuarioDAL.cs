@@ -10,7 +10,7 @@ namespace DAL
     {
         private readonly Acceso _acceso = Acceso.GetInstance();
 
-        public BE.Usuario ObtenerPorUsername(string username)
+        public Usuario ObtenerPorUsername(string username)
         {
             const string consulta = "SELECT * FROM Usuario WHERE Username = @Username";
 
@@ -26,7 +26,7 @@ namespace DAL
 
             DataRow fila = tabla.Rows[0];
 
-            BE.Usuario usuario = new BE.Usuario
+            Usuario usuario = new Usuario
             {
                 Id = Convert.ToInt32(fila["Id"]),
                 Username = fila["Username"].ToString(),
@@ -45,7 +45,7 @@ namespace DAL
             return usuario;
         }
 
-        public void Insertar(BE.Usuario usuario)
+        public void Insertar(Usuario usuario)
         {
             const string consulta = @"INSERT INTO Usuario (Username, PasswordHash, Estado, FechaAlta, IntentosFallidos)
                                       VALUES (@Username, @PasswordHash, @Estado, @FechaAlta, @IntentosFallidos)";
@@ -62,7 +62,7 @@ namespace DAL
             _acceso.Escribir(consulta, parametros);
         }
 
-        public void Actualizar(BE.Usuario usuario)
+        public void Actualizar(Usuario usuario)
         {
             const string consulta = @"UPDATE Usuario SET
                                           Estado = @Estado,

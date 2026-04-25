@@ -15,7 +15,7 @@ namespace Servicios
         {
             try
             {
-                BE.Usuario usuario = new BE.Usuario
+                Usuario usuario = new Usuario
                 {
                     Username = username,
                     PasswordHash = Encriptador.Hash(password),
@@ -40,7 +40,7 @@ namespace Servicios
 
         public void Login(string username, string passwordIngresada)
         {
-            BE.Usuario usuario = null;
+            Usuario usuario = null;
 
             try
             {
@@ -79,7 +79,7 @@ namespace Servicios
 
         public string ObtenerUsernameEnSesion()
         {
-            BE.Usuario usuario = SessionManager.GetInstance().Usuario;
+            Usuario usuario = SessionManager.GetInstance().Usuario;
 
             if (usuario == null)
                 return string.Empty;
