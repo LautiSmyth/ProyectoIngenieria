@@ -1,21 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Servicios;
 using System.Windows.Forms;
 
 namespace GUI
 {
     internal static class Program
     {
-        /// <summary>
-        /// Punto de entrada principal para la aplicación.
-        /// </summary>
         [STAThread]
         static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            ConexionServicio conexionServicio = new ConexionServicio();
+
+            if (!conexionServicio.VerificarConexion())
+            {
+                MessageBox.Show("No se puede conectar a la base de datos. Contacte al administrador.",
+                                "Error de conexion", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             Application.Run(new LoginForm());
         }
     }
