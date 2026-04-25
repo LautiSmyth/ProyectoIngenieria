@@ -12,7 +12,7 @@ namespace DAL
 
         public Usuario ObtenerPorUsername(string username)
         {
-            string consulta = "SELECT * FROM Usuario WHERE Username = @Username";
+            const string consulta = "SELECT * FROM Usuario WHERE Username = @Username";
 
             SqlParameter[] parametros = new SqlParameter[]
             {
@@ -48,7 +48,7 @@ namespace DAL
 
         public void Insertar(Usuario _usuario)
         {
-            string consulta = @"INSERT INTO Usuario (NombreUsuario, Username, PasswordHash, Estado, FechaAlta, IntentosFallidos)
+            const string consulta = @"INSERT INTO Usuario (NombreUsuario, Username, PasswordHash, Estado, FechaAlta, IntentosFallidos)
                                 VALUES (@NombreUsuario, @Username, @PasswordHash, @Estado, @FechaAlta, @IntentosFallidos)";
 
             SqlParameter[] parametros = new SqlParameter[]
@@ -66,7 +66,7 @@ namespace DAL
 
         public void Actualizar(BE.Usuario usuario)
         {
-            string consulta = @"UPDATE Usuario SET
+            const string consulta = @"UPDATE Usuario SET
                                     Estado = @Estado,
                                     IntentosFallidos = @IntentosFallidos,
                                     FechaBloqueo = @FechaBloqueo,
