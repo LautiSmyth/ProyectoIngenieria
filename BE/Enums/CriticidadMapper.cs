@@ -4,7 +4,7 @@ namespace BE.Enums
 {
     public static class CriticidadMapper
     {
-        private static readonly Dictionary<string, NivelCriticidad> _diccionioCrit = new Dictionary<string, NivelCriticidad>
+        private static readonly Dictionary<string, NivelCriticidad> _diccionario = new Dictionary<string, NivelCriticidad>
         {
             { "Login",              NivelCriticidad.Informativo },
             { "Logout",             NivelCriticidad.Informativo },
@@ -20,12 +20,13 @@ namespace BE.Enums
 
         public static NivelCriticidad Obtener(string actividad)
         {
-            bool encontrado = _diccionioCrit.TryGetValue(actividad, out NivelCriticidad nivel);
+            NivelCriticidad nivel;
+            bool encontrado = _diccionario.TryGetValue(actividad, out nivel);
 
             if (encontrado)
                 return nivel;
             else
-                return NivelCriticidad.Informativo;
+                return NivelCriticidad.Informativo; // valor por defecto
         }
     }
 }

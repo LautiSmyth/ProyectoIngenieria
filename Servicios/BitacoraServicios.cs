@@ -10,19 +10,21 @@ namespace Servicios
     {
         private readonly BitacoraDAL _dal = new BitacoraDAL();
 
-        public void Registrar(string modulo, string actividad, string error)
+        public void Registrar(string modulo, string actividad, string detalle, bool exitoso, string error = "")
         {
             BE.Usuario usuario = SessionManager.GetInstance().Usuario;
 
+            if (usuario == null)
+            {
+                Registrar("sin sesion", modulo, actividad, detalle, exitoso, error);
+                return;
+            }
+
             string detalleCompleto;
-            if (string.IsNullOrEmpty(error))
-            {
-                detalleCompleto = $"El usuario '{usuario.Username}' realizo '{actividad}' en el modulo '{modulo}'. ";
-            }
+            if (exitoso)
+                detalleCompleto = "El usuario '" + usuario.Username + "' realizo '" + actividad + "' en el modulo '" + modulo + "'. " + detalle;
             else
-            {
-                detalleCompleto = $"El usuario {usuario.Username} intento {actividad} en el modulo {modulo} pero ocurrio un error.";
-            }
+                detalleCompleto = "El usuario '" + usuario.Username + "' intento '" + actividad + "' en el modulo '" + modulo + "' pero ocurrio un error. " + detalle;
 
             NivelCriticidad criticidad = CriticidadMapper.Obtener(actividad);
 
@@ -34,7 +36,8 @@ namespace Servicios
                 Actividad = actividad,
                 Criticidad = criticidad,
                 Detalle = detalleCompleto,
-                Error = error
+                Error = error,
+                Exitoso = exitoso
             };
 
             _dal.Insertar(registro);

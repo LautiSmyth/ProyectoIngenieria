@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace GUI
 {
-    public partial class Login : Form
+    public partial class MainForm : Form
     {
-        public Login()
+        public MainForm()
         {
             InitializeComponent();
         }
