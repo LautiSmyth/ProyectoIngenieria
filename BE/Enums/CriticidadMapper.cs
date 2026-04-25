@@ -20,8 +20,7 @@ namespace BE.Enums
 
         public static NivelCriticidad Obtener(string actividad)
         {
-            NivelCriticidad nivel;
-            bool encontrado = _diccionioCrit.TryGetValue(actividad, out nivel);
+            bool encontrado = _diccionioCrit.TryGetValue(actividad, out NivelCriticidad nivel);
 
             if (encontrado)
                 return nivel;

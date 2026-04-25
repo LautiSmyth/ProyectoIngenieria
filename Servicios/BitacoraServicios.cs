@@ -6,7 +6,7 @@ using System;
 
 namespace Servicios
 {
-    public class Bitacora
+    public class BitacoraServicios
     {
         private readonly BitacoraDAL _dal = new BitacoraDAL();
 
@@ -26,7 +26,7 @@ namespace Servicios
 
             NivelCriticidad criticidad = CriticidadMapper.Obtener(actividad);
 
-            BE.Bitacora registro = new BE.Bitacora() {
+            Bitacora registro = new Bitacora() {
                 Fecha = DateTime.Now,
                 UsuarioId = usuario.Id,
                 Username = usuario.Username,

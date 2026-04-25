@@ -33,6 +33,7 @@ namespace Seguridad
 
         public void Logout()
         {
+            this.Usuario = null;
             _instance = null;
         }
     }
