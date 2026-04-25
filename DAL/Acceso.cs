@@ -14,7 +14,6 @@ namespace DAL
 
         private Acceso()
         {
-
             try
             {
                 var entrada = ConfigurationManager.ConnectionStrings["ConexionSQL"];

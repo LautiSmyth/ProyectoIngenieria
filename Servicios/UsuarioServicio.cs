@@ -1,13 +1,13 @@
-using System;
-using BLL;
 using BE;
+using BLL;
 using Seguridad;
+using System;
 
 namespace Servicios
 {
     public class UsuarioServicio
     {
-        private readonly UsuarioBLL        _bll      = new UsuarioBLL();
+        private readonly UsuarioBLL _bll = new UsuarioBLL();
         private readonly BitacoraServicios _bitacora = new BitacoraServicios();
 
         public void Login(string username, string passwordIngresada)

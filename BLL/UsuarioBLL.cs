@@ -1,7 +1,7 @@
-using System;
-using DAL;
 using BE;
 using BE.Enums;
+using DAL;
+using System;
 
 namespace BLL
 {
@@ -18,7 +18,7 @@ namespace BLL
             if (usuario.Estado == EstadoUsuario.Bloqueado)
             {
                 const int minutos = 15;
-                if(usuario.FechaBloqueo.HasValue && (DateTime.Now - usuario.FechaBloqueo.Value).TotalMinutes >= minutos)
+                if (usuario.FechaBloqueo.HasValue && (DateTime.Now - usuario.FechaBloqueo.Value).TotalMinutes >= minutos)
                 {
                     usuario.Estado = EstadoUsuario.Activo;
                     usuario.IntentosFallidos = 0;

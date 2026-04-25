@@ -29,7 +29,7 @@ namespace DAL
             Usuario _usuario = new Usuario
             {
                 Id = Convert.ToInt32(fila["Id"]),
-                NombreUsuario    = fila["NombreUsuario"].ToString(),
+                NombreUsuario = fila["NombreUsuario"].ToString(),
                 Username = fila["Username"].ToString(),
                 PasswordHash = fila["PasswordHash"].ToString(),
                 Estado = (EstadoUsuario)Convert.ToInt32(fila["Estado"]),
