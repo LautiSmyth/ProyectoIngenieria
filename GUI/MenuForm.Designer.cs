@@ -139,6 +139,7 @@
             this.btnBitacora.Name = "btnBitacora";
             this.btnBitacora.Size = new System.Drawing.Size(54, 22);
             this.btnBitacora.Text = "Bitacora";
+            this.btnBitacora.Click += new System.EventHandler(this.BtnBitacora_Click);
             // 
             // btnCerrarSesion
             // 
