@@ -10,12 +10,14 @@ namespace GUI
         private readonly UsuarioServicio _usuarioServicio = new UsuarioServicio();
         private readonly Timer _timer = new Timer();
 
+        private bool _cierreConfirmado = false;
+
         public MenuForm()
         {
             InitializeComponent();
         }
 
-        private void MainForm_Load(object sender, EventArgs e)
+        private void MenuForm_Load(object sender, EventArgs e)
         {
             lblUsuario.Text = "Usuario: " + _usuarioServicio.ObtenerUsernameEnSesion();
             lblBaseDatos.Text = "Base de datos: " + _conexionServicio.ObtenerNombreBaseDatos();
@@ -38,11 +40,26 @@ namespace GUI
 
         private void BtnBitacora_Click(object sender, EventArgs e)
         {
-            BitacoraForm form = new BitacoraForm { MdiParent = this };
+            BitacoraForm form = new BitacoraForm();
+            form.MdiParent = this;
             form.Show();
         }
 
         private void BtnCerrarSesion_Click(object sender, EventArgs e)
+        {
+            CerrarSesion();
+        }
+
+        private void MenuForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (_cierreConfirmado)
+                return;
+
+            e.Cancel = true;
+            CerrarSesion();
+        }
+
+        private void CerrarSesion()
         {
             DialogResult respuesta = MessageBox.Show(
                 "¿Esta seguro que desea cerrar la sesion?",
@@ -53,6 +70,7 @@ namespace GUI
 
             if (respuesta == DialogResult.Yes)
             {
+                _cierreConfirmado = true;
                 _usuarioServicio.Logout(this.Text);
 
                 LoginForm login = new LoginForm();
@@ -61,7 +79,7 @@ namespace GUI
             }
         }
 
-        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        private void MenuForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             _timer.Stop();
             _timer.Dispose();

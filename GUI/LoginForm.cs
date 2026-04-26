@@ -19,8 +19,8 @@ namespace GUI
             {
                 _usuarioServicio.Login(this.Text, txtUsername.Text, txtPassword.Text);
 
-                MenuForm main = new MenuForm();
-                main.Show();
+                MenuForm menu = new MenuForm();
+                menu.Show();
                 this.Hide();
             }
             catch (UnauthorizedAccessException ex)
@@ -31,6 +31,33 @@ namespace GUI
             {
                 MessageBox.Show("Ocurrio un error inesperado. Intente nuevamente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void BtnSalir_Click(object sender, EventArgs e)
+        {
+            Salir();
+        }
+
+        private void LoginForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                e.Cancel = true;
+                Salir();
+            }
+        }
+
+        private void Salir()
+        {
+            DialogResult respuesta = MessageBox.Show(
+                "¿Esta seguro que desea salir?",
+                "Salir",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (respuesta == DialogResult.Yes)
+                Application.Exit();
         }
     }
 }
