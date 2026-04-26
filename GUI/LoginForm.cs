@@ -7,6 +7,7 @@ namespace GUI
     public partial class LoginForm : Form
     {
         private readonly UsuarioServicio _usuarioServicio = new UsuarioServicio();
+        private readonly ConexionServicio _conexionServicio = new ConexionServicio();
 
         public LoginForm()
         {
@@ -15,11 +16,18 @@ namespace GUI
 
         private void BtnIngresar_Click(object sender, EventArgs e)
         {
+            if (!_conexionServicio.VerificarConexion())
+            {
+                MessageBox.Show("No hay conexion a la base de datos. Contacte al administrador.",
+                                "Error de conexion", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             try
             {
                 _usuarioServicio.Login(this.Text, txtUsername.Text, txtPassword.Text);
 
-                MenuForm menu = new MenuForm();
+                MenuForm menu = new MenuForm(this);
                 menu.Show();
                 this.Hide();
             }

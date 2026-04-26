@@ -6,14 +6,17 @@ namespace GUI
 {
     public partial class MenuForm : Form
     {
+        private readonly LoginForm _loginForm;
+
         private readonly ConexionServicio _conexionServicio = new ConexionServicio();
         private readonly UsuarioServicio _usuarioServicio = new UsuarioServicio();
         private readonly Timer _timer = new Timer();
 
         private bool _cierreConfirmado = false;
 
-        public MenuForm()
+        public MenuForm(LoginForm loginForm)
         {
+            _loginForm = loginForm;
             InitializeComponent();
         }
 
@@ -72,9 +75,6 @@ namespace GUI
             {
                 _cierreConfirmado = true;
                 _usuarioServicio.Logout(this.Text);
-
-                LoginForm login = new LoginForm();
-                login.Show();
                 this.Close();
             }
         }
@@ -83,6 +83,7 @@ namespace GUI
         {
             _timer.Stop();
             _timer.Dispose();
+            _loginForm.Show();
         }
     }
 }
