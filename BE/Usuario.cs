@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 
 namespace BE
 {
     public class Usuario
     {
-        public int Id { get; set; }
+        public int IdUsuario { get; set; }
         public string Username { get; set; }
         public string PasswordHash { get; set; }
         public Enums.EstadoUsuario Estado { get; set; }

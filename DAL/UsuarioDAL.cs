@@ -28,7 +28,7 @@ namespace DAL
 
             Usuario usuario = new Usuario
             {
-                Id = Convert.ToInt32(fila["Id"]),
+                IdUsuario = Convert.ToInt32(fila["IdUsuario"]),
                 Username = fila["Username"].ToString(),
                 PasswordHash = fila["PasswordHash"].ToString(),
                 Estado = (EstadoUsuario)Convert.ToInt32(fila["Estado"]),
@@ -69,11 +69,11 @@ namespace DAL
                                           IntentosFallidos = @IntentosFallidos,
                                           FechaBloqueo = @FechaBloqueo,
                                           UltimoLogin = @UltimoLogin
-                                      WHERE Id = @Id";
+                                      WHERE IdUsuario = @IdUsuario";
 
             SqlParameter[] parametros = new SqlParameter[]
             {
-                new SqlParameter("@Id", usuario.Id),
+                new SqlParameter("@IdUsuario", usuario.IdUsuario),
                 new SqlParameter("@Estado", (int)usuario.Estado),
                 new SqlParameter("@IntentosFallidos", usuario.IntentosFallidos),
                 new SqlParameter("@FechaBloqueo", (object)usuario.FechaBloqueo ?? DBNull.Value),

@@ -1,5 +1,6 @@
 using BE;
 using BE.Enums;
+using BLL;
 using DAL;
 using Seguridad;
 using System;
@@ -16,33 +17,30 @@ namespace Servicios
             return _dal.ObtenerTodos();
         }
 
-        // Registrar CON sesion activa — toma el usuario del SessionManager
         public void Registrar(string modulo, string actividad, string detalle, bool exitoso, string error = "")
         {
             Usuario usuario = SessionManager.GetInstance().Usuario;
 
             if (usuario == null)
             {
-                Registrar("sin sesion", modulo, actividad, detalle, exitoso, error);
+                RegistrarSinSesion("sin sesion", modulo, actividad, detalle, exitoso, error);
                 return;
             }
 
             string detalleCompleto;
             if (exitoso)
-                detalleCompleto = "El usuario '" + usuario.Username + "' realizo '" + actividad + "' en el modulo '" + modulo + "'. " + detalle;
+                detalleCompleto = $"El usuario '{usuario.Username}' realizo '{actividad}' en el modulo '{modulo}'. {detalle}";
             else
-                detalleCompleto = "El usuario '" + usuario.Username + "' intento '" + actividad + "' en el modulo '" + modulo + "' pero ocurrio un error. " + detalle;
-
-            NivelCriticidad criticidad = CriticidadMapper.Obtener(actividad);
+                detalleCompleto = $"El usuario '{usuario.Username}' intento '{actividad}' en el modulo '{modulo}' pero ocurrio un error. {detalle}";
 
             Bitacora registro = new Bitacora
             {
                 Fecha = DateTime.Now,
-                UsuarioId = usuario.Id,
+                IdUsuario = usuario.IdUsuario,
                 Username = usuario.Username,
                 Modulo = modulo,
                 Actividad = actividad,
-                Criticidad = criticidad,
+                Criticidad = CriticidadMapper.Obtener(actividad),
                 Detalle = detalleCompleto,
                 Error = error,
                 Exitoso = exitoso
@@ -51,19 +49,16 @@ namespace Servicios
             _dal.Insertar(registro);
         }
 
-        // Registrar SIN sesion activa (ej: intento de login fallido)
-        public void Registrar(string usernameIngresado, string modulo, string actividad, string detalle, bool exitoso, string error = "")
+        public void RegistrarSinSesion(string usernameIngresado, string modulo, string actividad, string detalle, bool exitoso, string error = "")
         {
-            NivelCriticidad criticidad = CriticidadMapper.Obtener(actividad);
-
             Bitacora registro = new Bitacora
             {
                 Fecha = DateTime.Now,
-                UsuarioId = null,
+                IdUsuario = null,
                 Username = usernameIngresado,
                 Modulo = modulo,
                 Actividad = actividad,
-                Criticidad = criticidad,
+                Criticidad = CriticidadMapper.Obtener(actividad),
                 Detalle = detalle,
                 Error = error,
                 Exitoso = exitoso

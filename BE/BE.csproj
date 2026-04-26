@@ -42,7 +42,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bitacora.cs" />
-    <Compile Include="Enums\CriticidadMapper.cs" />
     <Compile Include="Enums\EstadoUsuario.cs" />
     <Compile Include="Enums\NivelCriticidad.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

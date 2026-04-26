@@ -12,7 +12,6 @@ namespace GUI
         public LoginForm()
         {
             InitializeComponent();
-            chkHidePass.Checked = true;
         }
 
         private void BtnIngresar_Click(object sender, EventArgs e)
@@ -28,7 +27,7 @@ namespace GUI
             {
                 _usuarioServicio.Login(this.Text, txtUsername.Text, txtPassword.Text);
 
-                MenuForm menu = new MenuForm(this);
+                MenuForm menu = new MenuForm();
                 menu.Show();
                 this.Hide();
             }
@@ -69,7 +68,7 @@ namespace GUI
                 Application.Exit();
         }
 
-        private void chkHidePass_CheckedChanged(object sender, EventArgs e)
+        private void ChkHidePass_CheckedChanged(object sender, EventArgs e)
         {
             txtPassword.UseSystemPasswordChar = chkHidePass.Checked;
         }

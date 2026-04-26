@@ -10,7 +10,7 @@ namespace DAL
         private static volatile Acceso _instance;
         private static readonly object _lock = new object();
 
-        private string _cadenaConexion;
+        private readonly string _cadenaConexion;
 
         private Acceso()
         {
@@ -39,11 +39,6 @@ namespace DAL
             return _instance;
         }
 
-        public void ActualizarCadena(string nuevaCadena)
-        {
-            _cadenaConexion = nuevaCadena;
-        }
-
         public string ObtenerNombreBaseDatos()
         {
             if (string.IsNullOrEmpty(_cadenaConexion))
@@ -68,7 +63,7 @@ namespace DAL
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine("[Acceso] Error de conexion: " + ex.Message);
+                System.Diagnostics.Debug.WriteLine($"[Acceso] Error de conexion: {ex.Message}");
                 return false;
             }
         }
@@ -93,7 +88,7 @@ namespace DAL
             }
             catch (SqlException ex)
             {
-                throw new Exception("Error al leer de la base de datos: " + ex.Message, ex);
+                throw new Exception($"Error al leer de la base de datos: {ex.Message}", ex);
             }
         }
 
@@ -114,7 +109,7 @@ namespace DAL
             }
             catch (SqlException ex)
             {
-                throw new Exception("Error al escribir en la base de datos: " + ex.Message, ex);
+                throw new Exception($"Error al escribir en la base de datos: {ex.Message}", ex);
             }
         }
     }

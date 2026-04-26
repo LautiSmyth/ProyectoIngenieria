@@ -34,7 +34,7 @@ namespace BLL
                 }
                 else
                 {
-                    throw new UnauthorizedAccessException("Usuario bloqueado. Intente nuevamente en " + minutos + " minutos.");
+                    throw new UnauthorizedAccessException($"Usuario bloqueado. Intente nuevamente en {minutos} minutos.");
                 }
             }
 

@@ -22,7 +22,7 @@ namespace DAL
             {
                 Bitacora b = new Bitacora
                 {
-                    Id = Convert.ToInt32(fila["Id"]),
+                    IdBitacora = Convert.ToInt32(fila["IdBitacora"]),
                     Fecha = Convert.ToDateTime(fila["Fecha"]),
                     Username = fila["Username"].ToString(),
                     Modulo = fila["Modulo"].ToString(),
@@ -33,8 +33,8 @@ namespace DAL
                     Exitoso = Convert.ToBoolean(fila["Exitoso"])
                 };
 
-                if (fila["UsuarioId"] != DBNull.Value)
-                    b.UsuarioId = Convert.ToInt32(fila["UsuarioId"]);
+                if (fila["IdUsuario"] != DBNull.Value)
+                    b.IdUsuario = Convert.ToInt32(fila["IdUsuario"]);
 
                 lista.Add(b);
             }
@@ -44,13 +44,13 @@ namespace DAL
 
         public void Insertar(Bitacora bitacora)
         {
-            const string consulta = @"INSERT INTO Bitacora (Fecha, UsuarioId, Username, Modulo, Actividad, Criticidad, Detalle, Error, Exitoso)
-                                VALUES (@Fecha, @UsuarioId, @Username, @Modulo, @Actividad, @Criticidad, @Detalle, @Error, @Exitoso)";
+            const string consulta = @"INSERT INTO Bitacora (Fecha, IdUsuario, Username, Modulo, Actividad, Criticidad, Detalle, Error, Exitoso)
+                                      VALUES (@Fecha, @IdUsuario, @Username, @Modulo, @Actividad, @Criticidad, @Detalle, @Error, @Exitoso)";
 
             SqlParameter[] parametros = new SqlParameter[]
             {
                 new SqlParameter("@Fecha",      bitacora.Fecha),
-                new SqlParameter("@UsuarioId",  (object)bitacora.UsuarioId ?? DBNull.Value),
+                new SqlParameter("@IdUsuario",  (object)bitacora.IdUsuario ?? DBNull.Value),
                 new SqlParameter("@Username",   bitacora.Username),
                 new SqlParameter("@Modulo",     bitacora.Modulo),
                 new SqlParameter("@Actividad",  bitacora.Actividad),

@@ -6,17 +6,12 @@ namespace GUI
 {
     public partial class MenuForm : Form
     {
-        private readonly LoginForm _loginForm;
-
         private readonly ConexionServicio _conexionServicio = new ConexionServicio();
         private readonly UsuarioServicio _usuarioServicio = new UsuarioServicio();
         private readonly Timer _timer = new Timer();
 
-        private bool _cierreConfirmado = false;
-
-        public MenuForm(LoginForm loginForm)
+        public MenuForm()
         {
-            _loginForm = loginForm;
             InitializeComponent();
         }
 
@@ -64,11 +59,11 @@ namespace GUI
 
         private void MenuForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (_cierreConfirmado)
-                return;
-
-            e.Cancel = true;
-            CerrarSesion();
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                e.Cancel = true;
+                CerrarSesion();
+            }
         }
 
         private void CerrarSesion()
@@ -82,17 +77,11 @@ namespace GUI
 
             if (respuesta == DialogResult.Yes)
             {
-                _cierreConfirmado = true;
                 _usuarioServicio.Logout(this.Text);
-                this.Close();
+                _timer.Stop();
+                _timer.Dispose();
+                Application.Restart();
             }
-        }
-
-        private void MenuForm_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            _timer.Stop();
-            _timer.Dispose();
-            _loginForm.Show();
         }
     }
 }

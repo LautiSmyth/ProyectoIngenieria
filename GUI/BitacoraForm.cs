@@ -88,8 +88,8 @@ namespace GUI
         {
             dgvBitacora.DataSource = lista;
 
-            dgvBitacora.Columns["Id"].Visible = false;
-            dgvBitacora.Columns["UsuarioId"].Visible = false;
+            dgvBitacora.Columns["IdBitacora"].Visible = false;
+            dgvBitacora.Columns["IdUsuario"].Visible = false;
 
             lblContador.Text = "Mostrando " + lista.Count + " de " + _listaCompleta.Count + " registros";
         }

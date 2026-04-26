@@ -100,7 +100,7 @@
             this.chkHidePass.Size = new System.Drawing.Size(15, 14);
             this.chkHidePass.TabIndex = 7;
             this.chkHidePass.UseVisualStyleBackColor = true;
-            this.chkHidePass.CheckedChanged += new System.EventHandler(this.chkHidePass_CheckedChanged);
+            this.chkHidePass.CheckedChanged += new System.EventHandler(this.ChkHidePass_CheckedChanged);
             // 
             // LoginForm
             // 
