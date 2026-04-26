@@ -44,7 +44,13 @@ namespace Servicios
 
             try
             {
-                usuario = _bll.ObtenerYValidar(username);
+                usuario = _bll.ObtenerPorUsername(username);
+
+                if (usuario == null)
+                {
+                    _bitacora.Registrar(username, modulo, "IntentoFallido", "Credenciales invalidas.", false, "Credenciales invalidas.");
+                    throw new UnauthorizedAccessException("Usuario o contraseña incorrectos.");
+                }
 
                 bool passwordCorrecta = Encriptador.Verificar(passwordIngresada, usuario.PasswordHash);
 
@@ -54,6 +60,8 @@ namespace Servicios
                     _bitacora.Registrar(username, modulo, "IntentoFallido", "Credenciales invalidas.", false, "Credenciales invalidas.");
                     throw new UnauthorizedAccessException("Usuario o contraseña incorrectos.");
                 }
+
+                _bll.ValidarEstado(usuario);
 
                 _bll.RegistrarLoginExitoso(usuario);
                 SessionManager.GetInstance().Login(usuario);

@@ -9,12 +9,16 @@ namespace BLL
     {
         private readonly UsuarioDAL _dal = new UsuarioDAL();
 
-        public Usuario ObtenerYValidar(string username)
+        public Usuario ObtenerPorUsername(string username)
         {
             if (string.IsNullOrEmpty(username))
                 throw new ArgumentException("El nombre de usuario no puede estar vacio.");
 
-            Usuario usuario = _dal.ObtenerPorUsername(username) ?? throw new UnauthorizedAccessException("Usuario no encontrado.");
+            return _dal.ObtenerPorUsername(username);
+        }
+
+        public void ValidarEstado(Usuario usuario)
+        {
             if (usuario.Estado == EstadoUsuario.Bloqueado)
             {
                 const int minutos = 15;
@@ -36,8 +40,6 @@ namespace BLL
 
             if (usuario.Estado == EstadoUsuario.Inactivo)
                 throw new UnauthorizedAccessException("Usuario inactivo. Contacte al administrador.");
-
-            return usuario;
         }
 
         public void Alta(Usuario usuario)
