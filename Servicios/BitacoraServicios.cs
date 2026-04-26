@@ -3,6 +3,7 @@ using BE.Enums;
 using DAL;
 using Seguridad;
 using System;
+using System.Collections.Generic;
 
 namespace Servicios
 {
@@ -10,10 +11,15 @@ namespace Servicios
     {
         private readonly BitacoraDAL _dal = new BitacoraDAL();
 
+        public List<Bitacora> ObtenerTodos()
+        {
+            return _dal.ObtenerTodos();
+        }
+
         // Registrar CON sesion activa — toma el usuario del SessionManager
         public void Registrar(string modulo, string actividad, string detalle, bool exitoso, string error = "")
         {
-            BE.Usuario usuario = SessionManager.GetInstance().Usuario;
+            Usuario usuario = SessionManager.GetInstance().Usuario;
 
             if (usuario == null)
             {
@@ -29,7 +35,7 @@ namespace Servicios
 
             NivelCriticidad criticidad = CriticidadMapper.Obtener(actividad);
 
-            BE.Bitacora registro = new BE.Bitacora
+            Bitacora registro = new Bitacora
             {
                 Fecha = DateTime.Now,
                 UsuarioId = usuario.Id,
@@ -50,7 +56,7 @@ namespace Servicios
         {
             NivelCriticidad criticidad = CriticidadMapper.Obtener(actividad);
 
-            BE.Bitacora registro = new BE.Bitacora
+            Bitacora registro = new Bitacora
             {
                 Fecha = DateTime.Now,
                 UsuarioId = null,
