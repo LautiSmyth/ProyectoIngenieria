@@ -20,6 +20,7 @@ namespace GUI
         private void BitacoraForm_Load(object sender, EventArgs e)
         {
             CargarDesdeBD();
+            LimpiarFiltros();
 
             dgvBitacora.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dgvBitacora.Columns["Detalle"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
