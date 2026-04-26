@@ -65,7 +65,8 @@
             // lblBaseDatos
             // 
             this.lblBaseDatos.Name = "lblBaseDatos";
-            this.lblBaseDatos.Size = new System.Drawing.Size(82, 17);
+            this.lblBaseDatos.Padding = new System.Windows.Forms.Padding(1);
+            this.lblBaseDatos.Size = new System.Drawing.Size(84, 17);
             this.lblBaseDatos.Text = "Base de datos:";
             // 
             // lblSeparador2
@@ -77,7 +78,7 @@
             // lblSeparador
             // 
             this.lblSeparador.Name = "lblSeparador";
-            this.lblSeparador.Size = new System.Drawing.Size(852, 17);
+            this.lblSeparador.Size = new System.Drawing.Size(817, 17);
             this.lblSeparador.Spring = true;
             this.lblSeparador.Text = "|";
             this.lblSeparador.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -85,8 +86,9 @@
             // lblHora
             // 
             this.lblHora.Name = "lblHora";
+            this.lblHora.Padding = new System.Windows.Forms.Padding(1);
             this.lblHora.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.lblHora.Size = new System.Drawing.Size(49, 17);
+            this.lblHora.Size = new System.Drawing.Size(51, 17);
             this.lblHora.Text = "00:00:00";
             // 
             // contextMenuStrip1
@@ -116,20 +118,21 @@
             this.toolStripSeparator3});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1008, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(1008, 30);
             this.toolStrip1.TabIndex = 6;
             this.toolStrip1.Text = "toolStrip1";
             // 
             // lblUsuario
             // 
             this.lblUsuario.Name = "lblUsuario";
-            this.lblUsuario.Size = new System.Drawing.Size(47, 22);
+            this.lblUsuario.Padding = new System.Windows.Forms.Padding(4);
+            this.lblUsuario.Size = new System.Drawing.Size(55, 27);
             this.lblUsuario.Text = "Usuario";
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 30);
             // 
             // btnBitacora
             // 
@@ -137,7 +140,8 @@
             this.btnBitacora.Image = ((System.Drawing.Image)(resources.GetObject("btnBitacora.Image")));
             this.btnBitacora.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnBitacora.Name = "btnBitacora";
-            this.btnBitacora.Size = new System.Drawing.Size(54, 22);
+            this.btnBitacora.Padding = new System.Windows.Forms.Padding(4);
+            this.btnBitacora.Size = new System.Drawing.Size(62, 27);
             this.btnBitacora.Text = "Bitacora";
             this.btnBitacora.Click += new System.EventHandler(this.BtnBitacora_Click);
             // 
@@ -148,7 +152,8 @@
             this.btnCerrarSesion.Image = ((System.Drawing.Image)(resources.GetObject("btnCerrarSesion.Image")));
             this.btnCerrarSesion.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnCerrarSesion.Name = "btnCerrarSesion";
-            this.btnCerrarSesion.Size = new System.Drawing.Size(80, 22);
+            this.btnCerrarSesion.Padding = new System.Windows.Forms.Padding(4);
+            this.btnCerrarSesion.Size = new System.Drawing.Size(88, 27);
             this.btnCerrarSesion.Text = "Cerrar Sesion";
             this.btnCerrarSesion.Click += new System.EventHandler(this.BtnCerrarSesion_Click);
             // 
@@ -156,7 +161,7 @@
             // 
             this.toolStripSeparator3.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 30);
             // 
             // MenuForm
             // 

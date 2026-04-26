@@ -34,6 +34,7 @@
             this.lblContraseña = new System.Windows.Forms.Label();
             this.btnIngresar = new System.Windows.Forms.Button();
             this.btnSalir = new System.Windows.Forms.Button();
+            this.chkHidePass = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // txtUsername
@@ -49,6 +50,7 @@
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(147, 20);
             this.txtPassword.TabIndex = 1;
+            this.txtPassword.UseSystemPasswordChar = true;
             // 
             // lblUsuario
             // 
@@ -88,11 +90,24 @@
             this.btnSalir.UseVisualStyleBackColor = true;
             this.btnSalir.Click += new System.EventHandler(this.BtnSalir_Click);
             // 
+            // chkHidePass
+            // 
+            this.chkHidePass.AutoSize = true;
+            this.chkHidePass.Checked = true;
+            this.chkHidePass.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkHidePass.Location = new System.Drawing.Point(296, 112);
+            this.chkHidePass.Name = "chkHidePass";
+            this.chkHidePass.Size = new System.Drawing.Size(15, 14);
+            this.chkHidePass.TabIndex = 7;
+            this.chkHidePass.UseVisualStyleBackColor = true;
+            this.chkHidePass.CheckedChanged += new System.EventHandler(this.chkHidePass_CheckedChanged);
+            // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 261);
+            this.Controls.Add(this.chkHidePass);
             this.Controls.Add(this.btnSalir);
             this.Controls.Add(this.btnIngresar);
             this.Controls.Add(this.lblContraseña);
@@ -118,6 +133,7 @@
         private System.Windows.Forms.Label lblContraseña;
         private System.Windows.Forms.Button btnIngresar;
         private System.Windows.Forms.Button btnSalir;
+        private System.Windows.Forms.CheckBox chkHidePass;
     }
 }
 

@@ -12,6 +12,7 @@ namespace GUI
         public LoginForm()
         {
             InitializeComponent();
+            chkHidePass.Checked = true;
         }
 
         private void BtnIngresar_Click(object sender, EventArgs e)
@@ -66,6 +67,11 @@ namespace GUI
 
             if (respuesta == DialogResult.Yes)
                 Application.Exit();
+        }
+
+        private void chkHidePass_CheckedChanged(object sender, EventArgs e)
+        {
+            txtPassword.UseSystemPasswordChar = chkHidePass.Checked;
         }
     }
 }
