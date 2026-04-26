@@ -17,8 +17,8 @@ namespace GUI
 
         private void MenuForm_Load(object sender, EventArgs e)
         {
-            lblUsuario.Text = "Usuario: " + _usuarioServicio.ObtenerUsernameEnSesion();
-            lblBaseDatos.Text = "Base de datos: " + _conexionServicio.ObtenerNombreBaseDatos();
+            lblUsuario.Text = $"Usuario: {_usuarioServicio.ObtenerUsernameEnSesion()}";
+            lblBaseDatos.Text = $"Base de datos: {_conexionServicio.ObtenerNombreBaseDatos()}";
 
             _timer.Interval = 1000;
             _timer.Tick += Timer_Tick;
