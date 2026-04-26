@@ -17,16 +17,14 @@ namespace GUI
         {
             try
             {
-                _usuarioServicio.Login(txtUsername.Text, txtPassword.Text);
+                _usuarioServicio.Login(this.Text, txtUsername.Text, txtPassword.Text);
 
-                MessageBox.Show("Bienvenido!", "Acceso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                MainForm main = new MainForm();
+                MenuForm main = new MenuForm();
                 main.Show();
                 this.Hide();
             }
             catch (UnauthorizedAccessException ex)
             {
-                // Credenciales incorrectas, bloqueado, inactivo
                 MessageBox.Show(ex.Message, "Acceso denegado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             catch (Exception)

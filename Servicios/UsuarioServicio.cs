@@ -11,7 +11,7 @@ namespace Servicios
         private readonly UsuarioBLL _bll = new UsuarioBLL();
         private readonly BitacoraServicios _bitacora = new BitacoraServicios();
 
-        public void Alta(string username, string password)
+        public void Alta(string modulo, string username, string password)
         {
             try
             {
@@ -25,7 +25,7 @@ namespace Servicios
                 };
 
                 _bll.Alta(usuario);
-                _bitacora.Registrar("Usuarios", "Alta", "Alta de usuario '" + username + "'.", true);
+                _bitacora.Registrar(modulo, "Alta", "Alta de usuario '" + username + "'.", true);
             }
             catch (ArgumentException)
             {
@@ -33,12 +33,12 @@ namespace Servicios
             }
             catch (Exception ex)
             {
-                _bitacora.Registrar("Usuarios", "Alta", "Error al dar de alta usuario '" + username + "'.", false, ex.Message);
+                _bitacora.Registrar(modulo, "Alta", "Error al dar de alta usuario '" + username + "'.", false, ex.Message);
                 throw;
             }
         }
 
-        public void Login(string username, string passwordIngresada)
+        public void Login(string modulo, string username, string passwordIngresada)
         {
             Usuario usuario = null;
 
@@ -51,13 +51,13 @@ namespace Servicios
                 if (!passwordCorrecta)
                 {
                     _bll.RegistrarIntentoFallido(usuario);
-                    _bitacora.Registrar(username, "Seguridad", "IntentoFallido", "Contraseña incorrecta.", false, "Credenciales invalidas.");
+                    _bitacora.Registrar(username, modulo, "IntentoFallido", "Contraseña incorrecta.", false, "Credenciales invalidas.");
                     throw new UnauthorizedAccessException("Contraseña incorrecta.");
                 }
 
                 _bll.RegistrarLoginExitoso(usuario);
                 SessionManager.GetInstance().Login(usuario);
-                _bitacora.Registrar("Seguridad", "Login", "Login exitoso.", true);
+                _bitacora.Registrar(modulo, "Login", "Login exitoso.", true);
             }
             catch (UnauthorizedAccessException)
             {
@@ -66,14 +66,14 @@ namespace Servicios
             catch (Exception ex)
             {
                 string usernameLog = usuario != null ? usuario.Username : username;
-                _bitacora.Registrar(usernameLog, "Seguridad", "IntentoFallido", "Error inesperado en login.", false, ex.Message);
+                _bitacora.Registrar(usernameLog, modulo, "IntentoFallido", "Error inesperado en login.", false, ex.Message);
                 throw;
             }
         }
 
-        public void Logout()
+        public void Logout(string modulo)
         {
-            _bitacora.Registrar("Seguridad", "Logout", "Cierre de sesion.", true);
+            _bitacora.Registrar(modulo, "Logout", "Cierre de sesion.", true);
             SessionManager.GetInstance().Logout();
         }
 

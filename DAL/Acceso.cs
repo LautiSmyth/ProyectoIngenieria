@@ -16,7 +16,7 @@ namespace DAL
         {
             try
             {
-                ConnectionStringSettings entrada = ConfigurationManager.ConnectionStrings["MiConexionSQL"];
+                ConnectionStringSettings entrada = ConfigurationManager.ConnectionStrings["ConexionSQL"];
                 if (entrada != null)
                     _cadenaConexion = entrada.ConnectionString;
             }

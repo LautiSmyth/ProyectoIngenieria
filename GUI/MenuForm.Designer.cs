@@ -1,6 +1,6 @@
 ﻿namespace GUI
 {
-    partial class MainForm
+    partial class MenuForm
     {
         /// <summary>
         /// Required designer variable.
@@ -29,21 +29,21 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MenuForm));
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.lblBaseDatos = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lblHora = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblSeparador2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblSeparador = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblHora = new System.Windows.Forms.ToolStripStatusLabel();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.lblUsuario = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.btnBitacora = new System.Windows.Forms.ToolStripButton();
             this.btnCerrarSesion = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.lblSeparador = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip.SuspendLayout();
             this.contextMenuStrip2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -68,18 +68,26 @@
             this.lblBaseDatos.Size = new System.Drawing.Size(82, 17);
             this.lblBaseDatos.Text = "Base de datos:";
             // 
+            // lblSeparador2
+            // 
+            this.lblSeparador2.Name = "lblSeparador2";
+            this.lblSeparador2.Size = new System.Drawing.Size(10, 17);
+            this.lblSeparador2.Text = "|";
+            // 
+            // lblSeparador
+            // 
+            this.lblSeparador.Name = "lblSeparador";
+            this.lblSeparador.Size = new System.Drawing.Size(644, 17);
+            this.lblSeparador.Spring = true;
+            this.lblSeparador.Text = "|";
+            this.lblSeparador.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // lblHora
             // 
             this.lblHora.Name = "lblHora";
             this.lblHora.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.lblHora.Size = new System.Drawing.Size(49, 17);
             this.lblHora.Text = "00:00:00";
-            // 
-            // lblSeparador2
-            // 
-            this.lblSeparador2.Name = "lblSeparador2";
-            this.lblSeparador2.Size = new System.Drawing.Size(10, 17);
-            this.lblSeparador2.Text = "|";
             // 
             // contextMenuStrip1
             // 
@@ -118,6 +126,11 @@
             this.lblUsuario.Size = new System.Drawing.Size(47, 22);
             this.lblUsuario.Text = "Usuario";
             // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
             // btnBitacora
             // 
             this.btnBitacora.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -136,11 +149,7 @@
             this.btnCerrarSesion.Name = "btnCerrarSesion";
             this.btnCerrarSesion.Size = new System.Drawing.Size(80, 22);
             this.btnCerrarSesion.Text = "Cerrar Sesion";
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            this.btnCerrarSesion.Click += new System.EventHandler(this.BtnCerrarSesion_Click);
             // 
             // toolStripSeparator3
             // 
@@ -148,15 +157,7 @@
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
             // 
-            // lblSeparador
-            // 
-            this.lblSeparador.Name = "lblSeparador";
-            this.lblSeparador.Size = new System.Drawing.Size(644, 17);
-            this.lblSeparador.Spring = true;
-            this.lblSeparador.Text = "|";
-            this.lblSeparador.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // MainForm
+            // MenuForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -164,9 +165,9 @@
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.statusStrip);
             this.IsMdiContainer = true;
-            this.Name = "MainForm";
+            this.Name = "MenuForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "MainForm";
+            this.Text = "Menu";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();

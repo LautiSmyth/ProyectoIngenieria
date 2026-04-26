@@ -14,14 +14,10 @@ namespace BLL
             if (string.IsNullOrEmpty(username))
                 throw new ArgumentException("El nombre de usuario no puede estar vacio.");
 
-            Usuario usuario = _dal.ObtenerPorUsername(username);
-
-            if (usuario == null)
-                throw new UnauthorizedAccessException("Usuario no encontrado.");
-
+            Usuario usuario = _dal.ObtenerPorUsername(username) ?? throw new UnauthorizedAccessException("Usuario no encontrado.");
             if (usuario.Estado == EstadoUsuario.Bloqueado)
             {
-                int minutos = 15;
+                const int minutos = 15;
                 bool pasaronLosMinutos = usuario.FechaBloqueo.HasValue &&
                                         (DateTime.Now - usuario.FechaBloqueo.Value).TotalMinutes >= minutos;
 

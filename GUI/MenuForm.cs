@@ -4,13 +4,13 @@ using System.Windows.Forms;
 
 namespace GUI
 {
-    public partial class MainForm : Form
+    public partial class MenuForm : Form
     {
         private readonly ConexionServicio _conexionServicio = new ConexionServicio();
         private readonly UsuarioServicio _usuarioServicio = new UsuarioServicio();
         private readonly Timer _timer = new Timer();
 
-        public MainForm()
+        public MenuForm()
         {
             InitializeComponent();
         }
@@ -38,8 +38,9 @@ namespace GUI
 
         private void BtnBitacora_Click(object sender, EventArgs e)
         {
-            BitacoraForm form = new BitacoraForm { MdiParent = this };
-            form.Show();
+            // TODO: abrir form de bitacora como hijo MDI
+            // BitacoraForm form = new BitacoraForm { MdiParent = this };
+            // form.Show();
         }
 
         private void BtnCerrarSesion_Click(object sender, EventArgs e)
@@ -53,7 +54,7 @@ namespace GUI
 
             if (respuesta == DialogResult.Yes)
             {
-                _usuarioServicio.Logout();
+                _usuarioServicio.Logout(this.Text);
 
                 LoginForm login = new LoginForm();
                 login.Show();
