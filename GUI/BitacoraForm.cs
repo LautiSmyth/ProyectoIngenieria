@@ -101,10 +101,20 @@ namespace GUI
             chkExitoso.CheckState = CheckState.Indeterminate;
             dtpDesde.Value = DateTime.Today.AddMonths(-1);
             dtpHasta.Value = DateTime.Today;
+            dtpHasta.MinDate = dtpDesde.Value;
         }
 
         private void Filtro_Changed(object sender, EventArgs e)
         {
+            if (sender == dtpDesde)
+            {
+                dtpHasta.MinDate = dtpDesde.Value;
+
+                if (dtpHasta.Value < dtpDesde.Value)
+                    dtpHasta.Value = dtpDesde.Value;
+            }
+
+
             AplicarFiltros();
         }
 

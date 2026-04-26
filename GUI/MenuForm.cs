@@ -43,9 +43,18 @@ namespace GUI
 
         private void BtnBitacora_Click(object sender, EventArgs e)
         {
-            BitacoraForm form = new BitacoraForm();
-            form.MdiParent = this;
-            form.Show();
+            foreach (Form form in this.MdiChildren)
+            {
+                if (form is BitacoraForm)
+                {
+                    form.Activate();
+                    return;
+                }
+            }
+
+            BitacoraForm bitacora = new BitacoraForm();
+            bitacora.MdiParent = this;
+            bitacora.Show();
         }
 
         private void BtnCerrarSesion_Click(object sender, EventArgs e)
