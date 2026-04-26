@@ -20,6 +20,10 @@ namespace GUI
         private void BitacoraForm_Load(object sender, EventArgs e)
         {
             CargarDesdeBD();
+
+            dgvBitacora.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgvBitacora.Columns["Detalle"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dgvBitacora.Columns["Error"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
         }
 
         private void CargarDesdeBD()
@@ -113,7 +117,6 @@ namespace GUI
                 if (dtpHasta.Value < dtpDesde.Value)
                     dtpHasta.Value = dtpDesde.Value;
             }
-
 
             AplicarFiltros();
         }

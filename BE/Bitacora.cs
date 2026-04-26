@@ -5,7 +5,6 @@ namespace BE
     public class Bitacora
     {
         public int Id { get; set; }
-        public DateTime Fecha { get; set; }
         public int? UsuarioId { get; set; }
         public string Username { get; set; }
         public string Modulo { get; set; }
@@ -13,6 +12,7 @@ namespace BE
         public Enums.NivelCriticidad Criticidad { get; set; }
         public string Detalle { get; set; }
         public string Error { get; set; }
+        public DateTime Fecha { get; set; }
         public bool Exitoso { get; set; }
     }
 }
