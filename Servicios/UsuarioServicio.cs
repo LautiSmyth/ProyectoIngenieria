@@ -51,8 +51,8 @@ namespace Servicios
                 if (!passwordCorrecta)
                 {
                     _bll.RegistrarIntentoFallido(usuario);
-                    _bitacora.Registrar(username, modulo, "IntentoFallido", "Contraseña incorrecta.", false, "Credenciales invalidas.");
-                    throw new UnauthorizedAccessException("Contraseña incorrecta.");
+                    _bitacora.Registrar(username, modulo, "IntentoFallido", "Credenciales invalidas.", false, "Credenciales invalidas.");
+                    throw new UnauthorizedAccessException("Usuario o contraseña incorrectos.");
                 }
 
                 _bll.RegistrarLoginExitoso(usuario);
