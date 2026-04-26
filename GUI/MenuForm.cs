@@ -38,9 +38,8 @@ namespace GUI
 
         private void BtnBitacora_Click(object sender, EventArgs e)
         {
-            // TODO: abrir form de bitacora como hijo MDI
-            // BitacoraForm form = new BitacoraForm { MdiParent = this };
-            // form.Show();
+            BitacoraForm form = new BitacoraForm { MdiParent = this };
+            form.Show();
         }
 
         private void BtnCerrarSesion_Click(object sender, EventArgs e)
