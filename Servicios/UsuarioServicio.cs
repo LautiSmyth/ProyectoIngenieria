@@ -17,7 +17,7 @@ namespace Servicios
             {
                 Usuario usuario = new Usuario
                 {
-                    Username = username,
+                    Username = Encriptador.Cifrar(username),
                     PasswordHash = Encriptador.Hash(password),
                     Estado = EstadoUsuario.Activo,
                     FechaAlta = DateTime.Now,
@@ -44,7 +44,7 @@ namespace Servicios
 
             try
             {
-                usuario = _bll.ObtenerPorUsername(username);
+                usuario = _bll.ObtenerPorUsername(Encriptador.Cifrar(username));
 
                 if (usuario == null)
                 {
@@ -63,6 +63,7 @@ namespace Servicios
 
                 _bll.ValidarEstado(usuario);
                 _bll.RegistrarLoginExitoso(usuario);
+                usuario.Username = Encriptador.Descifrar(usuario.Username);
                 SessionManager.GetInstance().Login(usuario);
 
                 _bitacora.Registrar(modulo, "Login", "Login exitoso.", true);
@@ -73,8 +74,7 @@ namespace Servicios
             }
             catch (Exception ex)
             {
-                string usernameLog = usuario != null ? usuario.Username : username;
-                _bitacora.RegistrarSinSesion(usernameLog, modulo, "IntentoFallido", "Error inesperado en login.", false, ex.Message);
+                _bitacora.RegistrarSinSesion(username, modulo, "IntentoFallido", "Error inesperado en login.", false, ex.Message);
                 throw;
             }
         }

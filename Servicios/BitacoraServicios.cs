@@ -13,7 +13,10 @@ namespace Servicios
 
         public List<Bitacora> ObtenerTodos()
         {
-            return _dal.ObtenerTodos();
+            List<Bitacora> lista = _dal.ObtenerTodos();
+            foreach (Bitacora b in lista)
+                b.Username = Encriptador.Descifrar(b.Username);
+            return lista;
         }
 
         public void Registrar(string modulo, string actividad, string detalle, bool exitoso, string error = "")
@@ -36,7 +39,7 @@ namespace Servicios
             {
                 Fecha = DateTime.Now,
                 IdUsuario = usuario.IdUsuario,
-                Username = usuario.Username,
+                Username = Encriptador.Cifrar(usuario.Username),
                 Modulo = modulo,
                 Actividad = actividad,
                 Criticidad = CriticidadMapper.Obtener(actividad),
@@ -54,7 +57,7 @@ namespace Servicios
             {
                 Fecha = DateTime.Now,
                 IdUsuario = null,
-                Username = usernameIngresado,
+                Username = Encriptador.Cifrar(usernameIngresado),
                 Modulo = modulo,
                 Actividad = actividad,
                 Criticidad = CriticidadMapper.Obtener(actividad),
