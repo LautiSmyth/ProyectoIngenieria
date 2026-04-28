@@ -26,7 +26,7 @@ namespace GUI
             try
             {
                 _usuarioServicio.Login(this.Text, txtUsername.Text, txtPassword.Text);
-
+                MessageBox.Show($"Bienvenido {txtUsername.Text}!", "Login exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 MenuForm menu = new MenuForm();
                 menu.Show();
                 this.Hide();

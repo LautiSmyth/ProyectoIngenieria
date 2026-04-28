@@ -20,7 +20,7 @@ namespace DAL
 
             foreach (DataRow fila in tabla.Rows)
             {
-                Bitacora b = new Bitacora
+                Bitacora bitacora = new Bitacora
                 {
                     IdBitacora = Convert.ToInt32(fila["IdBitacora"]),
                     Fecha = Convert.ToDateTime(fila["Fecha"]),
@@ -34,9 +34,9 @@ namespace DAL
                 };
 
                 if (fila["IdUsuario"] != DBNull.Value)
-                    b.IdUsuario = Convert.ToInt32(fila["IdUsuario"]);
+                    bitacora.IdUsuario = Convert.ToInt32(fila["IdUsuario"]);
 
-                lista.Add(b);
+                lista.Add(bitacora);
             }
 
             return lista;

@@ -75,7 +75,6 @@ namespace DAL
                 using (SqlConnection conexion = new SqlConnection(_cadenaConexion))
                 using (SqlCommand cmd = new SqlCommand(consulta, conexion))
                 {
-                    cmd.CommandTimeout = 30;
                     if (parametros != null)
                         cmd.Parameters.AddRange(parametros);
 
@@ -99,7 +98,6 @@ namespace DAL
                 using (SqlConnection conexion = new SqlConnection(_cadenaConexion))
                 using (SqlCommand cmd = new SqlCommand(consulta, conexion))
                 {
-                    cmd.CommandTimeout = 30;
                     if (parametros != null)
                         cmd.Parameters.AddRange(parametros);
 
