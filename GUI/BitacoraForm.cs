@@ -104,9 +104,9 @@ namespace GUI
             cboCriticidad.Text = "";
             cboActividad.Text = "";
             chkExitoso.CheckState = CheckState.Indeterminate;
-            dtpDesde.Value = DateTime.Today.AddMonths(-1);
+            dtpDesde.Value = dtpDesde.MinDate;
             dtpHasta.Value = DateTime.Today;
-            dtpHasta.MinDate = dtpDesde.Value;
+            dtpHasta.MinDate = dtpDesde.MinDate;
         }
 
         private void Filtro_Changed(object sender, EventArgs e)
