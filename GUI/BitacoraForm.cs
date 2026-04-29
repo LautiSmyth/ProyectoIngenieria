@@ -104,9 +104,9 @@ namespace GUI
             cboCriticidad.Text = "";
             cboActividad.Text = "";
             chkExitoso.CheckState = CheckState.Indeterminate;
-            dtpDesde.Value = dtpDesde.MinDate;
+            dtpDesde.Value = DateTime.Today.AddMonths(-1);
             dtpHasta.Value = DateTime.Today;
-            dtpHasta.MinDate = dtpDesde.MinDate;
+            dtpHasta.MinDate = DateTime.Today.AddMonths(-1);
         }
 
         private void Filtro_Changed(object sender, EventArgs e)
@@ -130,7 +130,6 @@ namespace GUI
         private void BtnLimpiar_Click(object sender, EventArgs e)
         {
             LimpiarFiltros();
-            MostrarEnGrilla(_listaCompleta);
         }
     }
 }
