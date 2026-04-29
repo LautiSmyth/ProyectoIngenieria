@@ -40,12 +40,9 @@ namespace Servicios
 
         public void Login(string modulo, string username, string passwordIngresada)
         {
-            Usuario usuario = null;
-
             try
             {
-                usuario = _bll.ObtenerPorUsername(Encriptador.Cifrar(username));
-
+                Usuario usuario = _bll.ObtenerPorUsername(Encriptador.Cifrar(username));
                 if (usuario == null)
                 {
                     _bitacora.RegistrarSinSesion(username, modulo, "IntentoFallido", "Credenciales invalidas.", false, "Credenciales invalidas.");

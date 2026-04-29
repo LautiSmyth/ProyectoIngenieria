@@ -16,8 +16,7 @@ namespace Seguridad
 
         public static string Hash(string contraseña)
         {
-            // Se generan 16 bytes aleatorios con el generador
-            // criptográfico del sistema operativo
+            // Se generan 16 bytes aleatorios con el generador criptográfico del sistema operativo
             byte[] salt = new byte[SaltSize];
             using (var rng = RandomNumberGenerator.Create())
                 rng.GetBytes(salt);

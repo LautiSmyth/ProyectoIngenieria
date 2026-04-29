@@ -57,12 +57,8 @@ namespace GUI
 
         private void Salir()
         {
-            DialogResult respuesta = MessageBox.Show(
-                "¿Esta seguro que desea salir?",
-                "Salir",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question
-            );
+            DialogResult respuesta = MessageBox.Show("¿Esta seguro que desea salir?", "Salir",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (respuesta == DialogResult.Yes)
                 Application.Exit();
