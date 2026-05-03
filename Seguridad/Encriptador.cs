@@ -12,6 +12,7 @@ namespace Seguridad
 
         // Clave e IV fijos para cifrado AES-256 determinístico
         private static readonly byte[] _clave = Encoding.UTF8.GetBytes("SysthActClaveAES256BitsKey123456");
+
         private static readonly byte[] _iv = Encoding.UTF8.GetBytes("SysthActIV123456");
 
         public static string Hash(string contraseña)

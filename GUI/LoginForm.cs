@@ -18,8 +18,7 @@ namespace GUI
         {
             if (!_conexionServicio.VerificarConexion())
             {
-                MessageBox.Show("No hay conexion a la base de datos. Contacte al administrador.",
-                                "Error de conexion", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("No hay conexion a la base de datos. Contacte al administrador.", "Error de conexion", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -57,8 +56,7 @@ namespace GUI
 
         private void Salir()
         {
-            DialogResult respuesta = MessageBox.Show("¿Esta seguro que desea salir?", "Salir",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult respuesta = MessageBox.Show("¿Esta seguro que desea salir?", "Salir", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (respuesta == DialogResult.Yes)
                 Application.Exit();

@@ -58,7 +58,14 @@ namespace Servicios
                     throw new UnauthorizedAccessException("Usuario o contraseña incorrectos.");
                 }
 
-                _bll.ValidarEstado(usuario);
+                try
+                {
+                    _bll.ValidarEstado(usuario);
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    throw new UnauthorizedAccessException("Usuario o contraseña incorrectos.");
+                }
                 _bll.RegistrarLoginExitoso(usuario);
                 usuario.Username = Encriptador.Descifrar(usuario.Username);
                 SessionManager.GetInstance().Login(usuario);

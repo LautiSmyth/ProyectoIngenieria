@@ -15,19 +15,18 @@ namespace DAL
         {
             const string consulta = "SELECT * FROM Bitacora ORDER BY Fecha DESC";
             DataTable tabla = _acceso.Leer(consulta, null);
-
             List<Bitacora> lista = new List<Bitacora>();
 
             foreach (DataRow fila in tabla.Rows)
             {
-                Bitacora bitacora = new Bitacora
+                BE.Bitacora bitacora = new BE.Bitacora
                 {
                     IdBitacora = Convert.ToInt32(fila["IdBitacora"]),
                     Fecha = Convert.ToDateTime(fila["Fecha"]),
                     Username = fila["Username"].ToString(),
                     Modulo = fila["Modulo"].ToString(),
                     Actividad = fila["Actividad"].ToString(),
-                    Criticidad = (NivelCriticidad)Convert.ToInt32(fila["Criticidad"]),
+                    Criticidad = (NivelCriticidad)Convert.ToInt32(fila["IdCriticidad"]),
                     Detalle = fila["Detalle"].ToString(),
                     Error = fila["Error"].ToString(),
                     Exitoso = Convert.ToBoolean(fila["Exitoso"])
@@ -38,26 +37,26 @@ namespace DAL
 
                 lista.Add(bitacora);
             }
-
             return lista;
         }
 
         public void Insertar(Bitacora bitacora)
         {
-            const string consulta = @"INSERT INTO Bitacora (Fecha, IdUsuario, Username, Modulo, Actividad, Criticidad, Detalle, Error, Exitoso)
-                                      VALUES (@Fecha, @IdUsuario, @Username, @Modulo, @Actividad, @Criticidad, @Detalle, @Error, @Exitoso)";
+            const string consulta =
+                "INSERT INTO Bitacora (Fecha, IdUsuario, Username, Modulo, Actividad, IdCriticidad, Detalle, Error, Exitoso) " +
+                "VALUES (@Fecha, @IdUsuario, @Username, @Modulo, @Actividad, @IdCriticidad, @Detalle, @Error, @Exitoso)";
 
             SqlParameter[] parametros = new SqlParameter[]
             {
-                new SqlParameter("@Fecha",      bitacora.Fecha),
-                new SqlParameter("@IdUsuario",  (object)bitacora.IdUsuario ?? DBNull.Value),
-                new SqlParameter("@Username",   bitacora.Username),
-                new SqlParameter("@Modulo",     bitacora.Modulo),
-                new SqlParameter("@Actividad",  bitacora.Actividad),
-                new SqlParameter("@Criticidad", (int)bitacora.Criticidad),
-                new SqlParameter("@Detalle",    bitacora.Detalle),
-                new SqlParameter("@Error",      bitacora.Error ?? ""),
-                new SqlParameter("@Exitoso",    bitacora.Exitoso)
+                new SqlParameter("@Fecha", bitacora.Fecha),
+                new SqlParameter("@IdUsuario", (object)bitacora.IdUsuario ?? DBNull.Value),
+                new SqlParameter("@Username", bitacora.Username),
+                new SqlParameter("@Modulo", bitacora.Modulo),
+                new SqlParameter("@Actividad", bitacora.Actividad),
+                new SqlParameter("@IdCriticidad", (int)bitacora.Criticidad),
+                new SqlParameter("@Detalle", bitacora.Detalle),
+                new SqlParameter("@Error", bitacora.Error ?? ""),
+                new SqlParameter("@Exitoso", bitacora.Exitoso)
             };
 
             _acceso.Escribir(consulta, parametros);

@@ -68,8 +68,7 @@ namespace GUI
 
         private void CerrarSesion()
         {
-            DialogResult respuesta = MessageBox.Show("¿Esta seguro que desea cerrar la sesion?", "Cerrar sesion",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult respuesta = MessageBox.Show("¿Esta seguro que desea cerrar la sesion?", "Cerrar sesion", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (respuesta == DialogResult.Yes)
             {

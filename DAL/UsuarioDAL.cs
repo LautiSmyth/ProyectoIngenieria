@@ -47,8 +47,9 @@ namespace DAL
 
         public void Insertar(Usuario usuario)
         {
-            const string consulta = @"INSERT INTO Usuario (Username, PasswordHash, Estado, FechaAlta, IntentosFallidos)
-                                      VALUES (@Username, @PasswordHash, @Estado, @FechaAlta, @IntentosFallidos)";
+            const string consulta =
+                "INSERT INTO Usuario (Username, PasswordHash, Estado, FechaAlta, IntentosFallidos) " +
+                "VALUES (@Username, @PasswordHash, @Estado, @FechaAlta, @IntentosFallidos)";
 
             SqlParameter[] parametros = new SqlParameter[]
             {
@@ -64,9 +65,10 @@ namespace DAL
 
         public void Actualizar(Usuario usuario)
         {
-            const string consulta = @"UPDATE Usuario SET Estado = @Estado, IntentosFallidos = @IntentosFallidos,
-                                          FechaBloqueo = @FechaBloqueo, UltimoLogin = @UltimoLogin
-                                      WHERE IdUsuario = @IdUsuario";
+            const string consulta =
+                "UPDATE Usuario SET Estado = @Estado, IntentosFallidos = @IntentosFallidos, " +
+                "FechaBloqueo = @FechaBloqueo, UltimoLogin = @UltimoLogin " +
+                "WHERE IdUsuario = @IdUsuario";
 
             SqlParameter[] parametros = new SqlParameter[]
             {

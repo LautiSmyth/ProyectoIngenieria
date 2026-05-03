@@ -16,8 +16,7 @@ namespace GUI
 
             if (!conexionServicio.VerificarConexion())
             {
-                MessageBox.Show("No se puede conectar a la base de datos. Contacte al administrador.",
-                                "Error de conexion", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("No se puede conectar a la base de datos. Contacte al administrador.", "Error de conexion", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 

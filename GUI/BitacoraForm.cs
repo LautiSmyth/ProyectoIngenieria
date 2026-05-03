@@ -1,7 +1,9 @@
 using BE;
+using BE.Enums;
 using Servicios;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace GUI
@@ -9,7 +11,7 @@ namespace GUI
     public partial class BitacoraForm : Form
     {
         private readonly BitacoraServicios _bitacoraServicios = new BitacoraServicios();
-
+        private readonly CriticidadServicio _criticidadServicio = new CriticidadServicio();
         private List<Bitacora> _listaCompleta = new List<Bitacora>();
 
         public BitacoraForm()
@@ -19,12 +21,40 @@ namespace GUI
 
         private void BitacoraForm_Load(object sender, EventArgs e)
         {
+            CargarComboCriticidad();
             CargarDesdeBD();
             LimpiarFiltros();
-
             dgvBitacora.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dgvBitacora.Columns["Detalle"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dgvBitacora.Columns["Error"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+        }
+
+        private void CargarComboCriticidad()
+        {
+            cboCriticidad.Items.Clear();
+            cboCriticidad.Items.Add("");
+            foreach (CriticidadConfig config in _criticidadServicio.ObtenerTodos())
+                cboCriticidad.Items.Add(config.Nombre);
+        }
+
+        private void CargarComboActividad()
+        {
+            string seleccionActual = cboActividad.Text;
+            cboActividad.Items.Clear();
+            cboActividad.Items.Add("");
+
+            List<string> actividades = new List<string>();
+            foreach (Bitacora b in _listaCompleta)
+            {
+                if (!actividades.Contains(b.Actividad))
+                    actividades.Add(b.Actividad);
+            }
+            actividades.Sort();
+
+            foreach (string actividad in actividades)
+                cboActividad.Items.Add(actividad);
+
+            cboActividad.Text = seleccionActual;
         }
 
         private void CargarDesdeBD()
@@ -32,6 +62,7 @@ namespace GUI
             try
             {
                 _listaCompleta = _bitacoraServicios.ObtenerTodos();
+                CargarComboActividad();
                 AplicarFiltros();
             }
             catch (Exception ex)
@@ -65,15 +96,12 @@ namespace GUI
 
                 if (!string.IsNullOrEmpty(cboCriticidad.Text) && bitacora.Criticidad.ToString() != cboCriticidad.Text)
                     continue;
-
                 if (!string.IsNullOrEmpty(cboActividad.Text) && bitacora.Actividad != cboActividad.Text)
                     continue;
-
                 if (chkExitoso.CheckState == CheckState.Checked && !bitacora.Exitoso)
                     continue;
                 if (chkExitoso.CheckState == CheckState.Unchecked && bitacora.Exitoso)
                     continue;
-
                 if (bitacora.Fecha.Date < dtpDesde.Value.Date)
                     continue;
                 if (bitacora.Fecha.Date > dtpHasta.Value.Date)
@@ -88,11 +116,25 @@ namespace GUI
         private void MostrarEnGrilla(List<Bitacora> lista)
         {
             dgvBitacora.DataSource = lista;
-
             dgvBitacora.Columns["IdBitacora"].Visible = false;
             dgvBitacora.Columns["IdUsuario"].Visible = false;
+            lblContador.Text = $"Mostrando {lista.Count} de {_listaCompleta.Count} registros";
 
-            lblContador.Text = "Mostrando " + lista.Count + " de " + _listaCompleta.Count + " registros";
+            foreach (DataGridViewRow fila in dgvBitacora.Rows)
+            {
+                if (fila.DataBoundItem == null) continue;
+
+                NivelCriticidad criticidad = ((Bitacora)fila.DataBoundItem).Criticidad;
+                CriticidadConfig config = _criticidadServicio.ObtenerConfig(criticidad);
+                if (config == null) continue;
+
+                Color colorFondo;
+                try { colorFondo = ColorTranslator.FromHtml(config.ColorHex); }
+                catch { continue; }
+
+                fila.DefaultCellStyle.BackColor = colorFondo;
+                fila.DefaultCellStyle.SelectionBackColor = ControlPaint.Dark(colorFondo, 0.1f);
+            }
         }
 
         private void LimpiarFiltros()
@@ -114,11 +156,9 @@ namespace GUI
             if (sender == dtpDesde)
             {
                 dtpHasta.MinDate = dtpDesde.Value;
-
                 if (dtpHasta.Value < dtpDesde.Value)
                     dtpHasta.Value = dtpDesde.Value;
             }
-
             AplicarFiltros();
         }
 
