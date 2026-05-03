@@ -32,9 +32,12 @@ namespace GUI
         private void CargarComboCriticidad()
         {
             cboCriticidad.Items.Clear();
-            cboCriticidad.Items.Add("");
+            cboCriticidad.Items.Add(new CriticidadItem(null, ""));
             foreach (CriticidadConfig config in _criticidadServicio.ObtenerTodos())
-                cboCriticidad.Items.Add(config.Nombre);
+                cboCriticidad.Items.Add(new CriticidadItem(config.Nivel, config.Nombre));
+
+            cboCriticidad.DisplayMember = "Nombre";
+            cboCriticidad.SelectedIndex = 0;
         }
 
         private void CargarComboActividad()
@@ -94,8 +97,11 @@ namespace GUI
                         continue;
                 }
 
-                if (!string.IsNullOrEmpty(cboCriticidad.Text) && bitacora.Criticidad.ToString() != cboCriticidad.Text)
+                // Comparar por NivelCriticidad, no por texto, para no depender del nombre en BD
+                if (cboCriticidad.SelectedItem is CriticidadItem item && item.Nivel.HasValue
+                    && bitacora.Criticidad != item.Nivel.Value)
                     continue;
+
                 if (!string.IsNullOrEmpty(cboActividad.Text) && bitacora.Actividad != cboActividad.Text)
                     continue;
                 if (chkExitoso.CheckState == CheckState.Checked && !bitacora.Exitoso)
@@ -143,7 +149,7 @@ namespace GUI
             chkUsername.Checked = true;
             chkDetalle.Checked = true;
             chkError.Checked = false;
-            cboCriticidad.Text = "";
+            if (cboCriticidad.Items.Count > 0) cboCriticidad.SelectedIndex = 0;
             cboActividad.Text = "";
             chkExitoso.CheckState = CheckState.Indeterminate;
             dtpDesde.Value = DateTime.Today.AddMonths(-1);
@@ -171,5 +177,23 @@ namespace GUI
         {
             LimpiarFiltros();
         }
+    }
+
+    // Clase auxiliar para el ComboBox de criticidad.
+    // Guarda el NivelCriticidad junto al nombre visible,
+    // para que el filtro compare por valor y no por texto.
+    internal class CriticidadItem
+    {
+        public NivelCriticidad? Nivel { get; }
+        public string Nombre { get; }
+
+        public CriticidadItem(NivelCriticidad? nivel, string nombre)
+        {
+            Nivel = nivel;
+            Nombre = nombre;
+        }
+
+        public override string ToString()
+        { return Nombre; }
     }
 }

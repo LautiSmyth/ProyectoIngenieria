@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Acceso.cs" />
     <Compile Include="BitacoraDAL.cs" />
+    <Compile Include="CriticidadDAL.cs" />
     <Compile Include="UsuarioDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

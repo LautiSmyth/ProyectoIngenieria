@@ -232,13 +232,6 @@ namespace GUI
             // 
             this.cboCriticidad.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cboCriticidad.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cboCriticidad.Items.AddRange(new object[] {
-            "",
-            "Informativo",
-            "Bajo",
-            "Medio",
-            "Alto",
-            "Critico"});
             this.cboCriticidad.Location = new System.Drawing.Point(473, 6);
             this.cboCriticidad.Margin = new System.Windows.Forms.Padding(0, 2, 12, 0);
             this.cboCriticidad.Name = "cboCriticidad";
@@ -260,17 +253,6 @@ namespace GUI
             // 
             this.cboActividad.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cboActividad.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cboActividad.Items.AddRange(new object[] {
-            "",
-            "Login",
-            "Logout",
-            "Alta",
-            "Modificacion",
-            "Eliminacion",
-            "IntentoFallido",
-            "CambioPassword",
-            "UsuarioBloqueado",
-            "CambioEstado"});
             this.cboActividad.Location = new System.Drawing.Point(642, 6);
             this.cboActividad.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
             this.cboActividad.Name = "cboActividad";
