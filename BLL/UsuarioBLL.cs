@@ -21,7 +21,7 @@ namespace BLL
         {
             if (usuario.Estado == EstadoUsuario.Bloqueado)
             {
-                const int minutos = 15;
+                const int minutos = 1;
                 bool pasaronLosMinutos = usuario.FechaBloqueo.HasValue &&
                                         (DateTime.Now - usuario.FechaBloqueo.Value).TotalMinutes >= minutos;
 

@@ -1,11 +1,12 @@
-﻿using BE;
+using BE;
 
 namespace Seguridad
 {
     public sealed class SessionManager
     {
-        private static SessionManager _instance;
+        private static volatile SessionManager _instance;
         private static readonly object _lock = new object();
+
         public Usuario Usuario { get; private set; }
 
         private SessionManager()
@@ -18,9 +19,7 @@ namespace Seguridad
                 lock (_lock)
                 {
                     if (_instance == null)
-                    {
                         _instance = new SessionManager();
-                    }
                 }
             }
             return _instance;
@@ -28,12 +27,12 @@ namespace Seguridad
 
         public void Login(Usuario usuario)
         {
-            this.Usuario = usuario;
+            Usuario = usuario;
         }
 
         public void Logout()
         {
-            this.Usuario = null;
+            Usuario = null;
         }
     }
 }

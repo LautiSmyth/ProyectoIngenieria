@@ -1,4 +1,5 @@
 using BE;
+using BE.Enums;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -19,7 +20,7 @@ namespace DAL
             {
                 lista.Add(new CriticidadConfig
                 {
-                    Nivel = (BE.Enums.NivelCriticidad)Convert.ToInt32(fila["IdCriticidad"]),
+                    Nivel = (NivelCriticidad)Convert.ToInt32(fila["IdCriticidad"]),
                     Nombre = fila["Nombre"].ToString(),
                     ColorHex = fila["ColorHex"].ToString(),
                     Orden = Convert.ToInt32(fila["Orden"])

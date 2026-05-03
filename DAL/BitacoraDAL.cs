@@ -19,7 +19,7 @@ namespace DAL
 
             foreach (DataRow fila in tabla.Rows)
             {
-                BE.Bitacora bitacora = new BE.Bitacora
+                Bitacora bitacora = new Bitacora
                 {
                     IdBitacora = Convert.ToInt32(fila["IdBitacora"]),
                     Fecha = Convert.ToDateTime(fila["Fecha"]),

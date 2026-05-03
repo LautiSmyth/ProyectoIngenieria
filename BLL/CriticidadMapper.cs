@@ -9,19 +9,20 @@ namespace BLL
     {
         private static readonly Dictionary<string, NivelCriticidad> _diccionario = new Dictionary<string, NivelCriticidad>
         {
-            { "Login",            NivelCriticidad.Informativo },
-            { "Logout",           NivelCriticidad.Informativo },
-            { "Consulta",         NivelCriticidad.Informativo },
-            { "Alta",             NivelCriticidad.Bajo        },
-            { "Modificacion",     NivelCriticidad.Medio       },
-            { "Eliminacion",      NivelCriticidad.Alto        },
-            { "CambioPassword",   NivelCriticidad.Critico     },
-            { "IntentoFallido",   NivelCriticidad.Alto        },
-            { "UsuarioBloqueado", NivelCriticidad.Critico     },
-            { "CambioEstado",     NivelCriticidad.Alto        },
+            { "Login", NivelCriticidad.Informativo },
+            { "Logout", NivelCriticidad.Informativo },
+            { "Consulta", NivelCriticidad.Informativo },
+            { "Alta", NivelCriticidad.Bajo },
+            { "Modificacion", NivelCriticidad.Medio },
+            { "Eliminacion", NivelCriticidad.Alto },
+            { "CambioPassword", NivelCriticidad.Critico },
+            { "IntentoFallido", NivelCriticidad.Alto },
+            { "UsuarioBloqueado", NivelCriticidad.Critico },
+            { "CambioEstado", NivelCriticidad.Alto },
         };
 
         private static Dictionary<NivelCriticidad, CriticidadConfig> _configBD = new Dictionary<NivelCriticidad, CriticidadConfig>();
+        private static List<CriticidadConfig> _listaOrdenada = new List<CriticidadConfig>();
 
         static CriticidadMapper()
         {
@@ -40,6 +41,7 @@ namespace BLL
                     nuevo[config.Nivel] = config;
 
                 _configBD = nuevo;
+                _listaOrdenada = lista;
             }
             catch (Exception ex)
             {
@@ -69,9 +71,7 @@ namespace BLL
 
         public static List<CriticidadConfig> ObtenerTodos()
         {
-            List<CriticidadConfig> lista = new List<CriticidadConfig>(_configBD.Values);
-            lista.Sort((a, b) => a.Orden.CompareTo(b.Orden));
-            return lista;
+            return new List<CriticidadConfig>(_listaOrdenada);
         }
     }
 }

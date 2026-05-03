@@ -13,6 +13,7 @@ namespace GUI
         private readonly BitacoraServicios _bitacoraServicios = new BitacoraServicios();
         private readonly CriticidadServicio _criticidadServicio = new CriticidadServicio();
         private List<Bitacora> _listaCompleta = new List<Bitacora>();
+        private bool _cargando = false;
 
         public BitacoraForm()
         {
@@ -21,12 +22,17 @@ namespace GUI
 
         private void BitacoraForm_Load(object sender, EventArgs e)
         {
-            CargarComboCriticidad();
-            CargarDesdeBD();
-            LimpiarFiltros();
             dgvBitacora.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-            dgvBitacora.Columns["Detalle"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dgvBitacora.Columns["Error"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+            _cargando = true;
+            CargarComboCriticidad();
+            LimpiarFiltros();
+            _cargando = false;
+        }
+
+        private void BitacoraForm_Shown(object sender, EventArgs e)
+        {
+            CargarDesdeBD();
         }
 
         private void CargarComboCriticidad()
@@ -97,7 +103,6 @@ namespace GUI
                         continue;
                 }
 
-                // Comparar por NivelCriticidad, no por texto, para no depender del nombre en BD
                 if (cboCriticidad.SelectedItem is CriticidadItem item && item.Nivel.HasValue
                     && bitacora.Criticidad != item.Nivel.Value)
                     continue;
@@ -124,6 +129,8 @@ namespace GUI
             dgvBitacora.DataSource = lista;
             dgvBitacora.Columns["IdBitacora"].Visible = false;
             dgvBitacora.Columns["IdUsuario"].Visible = false;
+            dgvBitacora.Columns["Detalle"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dgvBitacora.Columns["Error"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             lblContador.Text = $"Mostrando {lista.Count} de {_listaCompleta.Count} registros";
 
             foreach (DataGridViewRow fila in dgvBitacora.Rows)
@@ -159,6 +166,8 @@ namespace GUI
 
         private void Filtro_Changed(object sender, EventArgs e)
         {
+            if (_cargando) return;
+
             if (sender == dtpDesde)
             {
                 dtpHasta.MinDate = dtpDesde.Value;
@@ -175,13 +184,13 @@ namespace GUI
 
         private void BtnLimpiar_Click(object sender, EventArgs e)
         {
+            _cargando = true;
             LimpiarFiltros();
+            _cargando = false;
+            AplicarFiltros();
         }
     }
 
-    // Clase auxiliar para el ComboBox de criticidad.
-    // Guarda el NivelCriticidad junto al nombre visible,
-    // para que el filtro compare por valor y no por texto.
     internal class CriticidadItem
     {
         public NivelCriticidad? Nivel { get; }
@@ -193,7 +202,6 @@ namespace GUI
             Nombre = nombre;
         }
 
-        public override string ToString()
-        { return Nombre; }
+        public override string ToString() { return Nombre; }
     }
 }

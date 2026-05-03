@@ -305,6 +305,7 @@ namespace GUI
             this.Text = "Bitácora";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.BitacoraForm_Load);
+            this.Shown += new System.EventHandler(this.BitacoraForm_Shown);
             this.pnlFiltros.ResumeLayout(false);
             this.flpFila2.ResumeLayout(false);
             this.flpFila2.PerformLayout();
@@ -317,27 +318,27 @@ namespace GUI
 
         }
 
-        private System.Windows.Forms.Panel           pnlFiltros;
+        private System.Windows.Forms.Panel pnlFiltros;
         private System.Windows.Forms.FlowLayoutPanel flpFila1;
         private System.Windows.Forms.FlowLayoutPanel flpFila2;
-        private System.Windows.Forms.Label           lblBuscar;
-        private System.Windows.Forms.TextBox         txtBuscar;
-        private System.Windows.Forms.CheckBox        chkUsername;
-        private System.Windows.Forms.CheckBox        chkDetalle;
-        private System.Windows.Forms.CheckBox        chkError;
-        private System.Windows.Forms.Label           lblCriticidad;
-        private System.Windows.Forms.ComboBox        cboCriticidad;
-        private System.Windows.Forms.Label           lblActividad;
-        private System.Windows.Forms.ComboBox        cboActividad;
-        private System.Windows.Forms.CheckBox        chkExitoso;
-        private System.Windows.Forms.Label           lblDesde;
-        private System.Windows.Forms.DateTimePicker  dtpDesde;
-        private System.Windows.Forms.Label           lblHasta;
-        private System.Windows.Forms.DateTimePicker  dtpHasta;
-        private System.Windows.Forms.Button          btnLimpiar;
-        private System.Windows.Forms.Button          btnBuscar;
-        private System.Windows.Forms.Panel           pnlEstado;
-        private System.Windows.Forms.Label           lblContador;
-        private System.Windows.Forms.DataGridView    dgvBitacora;
+        private System.Windows.Forms.Label lblBuscar;
+        private System.Windows.Forms.TextBox txtBuscar;
+        private System.Windows.Forms.CheckBox chkUsername;
+        private System.Windows.Forms.CheckBox chkDetalle;
+        private System.Windows.Forms.CheckBox chkError;
+        private System.Windows.Forms.Label lblCriticidad;
+        private System.Windows.Forms.ComboBox cboCriticidad;
+        private System.Windows.Forms.Label lblActividad;
+        private System.Windows.Forms.ComboBox cboActividad;
+        private System.Windows.Forms.CheckBox chkExitoso;
+        private System.Windows.Forms.Label lblDesde;
+        private System.Windows.Forms.DateTimePicker dtpDesde;
+        private System.Windows.Forms.Label lblHasta;
+        private System.Windows.Forms.DateTimePicker dtpHasta;
+        private System.Windows.Forms.Button btnLimpiar;
+        private System.Windows.Forms.Button btnBuscar;
+        private System.Windows.Forms.Panel pnlEstado;
+        private System.Windows.Forms.Label lblContador;
+        private System.Windows.Forms.DataGridView dgvBitacora;
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace BE.Enums
+namespace BE.Enums
 {
     public enum EstadoUsuario
     {
