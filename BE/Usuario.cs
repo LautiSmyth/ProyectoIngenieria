@@ -11,6 +11,7 @@ namespace BE
         public DateTime FechaAlta { get; set; }
         public DateTime? UltimoLogin { get; set; }
         public int IntentosFallidos { get; set; }
+        public int CantidadBloqueos { get; set; }
         public DateTime? FechaBloqueo { get; set; }
     }
 }

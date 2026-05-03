@@ -9,6 +9,11 @@ namespace BLL
     {
         private readonly UsuarioDAL _dal = new UsuarioDAL();
 
+        // Tiempos de espera en minutos segun cantidad de bloqueos acumulados.
+        // Indice 0 = 1er bloqueo = 1 minuto, indice 3 = 4to bloqueo = 60 minutos.
+        // Desde el 5to bloqueo en adelante el bloqueo es permanente.
+        private static readonly int[] _minutosBloqueo = { 1, 5, 15, 60 };
+
         public Usuario ObtenerPorUsername(string username)
         {
             if (string.IsNullOrEmpty(username))
@@ -21,9 +26,15 @@ namespace BLL
         {
             if (usuario.Estado == EstadoUsuario.Bloqueado)
             {
-                const int minutos = 1;
+                if (usuario.CantidadBloqueos <= 0 || usuario.CantidadBloqueos > _minutosBloqueo.Length)
+                {
+                    throw new UnauthorizedAccessException(
+                        "Usuario bloqueado permanentemente. Contacte al administrador.");
+                }
+
+                int minutosEspera = _minutosBloqueo[usuario.CantidadBloqueos - 1];
                 bool pasaronLosMinutos = usuario.FechaBloqueo.HasValue &&
-                                        (DateTime.Now - usuario.FechaBloqueo.Value).TotalMinutes >= minutos;
+                    (DateTime.Now - usuario.FechaBloqueo.Value).TotalMinutes >= minutosEspera;
 
                 if (pasaronLosMinutos)
                 {
@@ -34,7 +45,8 @@ namespace BLL
                 }
                 else
                 {
-                    throw new UnauthorizedAccessException($"Usuario bloqueado. Intente nuevamente en {minutos} minutos.");
+                    throw new UnauthorizedAccessException(
+                        $"Usuario bloqueado. Intente nuevamente en {minutosEspera} minutos.");
                 }
             }
 
@@ -65,6 +77,7 @@ namespace BLL
             {
                 usuario.Estado = EstadoUsuario.Bloqueado;
                 usuario.FechaBloqueo = DateTime.Now;
+                usuario.CantidadBloqueos++;
             }
 
             _dal.Actualizar(usuario);
@@ -73,6 +86,7 @@ namespace BLL
         public void RegistrarLoginExitoso(Usuario usuario)
         {
             usuario.IntentosFallidos = 0;
+            usuario.CantidadBloqueos = 0;
             usuario.UltimoLogin = DateTime.Now;
             _dal.Actualizar(usuario);
         }

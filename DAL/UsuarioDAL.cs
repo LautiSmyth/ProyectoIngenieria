@@ -33,7 +33,8 @@ namespace DAL
                 PasswordHash = fila["PasswordHash"].ToString(),
                 Estado = (EstadoUsuario)Convert.ToInt32(fila["Estado"]),
                 FechaAlta = Convert.ToDateTime(fila["FechaAlta"]),
-                IntentosFallidos = Convert.ToInt32(fila["IntentosFallidos"])
+                IntentosFallidos = Convert.ToInt32(fila["IntentosFallidos"]),
+                CantidadBloqueos = Convert.ToInt32(fila["CantidadBloqueos"])
             };
 
             if (fila["UltimoLogin"] != DBNull.Value)
@@ -48,8 +49,8 @@ namespace DAL
         public void Insertar(Usuario usuario)
         {
             const string consulta =
-                "INSERT INTO Usuario (Username, PasswordHash, Estado, FechaAlta, IntentosFallidos) " +
-                "VALUES (@Username, @PasswordHash, @Estado, @FechaAlta, @IntentosFallidos)";
+                "INSERT INTO Usuario (Username, PasswordHash, Estado, FechaAlta, IntentosFallidos, CantidadBloqueos) " +
+                "VALUES (@Username, @PasswordHash, @Estado, @FechaAlta, @IntentosFallidos, @CantidadBloqueos)";
 
             SqlParameter[] parametros = new SqlParameter[]
             {
@@ -57,7 +58,8 @@ namespace DAL
                 new SqlParameter("@PasswordHash", usuario.PasswordHash),
                 new SqlParameter("@Estado", (int)usuario.Estado),
                 new SqlParameter("@FechaAlta", usuario.FechaAlta),
-                new SqlParameter("@IntentosFallidos", usuario.IntentosFallidos)
+                new SqlParameter("@IntentosFallidos", usuario.IntentosFallidos),
+                new SqlParameter("@CantidadBloqueos", usuario.CantidadBloqueos)
             };
 
             _acceso.Escribir(consulta, parametros);
@@ -67,7 +69,7 @@ namespace DAL
         {
             const string consulta =
                 "UPDATE Usuario SET Estado = @Estado, IntentosFallidos = @IntentosFallidos, " +
-                "FechaBloqueo = @FechaBloqueo, UltimoLogin = @UltimoLogin " +
+                "CantidadBloqueos = @CantidadBloqueos, FechaBloqueo = @FechaBloqueo, UltimoLogin = @UltimoLogin " +
                 "WHERE IdUsuario = @IdUsuario";
 
             SqlParameter[] parametros = new SqlParameter[]
@@ -75,6 +77,7 @@ namespace DAL
                 new SqlParameter("@IdUsuario", usuario.IdUsuario),
                 new SqlParameter("@Estado", (int)usuario.Estado),
                 new SqlParameter("@IntentosFallidos", usuario.IntentosFallidos),
+                new SqlParameter("@CantidadBloqueos", usuario.CantidadBloqueos),
                 new SqlParameter("@FechaBloqueo", (object)usuario.FechaBloqueo ?? DBNull.Value),
                 new SqlParameter("@UltimoLogin", (object)usuario.UltimoLogin ?? DBNull.Value)
             };

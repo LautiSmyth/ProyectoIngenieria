@@ -21,7 +21,8 @@ namespace Servicios
                     PasswordHash = Encriptador.Hash(password),
                     Estado = EstadoUsuario.Activo,
                     FechaAlta = DateTime.Now,
-                    IntentosFallidos = 0
+                    IntentosFallidos = 0,
+                    CantidadBloqueos = 0
                 };
 
                 _bll.Alta(usuario);
@@ -45,6 +46,7 @@ namespace Servicios
                 Usuario usuario = _bll.ObtenerPorUsername(Encriptador.Cifrar(username));
                 if (usuario == null)
                 {
+                    ContadorSesion.GetInstance().RegistrarIntento();
                     _bitacora.RegistrarSinSesion(username, modulo, "IntentoFallido", "Credenciales invalidas.", false, "Credenciales invalidas.");
                     throw new UnauthorizedAccessException("Usuario o contraseña incorrectos.");
                 }
@@ -54,6 +56,7 @@ namespace Servicios
                 if (!passwordCorrecta)
                 {
                     _bll.RegistrarIntentoFallido(usuario);
+                    ContadorSesion.GetInstance().RegistrarIntento();
                     _bitacora.RegistrarSinSesion(username, modulo, "IntentoFallido", "Credenciales invalidas.", false, "Credenciales invalidas.");
                     throw new UnauthorizedAccessException("Usuario o contraseña incorrectos.");
                 }
@@ -64,12 +67,15 @@ namespace Servicios
                 }
                 catch (UnauthorizedAccessException)
                 {
+                    ContadorSesion.GetInstance().RegistrarIntento();
+                    _bitacora.RegistrarSinSesion(username, modulo, "IntentoFallido", "Cuenta bloqueada.", false, "Cuenta bloqueada.");
                     throw new UnauthorizedAccessException("Usuario o contraseña incorrectos.");
                 }
+
                 _bll.RegistrarLoginExitoso(usuario);
+                ContadorSesion.GetInstance().Resetear();
                 usuario.Username = Encriptador.Descifrar(usuario.Username);
                 SessionManager.GetInstance().Login(usuario);
-
                 _bitacora.Registrar(modulo, "Login", "Login exitoso.", true);
             }
             catch (UnauthorizedAccessException)
@@ -81,6 +87,11 @@ namespace Servicios
                 _bitacora.RegistrarSinSesion(username, modulo, "IntentoFallido", "Error inesperado en login.", false, ex.Message);
                 throw;
             }
+        }
+
+        public bool LimiteAlcanzadoEnSesion()
+        {
+            return ContadorSesion.GetInstance().LimiteAlcanzado;
         }
 
         public void Logout(string modulo)

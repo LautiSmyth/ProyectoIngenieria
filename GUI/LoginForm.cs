@@ -33,6 +33,16 @@ namespace GUI
             catch (UnauthorizedAccessException ex)
             {
                 MessageBox.Show(ex.Message, "Acceso denegado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                if (_usuarioServicio.LimiteAlcanzadoEnSesion())
+                {
+                    MessageBox.Show(
+                        "Se alcanzo el limite de intentos fallidos. La aplicacion se cerrara.",
+                        "Acceso bloqueado",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Stop);
+                    Application.Exit();
+                }
             }
             catch (Exception)
             {
