@@ -81,7 +81,6 @@ namespace GUI
             this.chkExitoso.TabIndex = 0;
             this.chkExitoso.Text = "Exitoso";
             this.chkExitoso.ThreeState = true;
-            this.chkExitoso.CheckStateChanged += new System.EventHandler(this.Filtro_Changed);
             // 
             // lblDesde
             // 
@@ -101,7 +100,6 @@ namespace GUI
             this.dtpDesde.Name = "dtpDesde";
             this.dtpDesde.Size = new System.Drawing.Size(100, 20);
             this.dtpDesde.TabIndex = 2;
-            this.dtpDesde.ValueChanged += new System.EventHandler(this.Filtro_Changed);
             // 
             // lblHasta
             // 
@@ -121,7 +119,6 @@ namespace GUI
             this.dtpHasta.Name = "dtpHasta";
             this.dtpHasta.Size = new System.Drawing.Size(100, 20);
             this.dtpHasta.TabIndex = 4;
-            this.dtpHasta.ValueChanged += new System.EventHandler(this.Filtro_Changed);
             // 
             // btnLimpiar
             // 
@@ -179,7 +176,6 @@ namespace GUI
             this.txtBuscar.Name = "txtBuscar";
             this.txtBuscar.Size = new System.Drawing.Size(150, 20);
             this.txtBuscar.TabIndex = 1;
-            this.txtBuscar.TextChanged += new System.EventHandler(this.Filtro_Changed);
             // 
             // chkUsername
             // 
@@ -192,7 +188,6 @@ namespace GUI
             this.chkUsername.Size = new System.Drawing.Size(74, 17);
             this.chkUsername.TabIndex = 2;
             this.chkUsername.Text = "Username";
-            this.chkUsername.CheckedChanged += new System.EventHandler(this.Filtro_Changed);
             // 
             // chkDetalle
             // 
@@ -205,7 +200,6 @@ namespace GUI
             this.chkDetalle.Size = new System.Drawing.Size(59, 17);
             this.chkDetalle.TabIndex = 3;
             this.chkDetalle.Text = "Detalle";
-            this.chkDetalle.CheckedChanged += new System.EventHandler(this.Filtro_Changed);
             // 
             // chkError
             // 
@@ -216,7 +210,6 @@ namespace GUI
             this.chkError.Size = new System.Drawing.Size(48, 17);
             this.chkError.TabIndex = 4;
             this.chkError.Text = "Error";
-            this.chkError.CheckedChanged += new System.EventHandler(this.Filtro_Changed);
             // 
             // lblCriticidad
             // 
@@ -237,7 +230,6 @@ namespace GUI
             this.cboCriticidad.Name = "cboCriticidad";
             this.cboCriticidad.Size = new System.Drawing.Size(100, 21);
             this.cboCriticidad.TabIndex = 6;
-            this.cboCriticidad.TextChanged += new System.EventHandler(this.Filtro_Changed);
             // 
             // lblActividad
             // 
@@ -258,7 +250,6 @@ namespace GUI
             this.cboActividad.Name = "cboActividad";
             this.cboActividad.Size = new System.Drawing.Size(110, 21);
             this.cboActividad.TabIndex = 8;
-            this.cboActividad.TextChanged += new System.EventHandler(this.Filtro_Changed);
             // 
             // dgvBitacora
             // 

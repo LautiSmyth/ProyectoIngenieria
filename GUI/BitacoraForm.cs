@@ -13,7 +13,6 @@ namespace GUI
         private readonly BitacoraServicios _bitacoraServicios = new BitacoraServicios();
         private readonly CriticidadServicio _criticidadServicio = new CriticidadServicio();
         private List<Bitacora> _listaCompleta = new List<Bitacora>();
-        private bool _cargando = false;
 
         public BitacoraForm()
         {
@@ -23,16 +22,41 @@ namespace GUI
         private void BitacoraForm_Load(object sender, EventArgs e)
         {
             dgvBitacora.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-
-            _cargando = true;
+            DesuscribirFiltros();
             CargarComboCriticidad();
             LimpiarFiltros();
-            _cargando = false;
+            SuscribirFiltros();
         }
 
         private void BitacoraForm_Shown(object sender, EventArgs e)
         {
             CargarDesdeBD();
+        }
+
+        private void SuscribirFiltros()
+        {
+            txtBuscar.TextChanged += Filtro_Changed;
+            cboCriticidad.TextChanged += Filtro_Changed;
+            cboActividad.TextChanged += Filtro_Changed;
+            chkUsername.CheckedChanged += Filtro_Changed;
+            chkDetalle.CheckedChanged += Filtro_Changed;
+            chkError.CheckedChanged += Filtro_Changed;
+            chkExitoso.CheckStateChanged += Filtro_Changed;
+            dtpDesde.ValueChanged += Filtro_Changed;
+            dtpHasta.ValueChanged += Filtro_Changed;
+        }
+
+        private void DesuscribirFiltros()
+        {
+            txtBuscar.TextChanged -= Filtro_Changed;
+            cboCriticidad.TextChanged -= Filtro_Changed;
+            cboActividad.TextChanged -= Filtro_Changed;
+            chkUsername.CheckedChanged -= Filtro_Changed;
+            chkDetalle.CheckedChanged -= Filtro_Changed;
+            chkError.CheckedChanged -= Filtro_Changed;
+            chkExitoso.CheckStateChanged -= Filtro_Changed;
+            dtpDesde.ValueChanged -= Filtro_Changed;
+            dtpHasta.ValueChanged -= Filtro_Changed;
         }
 
         private void CargarComboCriticidad()
@@ -166,8 +190,6 @@ namespace GUI
 
         private void Filtro_Changed(object sender, EventArgs e)
         {
-            if (_cargando) return;
-
             if (sender == dtpDesde)
             {
                 dtpHasta.MinDate = dtpDesde.Value;
@@ -184,9 +206,9 @@ namespace GUI
 
         private void BtnLimpiar_Click(object sender, EventArgs e)
         {
-            _cargando = true;
+            DesuscribirFiltros();
             LimpiarFiltros();
-            _cargando = false;
+            SuscribirFiltros();
             AplicarFiltros();
         }
     }
