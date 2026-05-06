@@ -10,9 +10,6 @@ namespace Seguridad
         private const int HashSize = 32;
         private const int Iterations = 100000;
 
-        private static readonly byte[] _clave = Encoding.UTF8.GetBytes("SysthActClaveAES256BitsKey123456");
-        private static readonly byte[] _iv = Encoding.UTF8.GetBytes("SysthActIV123456");
-
         public static string Hash(string contraseña)
         {
             byte[] salt = new byte[SaltSize];
@@ -26,32 +23,6 @@ namespace Seguridad
                 Array.Copy(salt, 0, hashBytes, 0, SaltSize);
                 Array.Copy(hash, 0, hashBytes, SaltSize, HashSize);
                 return Convert.ToBase64String(hashBytes);
-            }
-        }
-
-        public static string Cifrar(string texto)
-        {
-            using (Aes aes = Aes.Create())
-            {
-                aes.Key = _clave;
-                aes.IV = _iv;
-                ICryptoTransform encriptador = aes.CreateEncryptor();
-                byte[] bytes = Encoding.UTF8.GetBytes(texto);
-                byte[] cifrado = encriptador.TransformFinalBlock(bytes, 0, bytes.Length);
-                return Convert.ToBase64String(cifrado);
-            }
-        }
-
-        public static string Descifrar(string textoCifrado)
-        {
-            using (Aes aes = Aes.Create())
-            {
-                aes.Key = _clave;
-                aes.IV = _iv;
-                ICryptoTransform desencriptador = aes.CreateDecryptor();
-                byte[] bytes = Convert.FromBase64String(textoCifrado);
-                byte[] descifrado = desencriptador.TransformFinalBlock(bytes, 0, bytes.Length);
-                return Encoding.UTF8.GetString(descifrado);
             }
         }
 

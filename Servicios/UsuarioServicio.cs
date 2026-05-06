@@ -17,7 +17,7 @@ namespace Servicios
             {
                 Usuario usuario = new Usuario
                 {
-                    Username = Encriptador.Cifrar(username),
+                    Username = username,
                     PasswordHash = Encriptador.Hash(password),
                     Estado = EstadoUsuario.Activo,
                     FechaAlta = DateTime.Now,
@@ -43,7 +43,7 @@ namespace Servicios
         {
             try
             {
-                Usuario usuario = _bll.ObtenerPorUsername(Encriptador.Cifrar(username));
+                Usuario usuario = _bll.ObtenerPorUsername(username);
                 if (usuario == null)
                 {
                     ContadorSesion.GetInstance().RegistrarIntento();
@@ -74,7 +74,6 @@ namespace Servicios
 
                 _bll.RegistrarLoginExitoso(usuario);
                 ContadorSesion.GetInstance().Resetear();
-                usuario.Username = Encriptador.Descifrar(usuario.Username);
                 SessionManager.GetInstance().Login(usuario);
                 _bitacora.Registrar(modulo, "Login", "Login exitoso.", true);
             }
