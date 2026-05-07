@@ -36,11 +36,11 @@ namespace GUI
         private void SuscribirFiltros()
         {
             txtBuscar.TextChanged += Filtro_Changed;
-            txtUsername.TextChanged += Filtro_Changed;
-            cboCriticidad.TextChanged += Filtro_Changed;
-            cboActividad.TextChanged += Filtro_Changed;
+            chkUsername.CheckedChanged += Filtro_Changed;
             chkDetalle.CheckedChanged += Filtro_Changed;
             chkError.CheckedChanged += Filtro_Changed;
+            cboCriticidad.TextChanged += Filtro_Changed;
+            cboActividad.TextChanged += Filtro_Changed;
             chkExitoso.CheckStateChanged += Filtro_Changed;
             dtpDesde.ValueChanged += Filtro_Changed;
             dtpHasta.ValueChanged += Filtro_Changed;
@@ -49,11 +49,11 @@ namespace GUI
         private void DesuscribirFiltros()
         {
             txtBuscar.TextChanged -= Filtro_Changed;
-            txtUsername.TextChanged -= Filtro_Changed;
-            cboCriticidad.TextChanged -= Filtro_Changed;
-            cboActividad.TextChanged -= Filtro_Changed;
+            chkUsername.CheckedChanged -= Filtro_Changed;
             chkDetalle.CheckedChanged -= Filtro_Changed;
             chkError.CheckedChanged -= Filtro_Changed;
+            cboCriticidad.TextChanged -= Filtro_Changed;
+            cboActividad.TextChanged -= Filtro_Changed;
             chkExitoso.CheckStateChanged -= Filtro_Changed;
             dtpDesde.ValueChanged -= Filtro_Changed;
             dtpHasta.ValueChanged -= Filtro_Changed;
@@ -111,15 +111,13 @@ namespace GUI
 
             foreach (Bitacora bitacora in _listaCompleta)
             {
-                if (!string.IsNullOrEmpty(txtUsername.Text)
-                    && !bitacora.Username.ToLower().Contains(txtUsername.Text.ToLower()))
-                    continue;
-
                 if (!string.IsNullOrEmpty(txtBuscar.Text))
                 {
                     string busqueda = txtBuscar.Text.ToLower();
                     bool encontrado = false;
 
+                    if (chkUsername.Checked && bitacora.Username.ToLower().Contains(busqueda))
+                        encontrado = true;
                     if (chkDetalle.Checked && bitacora.Detalle.ToLower().Contains(busqueda))
                         encontrado = true;
                     if (chkError.Checked && bitacora.Error.ToLower().Contains(busqueda))
@@ -179,7 +177,7 @@ namespace GUI
         private void LimpiarFiltros()
         {
             txtBuscar.Text = "";
-            txtUsername.Text = "";
+            chkUsername.Checked = true;
             chkDetalle.Checked = true;
             chkError.Checked = false;
             if (cboCriticidad.Items.Count > 0) cboCriticidad.SelectedIndex = 0;

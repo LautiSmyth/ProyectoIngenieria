@@ -25,8 +25,7 @@ namespace GUI
             this.flpFila1 = new System.Windows.Forms.FlowLayoutPanel();
             this.lblBuscar = new System.Windows.Forms.Label();
             this.txtBuscar = new System.Windows.Forms.TextBox();
-            this.lblUsername = new System.Windows.Forms.Label();
-            this.txtUsername = new System.Windows.Forms.TextBox();
+            this.chkUsername = new System.Windows.Forms.CheckBox();
             this.chkDetalle = new System.Windows.Forms.CheckBox();
             this.chkError = new System.Windows.Forms.CheckBox();
             this.lblCriticidad = new System.Windows.Forms.Label();
@@ -56,8 +55,7 @@ namespace GUI
             //
             this.flpFila1.Controls.Add(this.lblBuscar);
             this.flpFila1.Controls.Add(this.txtBuscar);
-            this.flpFila1.Controls.Add(this.lblUsername);
-            this.flpFila1.Controls.Add(this.txtUsername);
+            this.flpFila1.Controls.Add(this.chkUsername);
             this.flpFila1.Controls.Add(this.chkDetalle);
             this.flpFila1.Controls.Add(this.chkError);
             this.flpFila1.Controls.Add(this.lblCriticidad);
@@ -83,23 +81,18 @@ namespace GUI
             //
             this.txtBuscar.Margin = new System.Windows.Forms.Padding(0, 2, 8, 0);
             this.txtBuscar.Name = "txtBuscar";
-            this.txtBuscar.Size = new System.Drawing.Size(120, 20);
+            this.txtBuscar.Size = new System.Drawing.Size(150, 20);
             this.txtBuscar.TabIndex = 1;
             //
-            // lblUsername
+            // chkUsername
             //
-            this.lblUsername.AutoSize = true;
-            this.lblUsername.Margin = new System.Windows.Forms.Padding(0, 5, 3, 0);
-            this.lblUsername.Name = "lblUsername";
-            this.lblUsername.TabIndex = 2;
-            this.lblUsername.Text = "Username:";
-            //
-            // txtUsername
-            //
-            this.txtUsername.Margin = new System.Windows.Forms.Padding(0, 2, 8, 0);
-            this.txtUsername.Name = "txtUsername";
-            this.txtUsername.Size = new System.Drawing.Size(110, 20);
-            this.txtUsername.TabIndex = 3;
+            this.chkUsername.AutoSize = true;
+            this.chkUsername.Checked = true;
+            this.chkUsername.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkUsername.Margin = new System.Windows.Forms.Padding(0, 4, 4, 0);
+            this.chkUsername.Name = "chkUsername";
+            this.chkUsername.TabIndex = 2;
+            this.chkUsername.Text = "Username";
             //
             // chkDetalle
             //
@@ -108,7 +101,7 @@ namespace GUI
             this.chkDetalle.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkDetalle.Margin = new System.Windows.Forms.Padding(0, 4, 4, 0);
             this.chkDetalle.Name = "chkDetalle";
-            this.chkDetalle.TabIndex = 4;
+            this.chkDetalle.TabIndex = 3;
             this.chkDetalle.Text = "Detalle";
             //
             // chkError
@@ -116,7 +109,7 @@ namespace GUI
             this.chkError.AutoSize = true;
             this.chkError.Margin = new System.Windows.Forms.Padding(0, 4, 12, 0);
             this.chkError.Name = "chkError";
-            this.chkError.TabIndex = 5;
+            this.chkError.TabIndex = 4;
             this.chkError.Text = "Error";
             //
             // lblCriticidad
@@ -124,7 +117,7 @@ namespace GUI
             this.lblCriticidad.AutoSize = true;
             this.lblCriticidad.Margin = new System.Windows.Forms.Padding(0, 5, 3, 0);
             this.lblCriticidad.Name = "lblCriticidad";
-            this.lblCriticidad.TabIndex = 6;
+            this.lblCriticidad.TabIndex = 5;
             this.lblCriticidad.Text = "Criticidad:";
             //
             // cboCriticidad
@@ -134,14 +127,14 @@ namespace GUI
             this.cboCriticidad.Margin = new System.Windows.Forms.Padding(0, 2, 12, 0);
             this.cboCriticidad.Name = "cboCriticidad";
             this.cboCriticidad.Size = new System.Drawing.Size(100, 21);
-            this.cboCriticidad.TabIndex = 7;
+            this.cboCriticidad.TabIndex = 6;
             //
             // lblActividad
             //
             this.lblActividad.AutoSize = true;
             this.lblActividad.Margin = new System.Windows.Forms.Padding(0, 5, 3, 0);
             this.lblActividad.Name = "lblActividad";
-            this.lblActividad.TabIndex = 8;
+            this.lblActividad.TabIndex = 7;
             this.lblActividad.Text = "Actividad:";
             //
             // cboActividad
@@ -151,7 +144,7 @@ namespace GUI
             this.cboActividad.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
             this.cboActividad.Name = "cboActividad";
             this.cboActividad.Size = new System.Drawing.Size(110, 21);
-            this.cboActividad.TabIndex = 9;
+            this.cboActividad.TabIndex = 8;
             //
             // flpFila2
             //
@@ -288,8 +281,7 @@ namespace GUI
         private System.Windows.Forms.FlowLayoutPanel flpFila2;
         private System.Windows.Forms.Label lblBuscar;
         private System.Windows.Forms.TextBox txtBuscar;
-        private System.Windows.Forms.Label lblUsername;
-        private System.Windows.Forms.TextBox txtUsername;
+        private System.Windows.Forms.CheckBox chkUsername;
         private System.Windows.Forms.CheckBox chkDetalle;
         private System.Windows.Forms.CheckBox chkError;
         private System.Windows.Forms.Label lblCriticidad;
