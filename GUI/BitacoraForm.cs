@@ -13,15 +13,19 @@ namespace GUI
         private readonly BitacoraServicios _bitacoraServicios = new BitacoraServicios();
         private readonly CriticidadServicio _criticidadServicio = new CriticidadServicio();
         private List<Bitacora> _listaCompleta = new List<Bitacora>();
+        private bool _columnasConfiguradas = false;
+
+        private readonly Timer _timerBusqueda = new Timer();
 
         public BitacoraForm()
         {
             InitializeComponent();
+            _timerBusqueda.Interval = 300;
+            _timerBusqueda.Tick += TimerBusqueda_Tick;
         }
 
         private void BitacoraForm_Load(object sender, EventArgs e)
         {
-            dgvBitacora.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             DesuscribirFiltros();
             CargarComboCriticidad();
             LimpiarFiltros();
@@ -31,16 +35,24 @@ namespace GUI
         private void BitacoraForm_Shown(object sender, EventArgs e)
         {
             CargarDesdeBD();
+            CargarComboActividad();
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            _timerBusqueda.Stop();
+            _timerBusqueda.Dispose();
+            base.OnFormClosed(e);
         }
 
         private void SuscribirFiltros()
         {
-            txtBuscar.TextChanged += Filtro_Changed;
+            txtBuscar.TextChanged += TxtBuscar_TextChanged;
             chkUsername.CheckedChanged += Filtro_Changed;
             chkDetalle.CheckedChanged += Filtro_Changed;
             chkError.CheckedChanged += Filtro_Changed;
-            cboCriticidad.TextChanged += Filtro_Changed;
-            cboActividad.TextChanged += Filtro_Changed;
+            cboCriticidad.SelectedIndexChanged += Filtro_Changed;
+            cboActividad.SelectedIndexChanged += Filtro_Changed;
             chkExitoso.CheckStateChanged += Filtro_Changed;
             dtpDesde.ValueChanged += Filtro_Changed;
             dtpHasta.ValueChanged += Filtro_Changed;
@@ -48,21 +60,33 @@ namespace GUI
 
         private void DesuscribirFiltros()
         {
-            txtBuscar.TextChanged -= Filtro_Changed;
+            txtBuscar.TextChanged -= TxtBuscar_TextChanged;
             chkUsername.CheckedChanged -= Filtro_Changed;
             chkDetalle.CheckedChanged -= Filtro_Changed;
             chkError.CheckedChanged -= Filtro_Changed;
-            cboCriticidad.TextChanged -= Filtro_Changed;
-            cboActividad.TextChanged -= Filtro_Changed;
+            cboCriticidad.SelectedIndexChanged -= Filtro_Changed;
+            cboActividad.SelectedIndexChanged -= Filtro_Changed;
             chkExitoso.CheckStateChanged -= Filtro_Changed;
             dtpDesde.ValueChanged -= Filtro_Changed;
             dtpHasta.ValueChanged -= Filtro_Changed;
         }
 
+        private void TxtBuscar_TextChanged(object sender, EventArgs e)
+        {
+            _timerBusqueda.Stop();
+            _timerBusqueda.Start();
+        }
+
+        private void TimerBusqueda_Tick(object sender, EventArgs e)
+        {
+            _timerBusqueda.Stop();
+            AplicarFiltros();
+        }
+
         private void CargarComboCriticidad()
         {
             cboCriticidad.Items.Clear();
-            cboCriticidad.Items.Add(new CriticidadItem(null, ""));
+            cboCriticidad.Items.Add(new CriticidadItem(null, "Todos"));
             foreach (CriticidadConfig config in _criticidadServicio.ObtenerTodos())
                 cboCriticidad.Items.Add(new CriticidadItem(config.Nivel, config.Nombre));
 
@@ -73,8 +97,10 @@ namespace GUI
         private void CargarComboActividad()
         {
             string seleccionActual = cboActividad.Text;
+
+            cboActividad.BeginUpdate();
             cboActividad.Items.Clear();
-            cboActividad.Items.Add("");
+            cboActividad.Items.Add("Todos");
 
             List<string> actividades = new List<string>();
             foreach (Bitacora b in _listaCompleta)
@@ -87,6 +113,7 @@ namespace GUI
             foreach (string actividad in actividades)
                 cboActividad.Items.Add(actividad);
 
+            cboActividad.EndUpdate();
             cboActividad.Text = seleccionActual;
         }
 
@@ -95,7 +122,6 @@ namespace GUI
             try
             {
                 _listaCompleta = _bitacoraServicios.ObtenerTodos();
-                CargarComboActividad();
                 AplicarFiltros();
             }
             catch (Exception ex)
@@ -107,39 +133,51 @@ namespace GUI
 
         private void AplicarFiltros()
         {
+            string busqueda = txtBuscar.Text.ToLower();
+            bool hayBusqueda = !string.IsNullOrEmpty(busqueda);
+            bool buscarUsername = chkUsername.Checked;
+            bool buscarDetalle = chkDetalle.Checked;
+            bool buscarError = chkError.Checked;
+            string actividadFiltro = cboActividad.Text;
+            CheckState estadoExitoso = chkExitoso.CheckState;
+            DateTime desde = dtpDesde.Value.Date;
+            DateTime hasta = dtpHasta.Value.Date;
+
+            NivelCriticidad? criticidadFiltro = null;
+            if (cboCriticidad.SelectedItem is CriticidadItem item && item.Nivel.HasValue)
+                criticidadFiltro = item.Nivel.Value;
+
             List<Bitacora> resultado = new List<Bitacora>();
 
             foreach (Bitacora bitacora in _listaCompleta)
             {
-                if (!string.IsNullOrEmpty(txtBuscar.Text))
+                if (hayBusqueda)
                 {
-                    string busqueda = txtBuscar.Text.ToLower();
                     bool encontrado = false;
 
-                    if (chkUsername.Checked && bitacora.Username.ToLower().Contains(busqueda))
+                    if (buscarUsername && bitacora.Username.ToLower().Contains(busqueda))
                         encontrado = true;
-                    if (chkDetalle.Checked && bitacora.Detalle.ToLower().Contains(busqueda))
+                    if (buscarDetalle && bitacora.Detalle.ToLower().Contains(busqueda))
                         encontrado = true;
-                    if (chkError.Checked && bitacora.Error.ToLower().Contains(busqueda))
+                    if (buscarError && bitacora.Error.ToLower().Contains(busqueda))
                         encontrado = true;
 
                     if (!encontrado)
                         continue;
                 }
 
-                if (cboCriticidad.SelectedItem is CriticidadItem item && item.Nivel.HasValue
-                    && bitacora.Criticidad != item.Nivel.Value)
+                if (criticidadFiltro.HasValue && bitacora.Criticidad != criticidadFiltro.Value)
                     continue;
 
-                if (!string.IsNullOrEmpty(cboActividad.Text) && bitacora.Actividad != cboActividad.Text)
+                if (actividadFiltro != "Todos" && !string.IsNullOrEmpty(actividadFiltro) && bitacora.Actividad != actividadFiltro)
                     continue;
-                if (chkExitoso.CheckState == CheckState.Checked && !bitacora.Exitoso)
+                if (estadoExitoso == CheckState.Checked && !bitacora.Exitoso)
                     continue;
-                if (chkExitoso.CheckState == CheckState.Unchecked && bitacora.Exitoso)
+                if (estadoExitoso == CheckState.Unchecked && bitacora.Exitoso)
                     continue;
-                if (bitacora.Fecha.Date < dtpDesde.Value.Date)
+                if (bitacora.Fecha.Date < desde)
                     continue;
-                if (bitacora.Fecha.Date > dtpHasta.Value.Date)
+                if (bitacora.Fecha.Date > hasta)
                     continue;
 
                 resultado.Add(bitacora);
@@ -150,12 +188,19 @@ namespace GUI
 
         private void MostrarEnGrilla(List<Bitacora> lista)
         {
+            dgvBitacora.SuspendLayout();
+            dgvBitacora.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+
             dgvBitacora.DataSource = lista;
-            dgvBitacora.Columns["IdBitacora"].Visible = false;
-            dgvBitacora.Columns["IdUsuario"].Visible = false;
-            dgvBitacora.Columns["Detalle"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dgvBitacora.Columns["Error"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            lblContador.Text = $"Mostrando {lista.Count} de {_listaCompleta.Count} registros";
+
+            if (!_columnasConfiguradas && dgvBitacora.Columns.Count > 0)
+            {
+                dgvBitacora.Columns["IdBitacora"].Visible = false;
+                dgvBitacora.Columns["IdUsuario"].Visible = false;
+                dgvBitacora.Columns["Detalle"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                dgvBitacora.Columns["Error"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                _columnasConfiguradas = true;
+            }
 
             foreach (DataGridViewRow fila in dgvBitacora.Rows)
             {
@@ -172,6 +217,16 @@ namespace GUI
                 fila.DefaultCellStyle.BackColor = colorFondo;
                 fila.DefaultCellStyle.SelectionBackColor = ControlPaint.Dark(colorFondo, 0.1f);
             }
+
+            dgvBitacora.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            if (_columnasConfiguradas)
+            {
+                dgvBitacora.Columns["Detalle"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                dgvBitacora.Columns["Error"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            }
+
+            dgvBitacora.ResumeLayout();
+            lblContador.Text = $"Mostrando {lista.Count} de {_listaCompleta.Count} registros";
         }
 
         private void LimpiarFiltros()
@@ -181,11 +236,11 @@ namespace GUI
             chkDetalle.Checked = true;
             chkError.Checked = false;
             if (cboCriticidad.Items.Count > 0) cboCriticidad.SelectedIndex = 0;
-            cboActividad.Text = "";
+            cboActividad.Text = "Todos";
             chkExitoso.CheckState = CheckState.Indeterminate;
+            dtpHasta.MinDate = DateTime.Today.AddMonths(-1);
             dtpDesde.Value = DateTime.Today.AddMonths(-1);
             dtpHasta.Value = DateTime.Today;
-            dtpHasta.MinDate = DateTime.Today.AddMonths(-1);
         }
 
         private void Filtro_Changed(object sender, EventArgs e)
@@ -206,6 +261,7 @@ namespace GUI
 
         private void BtnLimpiar_Click(object sender, EventArgs e)
         {
+            _timerBusqueda.Stop();
             DesuscribirFiltros();
             LimpiarFiltros();
             SuscribirFiltros();

@@ -15,6 +15,7 @@ namespace GUI
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MenuForm));
+            this._timer = new System.Windows.Forms.Timer(this.components);
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.lblBaseDatos = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblSeparador2 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -149,6 +150,7 @@ namespace GUI
             this.PerformLayout();
         }
 
+        private System.Windows.Forms.Timer _timer;
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripStatusLabel lblBaseDatos;
         private System.Windows.Forms.ToolStripStatusLabel lblHora;

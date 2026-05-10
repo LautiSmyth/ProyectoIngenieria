@@ -8,7 +8,6 @@ namespace GUI
     {
         private readonly ConexionServicio _conexionServicio = new ConexionServicio();
         private readonly UsuarioServicio _usuarioServicio = new UsuarioServicio();
-        private readonly Timer _timer = new Timer();
 
         public MenuForm()
         {
@@ -74,7 +73,6 @@ namespace GUI
             {
                 _usuarioServicio.Logout(this.Text);
                 _timer.Stop();
-                _timer.Dispose();
                 Application.Restart();
             }
         }
