@@ -1,3 +1,7 @@
+using BE;
+using BLL;
+using System.Collections.Generic;
+
 namespace Servicios
 {
     public class CompositeServicio
