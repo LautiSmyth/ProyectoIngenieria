@@ -104,7 +104,7 @@ namespace GUI
 
         private void CargarPatentesDeFamilia()
         {
-            List<int> asignadas = _compositeServicio.ObtenerIdsPatentesDeF amilia(_familiaSeleccionada.IdFamilia);
+            List<int> asignadas = _compositeServicio.ObtenerIdsPatentesDeFamilia(_familiaSeleccionada.IdFamilia);
 
             chkListPatentes.BeginUpdate();
             chkListPatentes.Items.Clear();
@@ -115,7 +115,7 @@ namespace GUI
 
         private void CargarSubFamiliasDeFamilia()
         {
-            List<int> asignadas = _compositeServicio.ObtenerIdsFamiliasHijasDeF amilia(_familiaSeleccionada.IdFamilia);
+            List<int> asignadas = _compositeServicio.ObtenerIdsFamiliasHijasDeFamilia(_familiaSeleccionada.IdFamilia);
 
             chkListSubFamilias.BeginUpdate();
             chkListSubFamilias.Items.Clear();
@@ -133,7 +133,7 @@ namespace GUI
 
             try
             {
-                List<int> actuales = _compositeServicio.ObtenerIdsPatentesDeF amilia(_familiaSeleccionada.IdFamilia);
+                List<int> actuales = _compositeServicio.ObtenerIdsPatentesDeFamilia(_familiaSeleccionada.IdFamilia);
 
                 for (int i = 0; i < chkListPatentes.Items.Count; i++)
                 {
@@ -164,7 +164,7 @@ namespace GUI
 
             try
             {
-                List<int> actuales = _compositeServicio.ObtenerIdsFamiliasHijasDeF amilia(_familiaSeleccionada.IdFamilia);
+                List<int> actuales = _compositeServicio.ObtenerIdsFamiliasHijasDeFamilia(_familiaSeleccionada.IdFamilia);
 
                 for (int i = 0; i < chkListSubFamilias.Items.Count; i++)
                 {
