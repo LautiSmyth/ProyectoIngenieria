@@ -1,3 +1,5 @@
+using BLL;
+
 namespace Servicios
 {
     public class DVServicio

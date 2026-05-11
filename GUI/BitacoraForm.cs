@@ -124,7 +124,6 @@ namespace GUI
             {
                 _listaCompleta = _bitacoraServicios.ObtenerTodos();
 
-                // Si solo tiene VerBitacoraPropia, filtra unicamente sus propios registros
                 if (!_usuarioServicio.TienePermiso("VerBitacoraCompleta"))
                 {
                     string username = _usuarioServicio.ObtenerUsernameEnSesion();
@@ -295,6 +294,7 @@ namespace GUI
             Nombre = nombre;
         }
 
-        public override string ToString() { return Nombre; }
+        public override string ToString()
+        { return Nombre; }
     }
 }

@@ -1,3 +1,5 @@
+using DAL;
+
 namespace Servicios
 {
     public class ConexionServicio

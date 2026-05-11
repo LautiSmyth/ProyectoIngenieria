@@ -49,15 +49,11 @@ namespace GUI
             treeRoles.EndUpdate();
         }
 
-        // Verifica si una familia es hija de alguna otra usando la lista ya cargada en memoria.
-        // Evita hacer N consultas a la BD — una sola consulta alcanza para todas las familias.
         private bool EsHija(int idFamilia)
         {
             return _idsTodasLasHijas.Contains(idFamilia);
         }
 
-        // Crea un nodo del TreeView a partir de una Familia recorriendo sus hijos recursivamente.
-        // Usa polimorfismo: llama TienePermiso y ObtenerHijos sin is/as/GetType.
         private TreeNode CrearNodo(Familia familia)
         {
             TreeNode nodo = new TreeNode($"[Familia] {familia.Nombre}");
@@ -65,14 +61,12 @@ namespace GUI
 
             foreach (ComponenteAcceso hijo in familia.ObtenerHijos())
             {
-                // Patente — nodo hoja
                 if (hijo is Patente patente)
                 {
                     TreeNode nodoPatente = new TreeNode($"[Patente] {patente.Nombre}");
                     nodoPatente.Tag = patente;
                     nodo.Nodes.Add(nodoPatente);
                 }
-                // Sub-Familia — nodo contenedor recursivo
                 else if (hijo is Familia subFamilia)
                 {
                     nodo.Nodes.Add(CrearNodo(subFamilia));
@@ -222,16 +216,24 @@ namespace GUI
         {
             public int IdPatente { get; }
             public string Nombre { get; }
-            public PatenteItem(int id, string nombre) { IdPatente = id; Nombre = nombre; }
-            public override string ToString() { return Nombre; }
+
+            public PatenteItem(int id, string nombre)
+            { IdPatente = id; Nombre = nombre; }
+
+            public override string ToString()
+            { return Nombre; }
         }
 
         private class FamiliaItem
         {
             public int IdFamilia { get; }
             public string Nombre { get; }
-            public FamiliaItem(int id, string nombre) { IdFamilia = id; Nombre = nombre; }
-            public override string ToString() { return Nombre; }
+
+            public FamiliaItem(int id, string nombre)
+            { IdFamilia = id; Nombre = nombre; }
+
+            public override string ToString()
+            { return Nombre; }
         }
     }
 }

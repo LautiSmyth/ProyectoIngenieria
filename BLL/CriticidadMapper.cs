@@ -1,3 +1,8 @@
+using BE;
+using BE.Enums;
+using System;
+using System.Collections.Generic;
+
 namespace BLL
 {
     public static class CriticidadMapper
@@ -47,12 +52,10 @@ namespace BLL
         public static NivelCriticidad Obtener(string actividad)
         {
             NivelCriticidad nivel;
-            bool encontrado = _diccionario.TryGetValue(actividad, out nivel);
-
-            if (encontrado)
+            if (_diccionario.TryGetValue(actividad, out nivel))
                 return nivel;
-            else
-                return NivelCriticidad.Informativo;
+
+            return NivelCriticidad.Informativo;
         }
 
         public static CriticidadConfig ObtenerConfig(NivelCriticidad criticidad)

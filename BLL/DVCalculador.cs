@@ -1,8 +1,10 @@
+using BE;
+using System.Collections.Generic;
+
 namespace BLL
 {
     public static class DVCalculador
     {
-
         public static int CalcularHorizontal(Usuario usuario)
         {
             string[] campos = new string[]
@@ -33,7 +35,7 @@ namespace BLL
             return suma % 10;
         }
 
-        public static int CalcularVertical(System.Collections.Generic.List<Usuario> usuarios)
+        public static int CalcularVertical(List<Usuario> usuarios)
         {
             int suma = 0;
             foreach (Usuario usuario in usuarios)

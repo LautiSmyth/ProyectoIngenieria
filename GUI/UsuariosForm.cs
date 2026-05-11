@@ -176,8 +176,12 @@ namespace GUI
         {
             public int IdFamilia { get; }
             public string Nombre { get; }
-            public FamiliaItem(int id, string nombre) { IdFamilia = id; Nombre = nombre; }
-            public override string ToString() { return Nombre; }
+
+            public FamiliaItem(int id, string nombre)
+            { IdFamilia = id; Nombre = nombre; }
+
+            public override string ToString()
+            { return Nombre; }
         }
     }
 }

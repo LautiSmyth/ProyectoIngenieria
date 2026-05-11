@@ -16,11 +16,8 @@ namespace BE
         public int DV { get; set; }
         public DateTime? FechaBloqueo { get; set; }
 
-        // Accesos cargados en memoria al hacer login — no se persisten en esta lista
         public List<ComponenteAcceso> Accesos { get; set; } = new List<ComponenteAcceso>();
 
-        // Verifica si el usuario tiene un permiso recorriendo sus accesos
-        // usando polimorfismo puro — sin is, as ni GetType()
         public bool TienePermiso(string nombre)
         {
             foreach (ComponenteAcceso acceso in Accesos)

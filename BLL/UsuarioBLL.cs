@@ -1,3 +1,9 @@
+using BE;
+using BE.Enums;
+using DAL;
+using System;
+using System.Collections.Generic;
+
 namespace BLL
 {
     public class UsuarioBLL

@@ -19,7 +19,6 @@ namespace GUI
             lblUsuario.Text = $"Usuario: {_usuarioServicio.ObtenerUsernameEnSesion()}";
             lblBaseDatos.Text = $"Base de datos: {_conexionServicio.ObtenerNombreBaseDatos()}";
 
-            // Mostrar botones segun permisos del usuario en sesion
             btnBitacora.Visible = _usuarioServicio.TienePermiso("VerBitacoraCompleta")
                                || _usuarioServicio.TienePermiso("VerBitacoraPropia");
             btnUsuarios.Visible = _usuarioServicio.TienePermiso("GestionarUsuarios");

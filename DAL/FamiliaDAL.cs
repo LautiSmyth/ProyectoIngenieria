@@ -139,8 +139,6 @@ namespace DAL
             return ids;
         }
 
-        // Devuelve todos los IDs de familias que son hijas de alguna otra.
-        // Se usa para determinar las familias raiz sin hacer N consultas.
         public List<int> ObtenerIdsTodasLasFamiliasHijas()
         {
             List<int> ids = new List<int>();

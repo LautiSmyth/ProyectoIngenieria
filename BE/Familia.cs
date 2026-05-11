@@ -2,9 +2,6 @@ using System.Collections.Generic;
 
 namespace BE
 {
-    // Contenedor del Composite — puede contener Patentes y otras Familias.
-    // TienePermiso recorre sus hijos recursivamente usando polimorfismo puro.
-    // Nunca usa 'is', 'as' ni GetType() — el comportamiento lo define cada hijo.
     public class Familia : ComponenteAcceso
     {
         public int IdFamilia { get; set; }
@@ -17,10 +14,10 @@ namespace BE
 
         public Familia(int idFamilia, string nombre, string descripcion)
         {
-            IdFamilia = idFamilia;
-            _nombre = nombre;
+            IdFamilia    = idFamilia;
+            _nombre      = nombre;
             _descripcion = descripcion;
-            _hijos = new List<ComponenteAcceso>();
+            _hijos       = new List<ComponenteAcceso>();
         }
 
         public void Agregar(ComponenteAcceso componente)

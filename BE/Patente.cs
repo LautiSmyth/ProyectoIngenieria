@@ -1,8 +1,5 @@
 namespace BE
 {
-    // Hoja del Composite — permiso individual.
-    // TienePermiso devuelve true solo si el nombre coincide exactamente.
-    // No tiene hijos ni delega: es la unidad minima de permiso.
     public class Patente : ComponenteAcceso
     {
         public int IdPatente { get; set; }
@@ -14,8 +11,8 @@ namespace BE
 
         public Patente(int idPatente, string nombre, string descripcion)
         {
-            IdPatente = idPatente;
-            _nombre = nombre;
+            IdPatente    = idPatente;
+            _nombre      = nombre;
             _descripcion = descripcion;
         }
 

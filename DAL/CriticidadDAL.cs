@@ -1,3 +1,9 @@
+using BE;
+using BE.Enums;
+using System;
+using System.Collections.Generic;
+using System.Data;
+
 namespace DAL
 {
     public class CriticidadDAL

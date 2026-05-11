@@ -1,3 +1,10 @@
+using BE;
+using BE.Enums;
+using BLL;
+using Seguridad;
+using System;
+using System.Collections.Generic;
+
 namespace Servicios
 {
     public class UsuarioServicio
