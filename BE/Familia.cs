@@ -14,10 +14,10 @@ namespace BE
 
         public Familia(int idFamilia, string nombre, string descripcion)
         {
-            IdFamilia    = idFamilia;
-            _nombre      = nombre;
+            IdFamilia = idFamilia;
+            _nombre = nombre;
             _descripcion = descripcion;
-            _hijos       = new List<ComponenteAcceso>();
+            _hijos = new List<ComponenteAcceso>();
         }
 
         public void Agregar(ComponenteAcceso componente)

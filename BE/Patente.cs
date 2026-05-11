@@ -11,8 +11,8 @@ namespace BE
 
         public Patente(int idPatente, string nombre, string descripcion)
         {
-            IdPatente    = idPatente;
-            _nombre      = nombre;
+            IdPatente = idPatente;
+            _nombre = nombre;
             _descripcion = descripcion;
         }
 
