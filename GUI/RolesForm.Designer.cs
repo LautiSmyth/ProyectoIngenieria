@@ -13,43 +13,69 @@ namespace GUI
 
         private void InitializeComponent()
         {
-            this.splitContainer        = new System.Windows.Forms.SplitContainer();
-            this.treeRoles             = new System.Windows.Forms.TreeView();
-            this.splitDerecho          = new System.Windows.Forms.SplitContainer();
-            this.grpPatentes           = new System.Windows.Forms.GroupBox();
-            this.chkListPatentes       = new System.Windows.Forms.CheckedListBox();
-            this.btnGuardarPatentes    = new System.Windows.Forms.Button();
-            this.grpSubFamilias        = new System.Windows.Forms.GroupBox();
-            this.chkListSubFamilias    = new System.Windows.Forms.CheckedListBox();
-            this.btnGuardarSubFamilias = new System.Windows.Forms.Button();
-            this.grpAltaPatente        = new System.Windows.Forms.GroupBox();
-            this.lblNombrePatente      = new System.Windows.Forms.Label();
-            this.txtNombrePatente      = new System.Windows.Forms.TextBox();
-            this.lblDescripcionPatente = new System.Windows.Forms.Label();
-            this.txtDescripcionPatente = new System.Windows.Forms.TextBox();
-            this.lblPatentesDisp       = new System.Windows.Forms.Label();
-            this.cboPatentesDisponibles = new System.Windows.Forms.ComboBox();
-            this.btnAltaPatente        = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
-            this.splitContainer.Panel1.SuspendLayout();
-            this.splitContainer.Panel2.SuspendLayout();
-            this.splitContainer.SuspendLayout();
+            this.splitMain              = new System.Windows.Forms.SplitContainer();
+            this.grpArbol               = new System.Windows.Forms.GroupBox();
+            this.treeRoles              = new System.Windows.Forms.TreeView();
+            this.splitDerecho           = new System.Windows.Forms.SplitContainer();
+            this.grpConfigurador        = new System.Windows.Forms.GroupBox();
+            this.lblFamiliaSeleccionada = new System.Windows.Forms.Label();
+            this.flpConfigurador        = new System.Windows.Forms.TableLayoutPanel();
+            this.grpDisponibles         = new System.Windows.Forms.GroupBox();
+            this.lstDisponibles         = new System.Windows.Forms.ListBox();
+            this.pnlBotones             = new System.Windows.Forms.Panel();
+            this.btnAgregar             = new System.Windows.Forms.Button();
+            this.btnQuitar              = new System.Windows.Forms.Button();
+            this.grpMiembros            = new System.Windows.Forms.GroupBox();
+            this.lstMiembros            = new System.Windows.Forms.ListBox();
+            this.grpAlta                = new System.Windows.Forms.GroupBox();
+            this.grpNuevaFamilia        = new System.Windows.Forms.GroupBox();
+            this.lblNombreFamilia       = new System.Windows.Forms.Label();
+            this.txtNombreFamilia       = new System.Windows.Forms.TextBox();
+            this.lblDescripcionFamilia  = new System.Windows.Forms.Label();
+            this.txtDescripcionFamilia  = new System.Windows.Forms.TextBox();
+            this.btnNuevaFamilia        = new System.Windows.Forms.Button();
+            this.grpNuevaPatente        = new System.Windows.Forms.GroupBox();
+            this.lblNombrePatente       = new System.Windows.Forms.Label();
+            this.txtNombrePatente       = new System.Windows.Forms.TextBox();
+            this.lblDescripcionPatente  = new System.Windows.Forms.Label();
+            this.txtDescripcionPatente  = new System.Windows.Forms.TextBox();
+            this.btnNuevaPatente        = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.splitMain)).BeginInit();
+            this.splitMain.Panel1.SuspendLayout();
+            this.splitMain.Panel2.SuspendLayout();
+            this.splitMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitDerecho)).BeginInit();
             this.splitDerecho.Panel1.SuspendLayout();
             this.splitDerecho.Panel2.SuspendLayout();
             this.splitDerecho.SuspendLayout();
-            this.grpPatentes.SuspendLayout();
-            this.grpSubFamilias.SuspendLayout();
-            this.grpAltaPatente.SuspendLayout();
+            this.grpArbol.SuspendLayout();
+            this.grpConfigurador.SuspendLayout();
+            this.flpConfigurador.SuspendLayout();
+            this.grpDisponibles.SuspendLayout();
+            this.pnlBotones.SuspendLayout();
+            this.grpMiembros.SuspendLayout();
+            this.grpAlta.SuspendLayout();
+            this.grpNuevaFamilia.SuspendLayout();
+            this.grpNuevaPatente.SuspendLayout();
             this.SuspendLayout();
             //
-            // splitContainer — divide TreeView | panel derecho
+            // splitMain — TreeView | derecho, proporcion 30/70
             //
-            this.splitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer.Name = "splitContainer";
-            this.splitContainer.SplitterDistance = 280;
-            this.splitContainer.Panel1.Controls.Add(this.treeRoles);
-            this.splitContainer.Panel2.Controls.Add(this.splitDerecho);
+            this.splitMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitMain.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitMain.Name = "splitMain";
+            this.splitMain.Panel1MinSize = 220;
+            this.splitMain.Panel2MinSize = 400;
+            this.splitMain.Panel1.Controls.Add(this.grpArbol);
+            this.splitMain.Panel2.Controls.Add(this.splitDerecho);
+            //
+            // grpArbol
+            //
+            this.grpArbol.Controls.Add(this.treeRoles);
+            this.grpArbol.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grpArbol.Name = "grpArbol";
+            this.grpArbol.Padding = new System.Windows.Forms.Padding(6);
+            this.grpArbol.Text = "Estructura de Roles";
             //
             // treeRoles
             //
@@ -58,199 +84,276 @@ namespace GUI
             this.treeRoles.TabIndex = 0;
             this.treeRoles.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeRoles_AfterSelect);
             //
-            // splitDerecho — divide (Patentes + SubFamilias) | Alta Patente
+            // splitDerecho — Configurador | Alta, proporcion 65/35
             //
             this.splitDerecho.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitDerecho.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
             this.splitDerecho.Name = "splitDerecho";
-            this.splitDerecho.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            this.splitDerecho.SplitterDistance = 380;
-            this.splitDerecho.Panel1.Controls.Add(this.grpSubFamilias);
-            this.splitDerecho.Panel1.Controls.Add(this.grpPatentes);
-            this.splitDerecho.Panel2.Controls.Add(this.grpAltaPatente);
+            this.splitDerecho.Panel1MinSize = 350;
+            this.splitDerecho.Panel2MinSize = 240;
+            this.splitDerecho.Panel1.Controls.Add(this.grpConfigurador);
+            this.splitDerecho.Panel2.Controls.Add(this.grpAlta);
             //
-            // grpPatentes
+            // grpConfigurador
             //
-            this.grpPatentes.Controls.Add(this.chkListPatentes);
-            this.grpPatentes.Controls.Add(this.btnGuardarPatentes);
-            this.grpPatentes.Dock = System.Windows.Forms.DockStyle.Left;
-            this.grpPatentes.Enabled = false;
-            this.grpPatentes.Name = "grpPatentes";
-            this.grpPatentes.Padding = new System.Windows.Forms.Padding(8);
-            this.grpPatentes.Size = new System.Drawing.Size(360, 380);
-            this.grpPatentes.TabIndex = 0;
-            this.grpPatentes.Text = "Patentes de la familia seleccionada";
+            this.grpConfigurador.Controls.Add(this.lblFamiliaSeleccionada);
+            this.grpConfigurador.Controls.Add(this.flpConfigurador);
+            this.grpConfigurador.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grpConfigurador.Name = "grpConfigurador";
+            this.grpConfigurador.Padding = new System.Windows.Forms.Padding(6);
+            this.grpConfigurador.Text = "Configurador de Relaciones";
             //
-            // chkListPatentes
+            // lblFamiliaSeleccionada
             //
-            this.chkListPatentes.Anchor = ((System.Windows.Forms.AnchorStyles)(
-                System.Windows.Forms.AnchorStyles.Top |
-                System.Windows.Forms.AnchorStyles.Bottom |
-                System.Windows.Forms.AnchorStyles.Left |
-                System.Windows.Forms.AnchorStyles.Right));
-            this.chkListPatentes.CheckOnClick = true;
-            this.chkListPatentes.Location = new System.Drawing.Point(11, 22);
-            this.chkListPatentes.Name = "chkListPatentes";
-            this.chkListPatentes.Size = new System.Drawing.Size(330, 320);
-            this.chkListPatentes.TabIndex = 0;
+            this.lblFamiliaSeleccionada.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblFamiliaSeleccionada.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblFamiliaSeleccionada.Name = "lblFamiliaSeleccionada";
+            this.lblFamiliaSeleccionada.Padding = new System.Windows.Forms.Padding(4, 4, 0, 4);
+            this.lblFamiliaSeleccionada.Size = new System.Drawing.Size(100, 24);
+            this.lblFamiliaSeleccionada.Text = "Seleccione una familia del arbol";
             //
-            // btnGuardarPatentes
+            // flpConfigurador — tabla 3 columnas: Disponibles | Botones | Miembros
             //
-            this.btnGuardarPatentes.Anchor = ((System.Windows.Forms.AnchorStyles)(
-                System.Windows.Forms.AnchorStyles.Bottom |
-                System.Windows.Forms.AnchorStyles.Left));
-            this.btnGuardarPatentes.Location = new System.Drawing.Point(11, 348);
-            this.btnGuardarPatentes.Name = "btnGuardarPatentes";
-            this.btnGuardarPatentes.Size = new System.Drawing.Size(140, 26);
-            this.btnGuardarPatentes.TabIndex = 1;
-            this.btnGuardarPatentes.Text = "Guardar patentes";
-            this.btnGuardarPatentes.Click += new System.EventHandler(this.BtnGuardarPatentes_Click);
+            this.flpConfigurador.ColumnCount = 3;
+            this.flpConfigurador.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 45F));
+            this.flpConfigurador.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.flpConfigurador.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 55F));
+            this.flpConfigurador.Controls.Add(this.grpDisponibles, 0, 0);
+            this.flpConfigurador.Controls.Add(this.pnlBotones, 1, 0);
+            this.flpConfigurador.Controls.Add(this.grpMiembros, 2, 0);
+            this.flpConfigurador.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flpConfigurador.Enabled = false;
+            this.flpConfigurador.Name = "flpConfigurador";
+            this.flpConfigurador.RowCount = 1;
+            this.flpConfigurador.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             //
-            // grpSubFamilias
+            // grpDisponibles
             //
-            this.grpSubFamilias.Controls.Add(this.chkListSubFamilias);
-            this.grpSubFamilias.Controls.Add(this.btnGuardarSubFamilias);
-            this.grpSubFamilias.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grpSubFamilias.Enabled = false;
-            this.grpSubFamilias.Name = "grpSubFamilias";
-            this.grpSubFamilias.Padding = new System.Windows.Forms.Padding(8);
-            this.grpSubFamilias.TabIndex = 1;
-            this.grpSubFamilias.Text = "Sub-Familias de la familia seleccionada";
+            this.grpDisponibles.Controls.Add(this.lstDisponibles);
+            this.grpDisponibles.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grpDisponibles.Name = "grpDisponibles";
+            this.grpDisponibles.Padding = new System.Windows.Forms.Padding(4);
+            this.grpDisponibles.Text = "Disponibles";
             //
-            // chkListSubFamilias
+            // lstDisponibles
             //
-            this.chkListSubFamilias.Anchor = ((System.Windows.Forms.AnchorStyles)(
-                System.Windows.Forms.AnchorStyles.Top |
-                System.Windows.Forms.AnchorStyles.Bottom |
-                System.Windows.Forms.AnchorStyles.Left |
-                System.Windows.Forms.AnchorStyles.Right));
-            this.chkListSubFamilias.CheckOnClick = true;
-            this.chkListSubFamilias.Location = new System.Drawing.Point(11, 22);
-            this.chkListSubFamilias.Name = "chkListSubFamilias";
-            this.chkListSubFamilias.Size = new System.Drawing.Size(330, 320);
-            this.chkListSubFamilias.TabIndex = 0;
+            this.lstDisponibles.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lstDisponibles.Name = "lstDisponibles";
+            this.lstDisponibles.TabIndex = 0;
             //
-            // btnGuardarSubFamilias
+            // pnlBotones
             //
-            this.btnGuardarSubFamilias.Anchor = ((System.Windows.Forms.AnchorStyles)(
-                System.Windows.Forms.AnchorStyles.Bottom |
-                System.Windows.Forms.AnchorStyles.Left));
-            this.btnGuardarSubFamilias.Location = new System.Drawing.Point(11, 348);
-            this.btnGuardarSubFamilias.Name = "btnGuardarSubFamilias";
-            this.btnGuardarSubFamilias.Size = new System.Drawing.Size(160, 26);
-            this.btnGuardarSubFamilias.TabIndex = 1;
-            this.btnGuardarSubFamilias.Text = "Guardar sub-familias";
-            this.btnGuardarSubFamilias.Click += new System.EventHandler(this.BtnGuardarSubFamilias_Click);
+            this.pnlBotones.Controls.Add(this.btnAgregar);
+            this.pnlBotones.Controls.Add(this.btnQuitar);
+            this.pnlBotones.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlBotones.Name = "pnlBotones";
             //
-            // grpAltaPatente
+            // btnAgregar
             //
-            this.grpAltaPatente.Controls.Add(this.lblNombrePatente);
-            this.grpAltaPatente.Controls.Add(this.txtNombrePatente);
-            this.grpAltaPatente.Controls.Add(this.lblDescripcionPatente);
-            this.grpAltaPatente.Controls.Add(this.txtDescripcionPatente);
-            this.grpAltaPatente.Controls.Add(this.lblPatentesDisp);
-            this.grpAltaPatente.Controls.Add(this.cboPatentesDisponibles);
-            this.grpAltaPatente.Controls.Add(this.btnAltaPatente);
-            this.grpAltaPatente.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grpAltaPatente.Name = "grpAltaPatente";
-            this.grpAltaPatente.Padding = new System.Windows.Forms.Padding(8);
-            this.grpAltaPatente.TabIndex = 0;
-            this.grpAltaPatente.Text = "Nueva Patente";
+            this.btnAgregar.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnAgregar.Location = new System.Drawing.Point(4, 180);
+            this.btnAgregar.Name = "btnAgregar";
+            this.btnAgregar.Size = new System.Drawing.Size(90, 30);
+            this.btnAgregar.TabIndex = 0;
+            this.btnAgregar.Text = "Agregar >>";
+            this.btnAgregar.Click += new System.EventHandler(this.BtnAgregar_Click);
+            //
+            // btnQuitar
+            //
+            this.btnQuitar.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnQuitar.Location = new System.Drawing.Point(4, 220);
+            this.btnQuitar.Name = "btnQuitar";
+            this.btnQuitar.Size = new System.Drawing.Size(90, 30);
+            this.btnQuitar.TabIndex = 1;
+            this.btnQuitar.Text = "<< Quitar";
+            this.btnQuitar.Click += new System.EventHandler(this.BtnQuitar_Click);
+            //
+            // grpMiembros
+            //
+            this.grpMiembros.Controls.Add(this.lstMiembros);
+            this.grpMiembros.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grpMiembros.Name = "grpMiembros";
+            this.grpMiembros.Padding = new System.Windows.Forms.Padding(4);
+            this.grpMiembros.Text = "Miembros actuales";
+            //
+            // lstMiembros
+            //
+            this.lstMiembros.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lstMiembros.Name = "lstMiembros";
+            this.lstMiembros.TabIndex = 0;
+            //
+            // grpAlta
+            //
+            this.grpAlta.Controls.Add(this.grpNuevaPatente);
+            this.grpAlta.Controls.Add(this.grpNuevaFamilia);
+            this.grpAlta.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grpAlta.Name = "grpAlta";
+            this.grpAlta.Padding = new System.Windows.Forms.Padding(6);
+            this.grpAlta.Text = "Nuevo elemento";
+            //
+            // grpNuevaFamilia
+            //
+            this.grpNuevaFamilia.Controls.Add(this.lblNombreFamilia);
+            this.grpNuevaFamilia.Controls.Add(this.txtNombreFamilia);
+            this.grpNuevaFamilia.Controls.Add(this.lblDescripcionFamilia);
+            this.grpNuevaFamilia.Controls.Add(this.txtDescripcionFamilia);
+            this.grpNuevaFamilia.Controls.Add(this.btnNuevaFamilia);
+            this.grpNuevaFamilia.Dock = System.Windows.Forms.DockStyle.Top;
+            this.grpNuevaFamilia.Name = "grpNuevaFamilia";
+            this.grpNuevaFamilia.Padding = new System.Windows.Forms.Padding(8);
+            this.grpNuevaFamilia.Size = new System.Drawing.Size(240, 140);
+            this.grpNuevaFamilia.Text = "Nueva Familia";
+            //
+            // lblNombreFamilia
+            //
+            this.lblNombreFamilia.AutoSize = true;
+            this.lblNombreFamilia.Location = new System.Drawing.Point(8, 28);
+            this.lblNombreFamilia.Name = "lblNombreFamilia";
+            this.lblNombreFamilia.Text = "Nombre:";
+            //
+            // txtNombreFamilia
+            //
+            this.txtNombreFamilia.Location = new System.Drawing.Point(78, 25);
+            this.txtNombreFamilia.MaxLength = 100;
+            this.txtNombreFamilia.Name = "txtNombreFamilia";
+            this.txtNombreFamilia.Size = new System.Drawing.Size(148, 20);
+            this.txtNombreFamilia.TabIndex = 0;
+            //
+            // lblDescripcionFamilia
+            //
+            this.lblDescripcionFamilia.AutoSize = true;
+            this.lblDescripcionFamilia.Location = new System.Drawing.Point(8, 58);
+            this.lblDescripcionFamilia.Name = "lblDescripcionFamilia";
+            this.lblDescripcionFamilia.Text = "Descripcion:";
+            //
+            // txtDescripcionFamilia
+            //
+            this.txtDescripcionFamilia.Location = new System.Drawing.Point(78, 55);
+            this.txtDescripcionFamilia.MaxLength = 200;
+            this.txtDescripcionFamilia.Name = "txtDescripcionFamilia";
+            this.txtDescripcionFamilia.Size = new System.Drawing.Size(148, 20);
+            this.txtDescripcionFamilia.TabIndex = 1;
+            //
+            // btnNuevaFamilia
+            //
+            this.btnNuevaFamilia.Location = new System.Drawing.Point(8, 88);
+            this.btnNuevaFamilia.Name = "btnNuevaFamilia";
+            this.btnNuevaFamilia.Size = new System.Drawing.Size(110, 28);
+            this.btnNuevaFamilia.TabIndex = 2;
+            this.btnNuevaFamilia.Text = "Crear Familia";
+            this.btnNuevaFamilia.Click += new System.EventHandler(this.BtnNuevaFamilia_Click);
+            //
+            // grpNuevaPatente
+            //
+            this.grpNuevaPatente.Controls.Add(this.lblNombrePatente);
+            this.grpNuevaPatente.Controls.Add(this.txtNombrePatente);
+            this.grpNuevaPatente.Controls.Add(this.lblDescripcionPatente);
+            this.grpNuevaPatente.Controls.Add(this.txtDescripcionPatente);
+            this.grpNuevaPatente.Controls.Add(this.btnNuevaPatente);
+            this.grpNuevaPatente.Dock = System.Windows.Forms.DockStyle.Top;
+            this.grpNuevaPatente.Location = new System.Drawing.Point(6, 156);
+            this.grpNuevaPatente.Name = "grpNuevaPatente";
+            this.grpNuevaPatente.Padding = new System.Windows.Forms.Padding(8);
+            this.grpNuevaPatente.Size = new System.Drawing.Size(240, 140);
+            this.grpNuevaPatente.Text = "Nueva Patente";
             //
             // lblNombrePatente
             //
             this.lblNombrePatente.AutoSize = true;
-            this.lblNombrePatente.Location = new System.Drawing.Point(11, 26);
+            this.lblNombrePatente.Location = new System.Drawing.Point(8, 28);
             this.lblNombrePatente.Name = "lblNombrePatente";
             this.lblNombrePatente.Text = "Nombre:";
             //
             // txtNombrePatente
             //
-            this.txtNombrePatente.Location = new System.Drawing.Point(90, 23);
+            this.txtNombrePatente.Location = new System.Drawing.Point(78, 25);
             this.txtNombrePatente.MaxLength = 100;
             this.txtNombrePatente.Name = "txtNombrePatente";
-            this.txtNombrePatente.Size = new System.Drawing.Size(250, 20);
+            this.txtNombrePatente.Size = new System.Drawing.Size(148, 20);
             this.txtNombrePatente.TabIndex = 0;
             //
             // lblDescripcionPatente
             //
             this.lblDescripcionPatente.AutoSize = true;
-            this.lblDescripcionPatente.Location = new System.Drawing.Point(11, 55);
+            this.lblDescripcionPatente.Location = new System.Drawing.Point(8, 58);
             this.lblDescripcionPatente.Name = "lblDescripcionPatente";
             this.lblDescripcionPatente.Text = "Descripcion:";
             //
             // txtDescripcionPatente
             //
-            this.txtDescripcionPatente.Location = new System.Drawing.Point(90, 52);
+            this.txtDescripcionPatente.Location = new System.Drawing.Point(78, 55);
             this.txtDescripcionPatente.MaxLength = 200;
             this.txtDescripcionPatente.Name = "txtDescripcionPatente";
-            this.txtDescripcionPatente.Size = new System.Drawing.Size(250, 20);
+            this.txtDescripcionPatente.Size = new System.Drawing.Size(148, 20);
             this.txtDescripcionPatente.TabIndex = 1;
             //
-            // lblPatentesDisp
+            // btnNuevaPatente
             //
-            this.lblPatentesDisp.AutoSize = true;
-            this.lblPatentesDisp.Location = new System.Drawing.Point(11, 85);
-            this.lblPatentesDisp.Name = "lblPatentesDisp";
-            this.lblPatentesDisp.Text = "Patentes existentes:";
-            //
-            // cboPatentesDisponibles
-            //
-            this.cboPatentesDisponibles.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboPatentesDisponibles.Location = new System.Drawing.Point(130, 82);
-            this.cboPatentesDisponibles.Name = "cboPatentesDisponibles";
-            this.cboPatentesDisponibles.Size = new System.Drawing.Size(210, 21);
-            this.cboPatentesDisponibles.TabIndex = 2;
-            //
-            // btnAltaPatente
-            //
-            this.btnAltaPatente.Location = new System.Drawing.Point(11, 114);
-            this.btnAltaPatente.Name = "btnAltaPatente";
-            this.btnAltaPatente.Size = new System.Drawing.Size(130, 28);
-            this.btnAltaPatente.TabIndex = 3;
-            this.btnAltaPatente.Text = "Crear Patente";
-            this.btnAltaPatente.Click += new System.EventHandler(this.BtnAltaPatente_Click);
+            this.btnNuevaPatente.Location = new System.Drawing.Point(8, 88);
+            this.btnNuevaPatente.Name = "btnNuevaPatente";
+            this.btnNuevaPatente.Size = new System.Drawing.Size(110, 28);
+            this.btnNuevaPatente.TabIndex = 2;
+            this.btnNuevaPatente.Text = "Crear Patente";
+            this.btnNuevaPatente.Click += new System.EventHandler(this.BtnNuevaPatente_Click);
             //
             // RolesForm
             //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1024, 600);
-            this.Controls.Add(this.splitContainer);
+            this.Controls.Add(this.splitMain);
             this.Name = "RolesForm";
             this.Text = "Gestion de Roles";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.RolesForm_Load);
-            this.splitContainer.Panel1.ResumeLayout(false);
-            this.splitContainer.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
-            this.splitContainer.ResumeLayout(false);
+            this.splitMain.Panel1.ResumeLayout(false);
+            this.splitMain.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitMain)).EndInit();
+            this.splitMain.ResumeLayout(false);
             this.splitDerecho.Panel1.ResumeLayout(false);
             this.splitDerecho.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitDerecho)).EndInit();
             this.splitDerecho.ResumeLayout(false);
-            this.grpPatentes.ResumeLayout(false);
-            this.grpSubFamilias.ResumeLayout(false);
-            this.grpAltaPatente.ResumeLayout(false);
-            this.grpAltaPatente.PerformLayout();
+            this.grpArbol.ResumeLayout(false);
+            this.grpConfigurador.ResumeLayout(false);
+            this.flpConfigurador.ResumeLayout(false);
+            this.grpDisponibles.ResumeLayout(false);
+            this.pnlBotones.ResumeLayout(false);
+            this.grpMiembros.ResumeLayout(false);
+            this.grpAlta.ResumeLayout(false);
+            this.grpNuevaFamilia.ResumeLayout(false);
+            this.grpNuevaFamilia.PerformLayout();
+            this.grpNuevaPatente.ResumeLayout(false);
+            this.grpNuevaPatente.PerformLayout();
             this.ResumeLayout(false);
         }
 
-        private System.Windows.Forms.SplitContainer     splitContainer;
-        private System.Windows.Forms.TreeView            treeRoles;
-        private System.Windows.Forms.SplitContainer     splitDerecho;
-        private System.Windows.Forms.GroupBox            grpPatentes;
-        private System.Windows.Forms.CheckedListBox      chkListPatentes;
-        private System.Windows.Forms.Button              btnGuardarPatentes;
-        private System.Windows.Forms.GroupBox            grpSubFamilias;
-        private System.Windows.Forms.CheckedListBox      chkListSubFamilias;
-        private System.Windows.Forms.Button              btnGuardarSubFamilias;
-        private System.Windows.Forms.GroupBox            grpAltaPatente;
-        private System.Windows.Forms.Label               lblNombrePatente;
-        private System.Windows.Forms.TextBox             txtNombrePatente;
-        private System.Windows.Forms.Label               lblDescripcionPatente;
-        private System.Windows.Forms.TextBox             txtDescripcionPatente;
-        private System.Windows.Forms.Label               lblPatentesDisp;
-        private System.Windows.Forms.ComboBox            cboPatentesDisponibles;
-        private System.Windows.Forms.Button              btnAltaPatente;
+        private System.Windows.Forms.SplitContainer    splitMain;
+        private System.Windows.Forms.SplitContainer    splitDerecho;
+        private System.Windows.Forms.GroupBox          grpArbol;
+        private System.Windows.Forms.TreeView          treeRoles;
+        private System.Windows.Forms.GroupBox          grpConfigurador;
+        private System.Windows.Forms.Label             lblFamiliaSeleccionada;
+        private System.Windows.Forms.TableLayoutPanel  flpConfigurador;
+        private System.Windows.Forms.GroupBox          grpDisponibles;
+        private System.Windows.Forms.ListBox           lstDisponibles;
+        private System.Windows.Forms.Panel             pnlBotones;
+        private System.Windows.Forms.Button            btnAgregar;
+        private System.Windows.Forms.Button            btnQuitar;
+        private System.Windows.Forms.GroupBox          grpMiembros;
+        private System.Windows.Forms.ListBox           lstMiembros;
+        private System.Windows.Forms.GroupBox          grpAlta;
+        private System.Windows.Forms.GroupBox          grpNuevaFamilia;
+        private System.Windows.Forms.Label             lblNombreFamilia;
+        private System.Windows.Forms.TextBox           txtNombreFamilia;
+        private System.Windows.Forms.Label             lblDescripcionFamilia;
+        private System.Windows.Forms.TextBox           txtDescripcionFamilia;
+        private System.Windows.Forms.Button            btnNuevaFamilia;
+        private System.Windows.Forms.GroupBox          grpNuevaPatente;
+        private System.Windows.Forms.Label             lblNombrePatente;
+        private System.Windows.Forms.TextBox           txtNombrePatente;
+        private System.Windows.Forms.Label             lblDescripcionPatente;
+        private System.Windows.Forms.TextBox           txtDescripcionPatente;
+        private System.Windows.Forms.Button            btnNuevaPatente;
     }
 }

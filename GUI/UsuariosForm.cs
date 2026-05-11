@@ -23,6 +23,7 @@ namespace GUI
 
         private void UsuariosForm_Load(object sender, EventArgs e)
         {
+            splitPrincipal.SplitterDistance = (int)(this.ClientSize.Height * 0.55);
             cboEstado.DataSource = Enum.GetValues(typeof(EstadoUsuario));
             CargarDatos();
         }
@@ -44,14 +45,31 @@ namespace GUI
                 _columnasConfiguradas = true;
             }
 
-            CargarFamiliasEnLista();
+            CargarComboFamilias();
         }
 
-        private void CargarFamiliasEnLista()
+        private void CargarComboFamilias()
         {
-            chkListFamilias.Items.Clear();
+            cboFamilias.BeginUpdate();
+            cboFamilias.Items.Clear();
             foreach (Familia f in _familias)
-                chkListFamilias.Items.Add(new FamiliaItem(f.IdFamilia, f.Nombre), false);
+                cboFamilias.Items.Add(new FamiliaItem(f.IdFamilia, f.Nombre));
+            if (cboFamilias.Items.Count > 0)
+                cboFamilias.SelectedIndex = 0;
+            cboFamilias.EndUpdate();
+        }
+
+        private void CargarRolesActuales()
+        {
+            lstRolesActuales.Items.Clear();
+            if (_usuarioSeleccionado == null) return;
+
+            List<int> asignadas = _compositeServicio.ObtenerIdsFamiliasPorUsuario(_usuarioSeleccionado.IdUsuario);
+            foreach (Familia f in _familias)
+            {
+                if (asignadas.Contains(f.IdFamilia))
+                    lstRolesActuales.Items.Add(new FamiliaItem(f.IdFamilia, f.Nombre));
+            }
         }
 
         private void DgvUsuarios_SelectionChanged(object sender, EventArgs e)
@@ -59,7 +77,7 @@ namespace GUI
             if (dgvUsuarios.SelectedRows.Count == 0)
             {
                 _usuarioSeleccionado = null;
-                LimpiarPanelDerecho();
+                lstRolesActuales.Items.Clear();
                 return;
             }
 
@@ -67,20 +85,7 @@ namespace GUI
             if (_usuarioSeleccionado == null) return;
 
             cboEstado.SelectedItem = _usuarioSeleccionado.Estado;
-
-            List<int> asignadas = _compositeServicio.ObtenerIdsFamiliasPorUsuario(_usuarioSeleccionado.IdUsuario);
-            for (int i = 0; i < chkListFamilias.Items.Count; i++)
-            {
-                FamiliaItem item = chkListFamilias.Items[i] as FamiliaItem;
-                if (item != null)
-                    chkListFamilias.SetItemChecked(i, asignadas.Contains(item.IdFamilia));
-            }
-        }
-
-        private void LimpiarPanelDerecho()
-        {
-            for (int i = 0; i < chkListFamilias.Items.Count; i++)
-                chkListFamilias.SetItemChecked(i, false);
+            CargarRolesActuales();
         }
 
         private void BtnCambiarEstado_Click(object sender, EventArgs e)
@@ -111,7 +116,7 @@ namespace GUI
             }
         }
 
-        private void BtnGuardarRoles_Click(object sender, EventArgs e)
+        private void BtnAsignarRol_Click(object sender, EventArgs e)
         {
             if (_usuarioSeleccionado == null)
             {
@@ -119,30 +124,37 @@ namespace GUI
                 return;
             }
 
+            if (cboFamilias.SelectedItem == null) return;
+
+            FamiliaItem item = cboFamilias.SelectedItem as FamiliaItem;
+            if (item == null) return;
+
             try
             {
-                List<int> actuales = _compositeServicio.ObtenerIdsFamiliasPorUsuario(_usuarioSeleccionado.IdUsuario);
-
-                for (int i = 0; i < chkListFamilias.Items.Count; i++)
-                {
-                    FamiliaItem item = chkListFamilias.Items[i] as FamiliaItem;
-                    if (item == null) continue;
-
-                    bool estaChecked = chkListFamilias.GetItemChecked(i);
-                    bool yaAsignada = actuales.Contains(item.IdFamilia);
-
-                    if (estaChecked && !yaAsignada)
-                        _compositeServicio.AsignarFamiliaAUsuario(_usuarioSeleccionado.IdUsuario, item.IdFamilia);
-                    else if (!estaChecked && yaAsignada)
-                        _compositeServicio.QuitarFamiliaDeUsuario(_usuarioSeleccionado.IdUsuario, item.IdFamilia);
-                }
-
-                MessageBox.Show("Roles actualizados correctamente.", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                CargarDatos();
+                _compositeServicio.AsignarFamiliaAUsuario(_usuarioSeleccionado.IdUsuario, item.IdFamilia);
+                CargarRolesActuales();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al guardar roles: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error al asignar rol: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void BtnQuitarRol_Click(object sender, EventArgs e)
+        {
+            if (_usuarioSeleccionado == null || lstRolesActuales.SelectedItem == null) return;
+
+            FamiliaItem item = lstRolesActuales.SelectedItem as FamiliaItem;
+            if (item == null) return;
+
+            try
+            {
+                _compositeServicio.QuitarFamiliaDeUsuario(_usuarioSeleccionado.IdUsuario, item.IdFamilia);
+                CargarRolesActuales();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al quitar rol: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

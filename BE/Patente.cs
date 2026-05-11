@@ -6,8 +6,10 @@ namespace BE
         private readonly string _nombre;
         private readonly string _descripcion;
 
-        public override string Nombre { get { return _nombre; } }
-        public override string Descripcion { get { return _descripcion; } }
+        public override string Nombre
+        { get { return _nombre; } }
+        public override string Descripcion
+        { get { return _descripcion; } }
 
         public Patente(int idPatente, string nombre, string descripcion)
         {

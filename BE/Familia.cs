@@ -9,8 +9,10 @@ namespace BE
         private readonly string _descripcion;
         private readonly List<ComponenteAcceso> _hijos;
 
-        public override string Nombre { get { return _nombre; } }
-        public override string Descripcion { get { return _descripcion; } }
+        public override string Nombre
+        { get { return _nombre; } }
+        public override string Descripcion
+        { get { return _descripcion; } }
 
         public Familia(int idFamilia, string nombre, string descripcion)
         {

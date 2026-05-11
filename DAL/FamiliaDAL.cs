@@ -153,6 +153,18 @@ namespace DAL
             return ids;
         }
 
+        public void Insertar(Familia familia)
+        {
+            const string consulta =
+                "INSERT INTO Familia (Nombre, Descripcion) VALUES (@Nombre, @Descripcion)";
+            SqlParameter[] parametros = new SqlParameter[]
+            {
+                new SqlParameter("@Nombre", familia.Nombre),
+                new SqlParameter("@Descripcion", familia.Descripcion)
+            };
+            _acceso.Escribir(consulta, parametros);
+        }
+
         public void AgregarPatenteAFamilia(int idFamilia, int idPatente)
         {
             const string consulta =

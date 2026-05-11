@@ -21,6 +21,8 @@ namespace GUI
 
         private void RolesForm_Load(object sender, EventArgs e)
         {
+            splitMain.SplitterDistance = (int)(this.ClientSize.Width * 0.25);
+            splitDerecho.SplitterDistance = (int)((this.ClientSize.Width - splitMain.SplitterDistance) * 0.65);
             CargarDatos();
         }
 
@@ -30,7 +32,6 @@ namespace GUI
             _todasLasPatentes = _compositeServicio.ObtenerPatentes();
             _idsTodasLasHijas = _compositeServicio.ObtenerIdsTodasLasFamiliasHijas();
             CargarArbol();
-            CargarComboPatenteNueva();
         }
 
         private void CargarArbol()
@@ -40,7 +41,6 @@ namespace GUI
 
             foreach (Familia familia in _familias)
             {
-                // Solo agrega familias raiz (las que no son hijas de ninguna otra)
                 if (!EsHija(familia.IdFamilia))
                     treeRoles.Nodes.Add(CrearNodo(familia));
             }
@@ -56,15 +56,19 @@ namespace GUI
 
         private TreeNode CrearNodo(Familia familia)
         {
-            TreeNode nodo = new TreeNode($"[Familia] {familia.Nombre}");
+            TreeNode nodo = new TreeNode(familia.Nombre);
             nodo.Tag = familia;
+            nodo.ImageIndex = 0;
+            nodo.SelectedImageIndex = 0;
 
             foreach (ComponenteAcceso hijo in familia.ObtenerHijos())
             {
                 if (hijo is Patente patente)
                 {
-                    TreeNode nodoPatente = new TreeNode($"[Patente] {patente.Nombre}");
+                    TreeNode nodoPatente = new TreeNode(patente.Nombre);
                     nodoPatente.Tag = patente;
+                    nodoPatente.ImageIndex = 1;
+                    nodoPatente.SelectedImageIndex = 1;
                     nodo.Nodes.Add(nodoPatente);
                 }
                 else if (hijo is Familia subFamilia)
@@ -76,139 +80,149 @@ namespace GUI
             return nodo;
         }
 
-        private void CargarComboPatenteNueva()
-        {
-            cboPatentesDisponibles.BeginUpdate();
-            cboPatentesDisponibles.Items.Clear();
-            foreach (Patente p in _todasLasPatentes)
-                cboPatentesDisponibles.Items.Add(new PatenteItem(p.IdPatente, p.Nombre));
-            cboPatentesDisponibles.EndUpdate();
-
-            if (cboPatentesDisponibles.Items.Count > 0)
-                cboPatentesDisponibles.SelectedIndex = 0;
-        }
-
         private void TreeRoles_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            _familiaSeleccionada = e.Node.Tag as Familia;
+            _familiaSeleccionada = e.Node?.Tag as Familia;
 
             bool hayFamilia = _familiaSeleccionada != null;
-            grpPatentes.Enabled = hayFamilia;
-            grpSubFamilias.Enabled = hayFamilia;
+            flpConfigurador.Enabled = hayFamilia;
+            lblFamiliaSeleccionada.Text = hayFamilia ? $"Familia: {_familiaSeleccionada.Nombre}" : "Seleccione una familia";
 
-            if (!hayFamilia) return;
+            if (!hayFamilia)
+            {
+                lstDisponibles.Items.Clear();
+                lstMiembros.Items.Clear();
+                return;
+            }
 
-            CargarPatentesDeFamilia();
-            CargarSubFamiliasDeFamilia();
+            CargarConfigurador();
         }
 
-        private void CargarPatentesDeFamilia()
+        private void CargarConfigurador()
         {
-            List<int> asignadas = _compositeServicio.ObtenerIdsPatentesDeFamilia(_familiaSeleccionada.IdFamilia);
+            List<int> patentesMiembros = _compositeServicio.ObtenerIdsPatentesDeFamilia(_familiaSeleccionada.IdFamilia);
+            List<int> familiasMiembros = _compositeServicio.ObtenerIdsFamiliasHijasDeFamilia(_familiaSeleccionada.IdFamilia);
 
-            chkListPatentes.BeginUpdate();
-            chkListPatentes.Items.Clear();
+            lstDisponibles.BeginUpdate();
+            lstDisponibles.Items.Clear();
+            lstMiembros.BeginUpdate();
+            lstMiembros.Items.Clear();
+
             foreach (Patente p in _todasLasPatentes)
-                chkListPatentes.Items.Add(new PatenteItem(p.IdPatente, p.Nombre), asignadas.Contains(p.IdPatente));
-            chkListPatentes.EndUpdate();
-        }
+            {
+                PatenteItem item = new PatenteItem(p.IdPatente, p.Nombre);
+                if (patentesMiembros.Contains(p.IdPatente))
+                    lstMiembros.Items.Add(item);
+                else
+                    lstDisponibles.Items.Add(item);
+            }
 
-        private void CargarSubFamiliasDeFamilia()
-        {
-            List<int> asignadas = _compositeServicio.ObtenerIdsFamiliasHijasDeFamilia(_familiaSeleccionada.IdFamilia);
-
-            chkListSubFamilias.BeginUpdate();
-            chkListSubFamilias.Items.Clear();
             foreach (Familia f in _familias)
             {
                 if (f.IdFamilia == _familiaSeleccionada.IdFamilia) continue;
-                chkListSubFamilias.Items.Add(new FamiliaItem(f.IdFamilia, f.Nombre), asignadas.Contains(f.IdFamilia));
+                FamiliaItem item = new FamiliaItem(f.IdFamilia, f.Nombre);
+                if (familiasMiembros.Contains(f.IdFamilia))
+                    lstMiembros.Items.Add(item);
+                else
+                    lstDisponibles.Items.Add(item);
             }
-            chkListSubFamilias.EndUpdate();
+
+            lstDisponibles.EndUpdate();
+            lstMiembros.EndUpdate();
         }
 
-        private void BtnGuardarPatentes_Click(object sender, EventArgs e)
+        private void BtnAgregar_Click(object sender, EventArgs e)
         {
-            if (_familiaSeleccionada == null) return;
+            if (_familiaSeleccionada == null || lstDisponibles.SelectedItem == null) return;
 
             try
             {
-                List<int> actuales = _compositeServicio.ObtenerIdsPatentesDeFamilia(_familiaSeleccionada.IdFamilia);
+                object seleccionado = lstDisponibles.SelectedItem;
 
-                for (int i = 0; i < chkListPatentes.Items.Count; i++)
-                {
-                    PatenteItem item = chkListPatentes.Items[i] as PatenteItem;
-                    if (item == null) continue;
+                if (seleccionado is PatenteItem patenteItem)
+                    _compositeServicio.AgregarPatenteAFamilia(_familiaSeleccionada.IdFamilia, patenteItem.IdPatente);
+                else if (seleccionado is FamiliaItem familiaItem)
+                    _compositeServicio.AgregarFamiliaAFamilia(_familiaSeleccionada.IdFamilia, familiaItem.IdFamilia);
 
-                    bool estaChecked = chkListPatentes.GetItemChecked(i);
-                    bool yaAsignada = actuales.Contains(item.IdPatente);
-
-                    if (estaChecked && !yaAsignada)
-                        _compositeServicio.AgregarPatenteAFamilia(_familiaSeleccionada.IdFamilia, item.IdPatente);
-                    else if (!estaChecked && yaAsignada)
-                        _compositeServicio.EliminarPatenteDeFamilia(_familiaSeleccionada.IdFamilia, item.IdPatente);
-                }
-
-                MessageBox.Show("Patentes actualizadas correctamente.", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 CargarDatos();
+                CargarConfigurador();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al guardar patentes: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error al agregar: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void BtnGuardarSubFamilias_Click(object sender, EventArgs e)
+        private void BtnQuitar_Click(object sender, EventArgs e)
         {
-            if (_familiaSeleccionada == null) return;
+            if (_familiaSeleccionada == null || lstMiembros.SelectedItem == null) return;
 
             try
             {
-                List<int> actuales = _compositeServicio.ObtenerIdsFamiliasHijasDeFamilia(_familiaSeleccionada.IdFamilia);
+                object seleccionado = lstMiembros.SelectedItem;
 
-                for (int i = 0; i < chkListSubFamilias.Items.Count; i++)
-                {
-                    FamiliaItem item = chkListSubFamilias.Items[i] as FamiliaItem;
-                    if (item == null) continue;
+                if (seleccionado is PatenteItem patenteItem)
+                    _compositeServicio.EliminarPatenteDeFamilia(_familiaSeleccionada.IdFamilia, patenteItem.IdPatente);
+                else if (seleccionado is FamiliaItem familiaItem)
+                    _compositeServicio.EliminarFamiliaDeFamilia(_familiaSeleccionada.IdFamilia, familiaItem.IdFamilia);
 
-                    bool estaChecked = chkListSubFamilias.GetItemChecked(i);
-                    bool yaAsignada = actuales.Contains(item.IdFamilia);
-
-                    if (estaChecked && !yaAsignada)
-                        _compositeServicio.AgregarFamiliaAFamilia(_familiaSeleccionada.IdFamilia, item.IdFamilia);
-                    else if (!estaChecked && yaAsignada)
-                        _compositeServicio.EliminarFamiliaDeFamilia(_familiaSeleccionada.IdFamilia, item.IdFamilia);
-                }
-
-                MessageBox.Show("Sub-Familias actualizadas correctamente.", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 CargarDatos();
+                CargarConfigurador();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al guardar sub-familias: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error al quitar: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void BtnAltaPatente_Click(object sender, EventArgs e)
+        private void BtnNuevaFamilia_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtNombrePatente.Text) || string.IsNullOrEmpty(txtDescripcionPatente.Text))
+            string nombre = txtNombreFamilia.Text.Trim();
+            string descripcion = txtDescripcionFamilia.Text.Trim();
+
+            if (string.IsNullOrEmpty(nombre) || string.IsNullOrEmpty(descripcion))
             {
-                MessageBox.Show("Complete nombre y descripcion.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Complete nombre y descripcion de la familia.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             try
             {
-                Patente nueva = new Patente(0, txtNombrePatente.Text.Trim(), txtDescripcionPatente.Text.Trim());
-                _compositeServicio.AltaPatente(nueva);
-                MessageBox.Show($"Patente '{nueva.Nombre}' creada correctamente.", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtNombrePatente.Text = "";
-                txtDescripcionPatente.Text = "";
+                _compositeServicio.AltaFamilia(new Familia(0, nombre, descripcion));
+                MessageBox.Show($"Familia '{nombre}' creada.", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtNombreFamilia.Text = "";
+                txtDescripcionFamilia.Text = "";
                 CargarDatos();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al crear patente: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void BtnNuevaPatente_Click(object sender, EventArgs e)
+        {
+            string nombre = txtNombrePatente.Text.Trim();
+            string descripcion = txtDescripcionPatente.Text.Trim();
+
+            if (string.IsNullOrEmpty(nombre) || string.IsNullOrEmpty(descripcion))
+            {
+                MessageBox.Show("Complete nombre y descripcion de la patente.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                _compositeServicio.AltaPatente(new Patente(0, nombre, descripcion));
+                MessageBox.Show($"Patente '{nombre}' creada.", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtNombrePatente.Text = "";
+                txtDescripcionPatente.Text = "";
+                CargarDatos();
+                CargarConfigurador();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -221,7 +235,7 @@ namespace GUI
             { IdPatente = id; Nombre = nombre; }
 
             public override string ToString()
-            { return Nombre; }
+            { return $"[Patente] {Nombre}"; }
         }
 
         private class FamiliaItem
@@ -233,7 +247,7 @@ namespace GUI
             { IdFamilia = id; Nombre = nombre; }
 
             public override string ToString()
-            { return Nombre; }
+            { return $"[Familia] {Nombre}"; }
         }
     }
 }

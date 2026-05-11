@@ -68,6 +68,11 @@ namespace Servicios
             _bll.QuitarFamiliaDeUsuario(idUsuario, idFamilia);
         }
 
+        public void AltaFamilia(Familia familia)
+        {
+            _bll.AltaFamilia(familia);
+        }
+
         public void AltaPatente(Patente patente)
         {
             _bll.AltaPatente(patente);

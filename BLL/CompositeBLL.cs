@@ -74,6 +74,11 @@ namespace BLL
             _familiaDAL.QuitarFamiliaDeUsuario(idUsuario, idFamilia);
         }
 
+        public void AltaFamilia(Familia familia)
+        {
+            _familiaDAL.Insertar(familia);
+        }
+
         public void AltaPatente(Patente patente)
         {
             _patenteDAL.Insertar(patente);
