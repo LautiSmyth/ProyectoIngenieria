@@ -65,13 +65,9 @@ namespace DAL
             foreach (Familia f in ObtenerArbolCompleto())
                 todasLasFamilias[f.IdFamilia] = f;
 
-            SqlParameter[] parametros = new SqlParameter[]
-            {
-                new SqlParameter("@IdUsuario", idUsuario)
-            };
-
             DataTable tablaFamilias = _acceso.Leer(
-                "SELECT IdFamilia FROM UsuarioFamilia WHERE IdUsuario = @IdUsuario", parametros);
+                "SELECT IdFamilia FROM UsuarioFamilia WHERE IdUsuario = @IdUsuario",
+                new SqlParameter[] { new SqlParameter("@IdUsuario", idUsuario) });
 
             foreach (DataRow fila in tablaFamilias.Rows)
             {
@@ -83,7 +79,8 @@ namespace DAL
             DataTable tablaPatentes = _acceso.Leer(
                 "SELECT p.IdPatente, p.Nombre, p.Descripcion FROM Patente p " +
                 "INNER JOIN UsuarioPatente up ON p.IdPatente = up.IdPatente " +
-                "WHERE up.IdUsuario = @IdUsuario", parametros);
+                "WHERE up.IdUsuario = @IdUsuario",
+                new SqlParameter[] { new SqlParameter("@IdUsuario", idUsuario) });
 
             foreach (DataRow fila in tablaPatentes.Rows)
             {
