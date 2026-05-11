@@ -19,6 +19,12 @@ namespace GUI
             lblUsuario.Text = $"Usuario: {_usuarioServicio.ObtenerUsernameEnSesion()}";
             lblBaseDatos.Text = $"Base de datos: {_conexionServicio.ObtenerNombreBaseDatos()}";
 
+            // Mostrar botones segun permisos del usuario en sesion
+            btnBitacora.Visible = _usuarioServicio.TienePermiso("VerBitacoraCompleta")
+                               || _usuarioServicio.TienePermiso("VerBitacoraPropia");
+            btnUsuarios.Visible = _usuarioServicio.TienePermiso("GestionarUsuarios");
+            btnRoles.Visible = _usuarioServicio.TienePermiso("GestionarRoles");
+
             _timer.Interval = 1000;
             _timer.Tick += Timer_Tick;
             _timer.Start();
@@ -37,18 +43,32 @@ namespace GUI
 
         private void BtnBitacora_Click(object sender, EventArgs e)
         {
+            AbrirOActivar<BitacoraForm>();
+        }
+
+        private void BtnUsuarios_Click(object sender, EventArgs e)
+        {
+            AbrirOActivar<UsuariosForm>();
+        }
+
+        private void BtnRoles_Click(object sender, EventArgs e)
+        {
+            AbrirOActivar<RolesForm>();
+        }
+
+        private void AbrirOActivar<T>() where T : Form, new()
+        {
             foreach (Form form in this.MdiChildren)
             {
-                if (form is BitacoraForm)
+                if (form is T)
                 {
                     form.Activate();
                     return;
                 }
             }
-
-            BitacoraForm bitacora = new BitacoraForm();
-            bitacora.MdiParent = this;
-            bitacora.Show();
+            T nuevoForm = new T();
+            nuevoForm.MdiParent = this;
+            nuevoForm.Show();
         }
 
         private void BtnCerrarSesion_Click(object sender, EventArgs e)

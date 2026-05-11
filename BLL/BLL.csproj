@@ -41,7 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompositeBLL.cs" />
     <Compile Include="CriticidadMapper.cs" />
+    <Compile Include="DVBLL.cs" />
+    <Compile Include="DVCalculador.cs" />
     <Compile Include="UsuarioBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

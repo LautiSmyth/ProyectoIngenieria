@@ -1,15 +1,10 @@
-using BE;
-using BE.Enums;
-using BLL;
-using Seguridad;
-using System;
-
 namespace Servicios
 {
     public class UsuarioServicio
     {
         private readonly UsuarioBLL _bll = new UsuarioBLL();
         private readonly BitacoraServicios _bitacora = new BitacoraServicios();
+        private readonly CompositeBLL _compositeBLL = new CompositeBLL();
 
         public void Alta(string modulo, string username, string password)
         {
@@ -74,6 +69,7 @@ namespace Servicios
 
                 _bll.RegistrarLoginExitoso(usuario);
                 ContadorSesion.GetInstance().Resetear();
+                usuario.Accesos = _compositeBLL.CargarAccesosUsuario(usuario.IdUsuario);
                 SessionManager.GetInstance().Login(usuario);
                 _bitacora.Registrar(modulo, "Login", "Login exitoso.", true);
             }
@@ -88,9 +84,30 @@ namespace Servicios
             }
         }
 
+        public List<BE.Usuario> ObtenerTodos()
+        {
+            return _bll.ObtenerTodos();
+        }
+
+        public void CambiarEstado(string modulo, int idUsuario, BE.Enums.EstadoUsuario nuevoEstado)
+        {
+            BE.Usuario usuario = _bll.ObtenerPorId(idUsuario);
+            _bll.CambiarEstado(usuario, nuevoEstado);
+            _bitacora.Registrar(modulo, "CambioEstado", $"Estado cambiado a {nuevoEstado} para usuario '{usuario.Username}'.", true);
+        }
+
         public bool LimiteAlcanzadoEnSesion()
         {
             return ContadorSesion.GetInstance().LimiteAlcanzado;
+        }
+
+        public bool TienePermiso(string nombre)
+        {
+            Usuario usuario = SessionManager.GetInstance().Usuario;
+            if (usuario == null)
+                return false;
+
+            return usuario.TienePermiso(nombre);
         }
 
         public void Logout(string modulo)

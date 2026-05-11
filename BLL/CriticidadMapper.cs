@@ -1,8 +1,3 @@
-using BE;
-using BE.Enums;
-using System;
-using System.Collections.Generic;
-
 namespace BLL
 {
     public static class CriticidadMapper

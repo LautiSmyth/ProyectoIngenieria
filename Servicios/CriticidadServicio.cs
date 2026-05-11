@@ -1,7 +1,3 @@
-using BE;
-using BE.Enums;
-using System.Collections.Generic;
-
 namespace Servicios
 {
     public class CriticidadServicio

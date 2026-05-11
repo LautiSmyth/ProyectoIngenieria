@@ -25,6 +25,8 @@ namespace GUI
             this.lblUsuario = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.btnBitacora = new System.Windows.Forms.ToolStripButton();
+            this.btnUsuarios = new System.Windows.Forms.ToolStripButton();
+            this.btnRoles = new System.Windows.Forms.ToolStripButton();
             this.btnCerrarSesion = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.statusStrip.SuspendLayout();
@@ -79,6 +81,8 @@ namespace GUI
                 this.lblUsuario,
                 this.toolStripSeparator2,
                 this.btnBitacora,
+                this.btnUsuarios,
+                this.btnRoles,
                 this.btnCerrarSesion,
                 this.toolStripSeparator3});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
@@ -102,20 +106,34 @@ namespace GUI
             // btnBitacora
             //
             this.btnBitacora.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnBitacora.Image = ((System.Drawing.Image)(resources.GetObject("btnBitacora.Image")));
-            this.btnBitacora.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnBitacora.Name = "btnBitacora";
             this.btnBitacora.Padding = new System.Windows.Forms.Padding(4);
             this.btnBitacora.Size = new System.Drawing.Size(62, 27);
             this.btnBitacora.Text = "Bitacora";
             this.btnBitacora.Click += new System.EventHandler(this.BtnBitacora_Click);
             //
+            // btnUsuarios
+            //
+            this.btnUsuarios.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnUsuarios.Name = "btnUsuarios";
+            this.btnUsuarios.Padding = new System.Windows.Forms.Padding(4);
+            this.btnUsuarios.Size = new System.Drawing.Size(62, 27);
+            this.btnUsuarios.Text = "Usuarios";
+            this.btnUsuarios.Click += new System.EventHandler(this.BtnUsuarios_Click);
+            //
+            // btnRoles
+            //
+            this.btnRoles.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnRoles.Name = "btnRoles";
+            this.btnRoles.Padding = new System.Windows.Forms.Padding(4);
+            this.btnRoles.Size = new System.Drawing.Size(50, 27);
+            this.btnRoles.Text = "Roles";
+            this.btnRoles.Click += new System.EventHandler(this.BtnRoles_Click);
+            //
             // btnCerrarSesion
             //
             this.btnCerrarSesion.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.btnCerrarSesion.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnCerrarSesion.Image = ((System.Drawing.Image)(resources.GetObject("btnCerrarSesion.Image")));
-            this.btnCerrarSesion.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnCerrarSesion.Name = "btnCerrarSesion";
             this.btnCerrarSesion.Padding = new System.Windows.Forms.Padding(4);
             this.btnCerrarSesion.Size = new System.Drawing.Size(88, 27);
@@ -160,6 +178,8 @@ namespace GUI
         private System.Windows.Forms.ToolStripLabel lblUsuario;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton btnBitacora;
+        private System.Windows.Forms.ToolStripButton btnUsuarios;
+        private System.Windows.Forms.ToolStripButton btnRoles;
         private System.Windows.Forms.ToolStripButton btnCerrarSesion;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
     }

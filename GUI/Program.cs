@@ -20,6 +20,20 @@ namespace GUI
                 return;
             }
 
+            DVServicio dvServicio = new DVServicio();
+
+            if (!dvServicio.VerificarIntegridad())
+            {
+                MessageBox.Show(
+                    "Se detectaron inconsistencias en la base de datos.\n" +
+                    "Es posible que los datos hayan sido modificados por fuera del sistema.\n\n" +
+                    "Contacte al administrador de inmediato.",
+                    "Error de integridad",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Stop);
+                return;
+            }
+
             Application.Run(new LoginForm());
         }
     }

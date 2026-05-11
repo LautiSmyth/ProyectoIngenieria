@@ -12,6 +12,7 @@ namespace GUI
     {
         private readonly BitacoraServicios _bitacoraServicios = new BitacoraServicios();
         private readonly CriticidadServicio _criticidadServicio = new CriticidadServicio();
+        private readonly UsuarioServicio _usuarioServicio = new UsuarioServicio();
         private List<Bitacora> _listaCompleta = new List<Bitacora>();
         private bool _columnasConfiguradas = false;
 
@@ -122,6 +123,20 @@ namespace GUI
             try
             {
                 _listaCompleta = _bitacoraServicios.ObtenerTodos();
+
+                // Si solo tiene VerBitacoraPropia, filtra unicamente sus propios registros
+                if (!_usuarioServicio.TienePermiso("VerBitacoraCompleta"))
+                {
+                    string username = _usuarioServicio.ObtenerUsernameEnSesion();
+                    List<Bitacora> propios = new List<Bitacora>();
+                    foreach (Bitacora b in _listaCompleta)
+                    {
+                        if (b.Username == username)
+                            propios.Add(b);
+                    }
+                    _listaCompleta = propios;
+                }
+
                 AplicarFiltros();
             }
             catch (Exception ex)

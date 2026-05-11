@@ -1,18 +1,40 @@
-using BE;
-using BE.Enums;
-using DAL;
-using System;
-
 namespace BLL
 {
     public class UsuarioBLL
     {
         private readonly UsuarioDAL _dal = new UsuarioDAL();
+        private readonly DVBLL _dvBll = new DVBLL();
 
-        // Tiempos de espera en minutos segun cantidad de bloqueos acumulados.
-        // Indice 0 = 1er bloqueo = 1 minuto, indice 3 = 4to bloqueo = 60 minutos.
-        // Desde el 5to bloqueo en adelante el bloqueo es permanente.
         private static readonly int[] _minutosBloqueo = { 1, 5, 15, 60 };
+
+        public Usuario ObtenerPorId(int idUsuario)
+        {
+            return _dal.ObtenerPorId(idUsuario);
+        }
+
+        public List<Usuario> ObtenerTodos()
+        {
+            return _dal.ObtenerTodos();
+        }
+
+        public void CambiarEstado(Usuario usuario, EstadoUsuario nuevoEstado)
+        {
+            usuario.Estado = nuevoEstado;
+
+            if (nuevoEstado == EstadoUsuario.Activo)
+            {
+                usuario.IntentosFallidos = 0;
+                usuario.CantidadBloqueos = 0;
+                usuario.FechaBloqueo = null;
+            }
+            else if (nuevoEstado == EstadoUsuario.Bloqueado)
+            {
+                usuario.FechaBloqueo = DateTime.Now;
+                usuario.CantidadBloqueos++;
+            }
+
+            _dvBll.RecalcularDVs(usuario);
+        }
 
         public Usuario ObtenerPorUsername(string username)
         {
@@ -66,7 +88,9 @@ namespace BLL
             if (existente != null)
                 throw new ArgumentException("El nombre de usuario ya existe.");
 
+            _dvBll.AsignarDVAlta(usuario);
             _dal.Insertar(usuario);
+            _dvBll.RecalcularVertical();
         }
 
         public void RegistrarIntentoFallido(Usuario usuario)
@@ -80,7 +104,7 @@ namespace BLL
                 usuario.CantidadBloqueos++;
             }
 
-            _dal.Actualizar(usuario);
+            _dvBll.RecalcularDVs(usuario);
         }
 
         public void RegistrarLoginExitoso(Usuario usuario)
@@ -88,7 +112,7 @@ namespace BLL
             usuario.IntentosFallidos = 0;
             usuario.CantidadBloqueos = 0;
             usuario.UltimoLogin = DateTime.Now;
-            _dal.Actualizar(usuario);
+            _dvBll.RecalcularDVs(usuario);
         }
     }
 }
