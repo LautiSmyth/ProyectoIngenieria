@@ -29,14 +29,14 @@ namespace BLL
             return _familiaDAL.ObtenerIdsFamiliasPorUsuario(idUsuario);
         }
 
-        public List<int> ObtenerIdsPatentesDeF amilia(int idFamilia)
+        public List<int> ObtenerIdsPatentesDeFamilia(int idFamilia)
         {
-            return _familiaDAL.ObtenerIdsPatentesDeF amilia(idFamilia);
+            return _familiaDAL.ObtenerIdsPatentesDeFamilia(idFamilia);
         }
 
-        public List<int> ObtenerIdsFamiliasHijasDeF amilia(int idFamilia)
+        public List<int> ObtenerIdsFamiliasHijasDeFamilia(int idFamilia)
         {
-            return _familiaDAL.ObtenerIdsFamiliasHijasDeF amilia(idFamilia);
+            return _familiaDAL.ObtenerIdsFamiliasHijasDeFamilia(idFamilia);
         }
 
         public List<int> ObtenerIdsTodasLasFamiliasHijas()
