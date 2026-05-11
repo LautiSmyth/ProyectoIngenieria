@@ -1,7 +1,3 @@
-using BE;
-using BLL;
-using System.Collections.Generic;
-
 namespace Servicios
 {
     public class CompositeServicio
@@ -23,14 +19,14 @@ namespace Servicios
             return _bll.ObtenerIdsFamiliasPorUsuario(idUsuario);
         }
 
-        public List<int> ObtenerIdsPatentesDeF amilia(int idFamilia)
+        public List<int> ObtenerIdsPatentesDeFamilia(int idFamilia)
         {
-            return _bll.ObtenerIdsPatentesDeF amilia(idFamilia);
+            return _bll.ObtenerIdsPatentesDeFamilia(idFamilia);
         }
 
-        public List<int> ObtenerIdsFamiliasHijasDeF amilia(int idFamilia)
+        public List<int> ObtenerIdsFamiliasHijasDeFamilia(int idFamilia)
         {
-            return _bll.ObtenerIdsFamiliasHijasDeF amilia(idFamilia);
+            return _bll.ObtenerIdsFamiliasHijasDeFamilia(idFamilia);
         }
 
         public List<int> ObtenerIdsTodasLasFamiliasHijas()
