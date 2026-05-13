@@ -23,9 +23,13 @@ namespace GUI
 
         private void UsuariosForm_Load(object sender, EventArgs e)
         {
-            splitPrincipal.SplitterDistance = (int)(this.ClientSize.Height * 0.55);
             cboEstado.DataSource = Enum.GetValues(typeof(EstadoUsuario));
             CargarDatos();
+        }
+
+        private void UsuariosForm_Shown(object sender, EventArgs e)
+        {
+            splitPrincipal.SplitterDistance = (int)(this.ClientSize.Height * 0.40);
         }
 
         private void CargarDatos()

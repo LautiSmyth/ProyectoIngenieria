@@ -64,8 +64,6 @@ namespace GUI
             this.splitMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitMain.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.splitMain.Name = "splitMain";
-            this.splitMain.Panel1MinSize = 220;
-            this.splitMain.Panel2MinSize = 400;
             this.splitMain.Panel1.Controls.Add(this.grpArbol);
             this.splitMain.Panel2.Controls.Add(this.splitDerecho);
             //
@@ -89,8 +87,6 @@ namespace GUI
             this.splitDerecho.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitDerecho.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
             this.splitDerecho.Name = "splitDerecho";
-            this.splitDerecho.Panel1MinSize = 350;
-            this.splitDerecho.Panel2MinSize = 240;
             this.splitDerecho.Panel1.Controls.Add(this.grpConfigurador);
             this.splitDerecho.Panel2.Controls.Add(this.grpAlta);
             //
@@ -151,7 +147,7 @@ namespace GUI
             // btnAgregar
             //
             this.btnAgregar.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnAgregar.Location = new System.Drawing.Point(4, 180);
+            this.btnAgregar.Location = new System.Drawing.Point(4, 220);
             this.btnAgregar.Name = "btnAgregar";
             this.btnAgregar.Size = new System.Drawing.Size(90, 30);
             this.btnAgregar.TabIndex = 0;
@@ -161,7 +157,7 @@ namespace GUI
             // btnQuitar
             //
             this.btnQuitar.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnQuitar.Location = new System.Drawing.Point(4, 220);
+            this.btnQuitar.Location = new System.Drawing.Point(4, 260);
             this.btnQuitar.Name = "btnQuitar";
             this.btnQuitar.Size = new System.Drawing.Size(90, 30);
             this.btnQuitar.TabIndex = 1;
@@ -306,6 +302,7 @@ namespace GUI
             this.Text = "Gestion de Roles";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.RolesForm_Load);
+            this.Shown += new System.EventHandler(this.RolesForm_Shown);
             this.splitMain.Panel1.ResumeLayout(false);
             this.splitMain.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitMain)).EndInit();

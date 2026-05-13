@@ -48,8 +48,6 @@ namespace GUI
             this.splitPrincipal.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitPrincipal.Orientation = System.Windows.Forms.Orientation.Horizontal;
             this.splitPrincipal.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.splitPrincipal.Panel1MinSize = 150;
-            this.splitPrincipal.Panel2MinSize = 200;
             this.splitPrincipal.Name = "splitPrincipal";
             this.splitPrincipal.Panel1.Controls.Add(this.dgvUsuarios);
             this.splitPrincipal.Panel2.Controls.Add(this.pnlInferior);
@@ -237,6 +235,7 @@ namespace GUI
             this.Text = "Gestion de Usuarios";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.UsuariosForm_Load);
+            this.Shown += new System.EventHandler(this.UsuariosForm_Shown);
             this.splitPrincipal.Panel1.ResumeLayout(false);
             this.splitPrincipal.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitPrincipal)).EndInit();

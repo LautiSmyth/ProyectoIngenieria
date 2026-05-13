@@ -21,9 +21,21 @@ namespace GUI
 
         private void RolesForm_Load(object sender, EventArgs e)
         {
+            CargarDatos();
+        }
+
+        private void RolesForm_Shown(object sender, EventArgs e)
+        {
             splitMain.SplitterDistance = (int)(this.ClientSize.Width * 0.25);
             splitDerecho.SplitterDistance = (int)((this.ClientSize.Width - splitMain.SplitterDistance) * 0.65);
-            CargarDatos();
+            CentrarBotones();
+        }
+
+        private void CentrarBotones()
+        {
+            int centro = pnlBotones.Height / 2;
+            btnAgregar.Location = new System.Drawing.Point((pnlBotones.Width - btnAgregar.Width) / 2, centro - btnAgregar.Height - 4);
+            btnQuitar.Location = new System.Drawing.Point((pnlBotones.Width - btnQuitar.Width) / 2, centro + 4);
         }
 
         private void CargarDatos()
@@ -131,6 +143,21 @@ namespace GUI
             lstMiembros.EndUpdate();
         }
 
+        private void ActualizarFamiliaSeleccionada()
+        {
+            if (_familiaSeleccionada == null) return;
+            int id = _familiaSeleccionada.IdFamilia;
+            _familiaSeleccionada = null;
+            foreach (Familia f in _familias)
+            {
+                if (f.IdFamilia == id)
+                {
+                    _familiaSeleccionada = f;
+                    break;
+                }
+            }
+        }
+
         private void BtnAgregar_Click(object sender, EventArgs e)
         {
             if (_familiaSeleccionada == null || lstDisponibles.SelectedItem == null) return;
@@ -145,6 +172,7 @@ namespace GUI
                     _compositeServicio.AgregarFamiliaAFamilia(_familiaSeleccionada.IdFamilia, familiaItem.IdFamilia);
 
                 CargarDatos();
+                ActualizarFamiliaSeleccionada();
                 CargarConfigurador();
             }
             catch (Exception ex)
@@ -167,6 +195,7 @@ namespace GUI
                     _compositeServicio.EliminarFamiliaDeFamilia(_familiaSeleccionada.IdFamilia, familiaItem.IdFamilia);
 
                 CargarDatos();
+                ActualizarFamiliaSeleccionada();
                 CargarConfigurador();
             }
             catch (Exception ex)
@@ -218,7 +247,8 @@ namespace GUI
                 txtNombrePatente.Text = "";
                 txtDescripcionPatente.Text = "";
                 CargarDatos();
-                CargarConfigurador();
+                if (_familiaSeleccionada != null)
+                    CargarConfigurador();
             }
             catch (Exception ex)
             {
